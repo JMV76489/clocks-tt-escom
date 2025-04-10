@@ -1,0 +1,52 @@
+/* -------------------------------------------------------------------------- */
+/*         Archivo de bloque de bucle de modificador de flujo de bucle        */
+/* -------------------------------------------------------------------------- */
+
+import * as Blockly from 'blockly';
+import { cGenerator } from 'src/generators/c';
+import { BlockC } from 'src/libs/interface/block-interface';
+import { LOOP_FLOW_MODIFIER_CODE_DICT } from 'src/libs/constants';
+
+//JSON de definición de bloque
+export const cLoopFlowModiifer = {
+    "type": "c_loop_flow_modifier",
+    "tooltip": "",
+    "helpUrl": "",
+    "message0": "%1 bucle actual %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "FIELD_DROPDOWN_FLOW_MODIFIER",
+        "options": [
+          [
+            "romper",
+            "LOOP_BREAK"
+          ],
+          [
+            "cotinuar",
+            "LOOP_CONTINUE"
+          ]
+        ]
+      },
+      {
+        "type": "input_dummy",
+        "name": "INPUT_DUMMY"
+      }
+    ],
+    "previousStatement": "Procedure",
+    "nextStatement": "Procedure",
+    "style": 'c_loop_blocks',
+}
+                      
+//Registro de bloque
+Blockly.Blocks["c_loop_flow_modifier"] = {
+  init: function(this: BlockC){
+    //Inicializar bloque con JSON
+    this.jsonInit(cLoopFlowModiifer);
+  }
+}    
+
+//Generador de código de bloque de lectura simple desde entrada estandar
+cGenerator.forBlock['c_loop_flow_modifier'] = function(block) {
+  return `${LOOP_FLOW_MODIFIER_CODE_DICT[block.getFieldValue('FIELD_DROPDOWN_FLOW_MODIFIER')]}`;
+}

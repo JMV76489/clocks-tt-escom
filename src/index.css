@@ -1,0 +1,140 @@
+/*Estilo de cuerpo de pagina*/
+:root {
+  --width_display: 1230px;
+  --height_display: 1080px;
+
+  /*Color de categorías*/
+  --color_block_category_function: #ff6077;
+  --color_block_category_variable: #004482;
+  --color_block_category_value: #d1b00a;
+  --color_block_category_condition: #649ad2;
+  --color_block_category_math: #59c059;
+  --color_block_category_logic: #1f897f;
+  --color_block_category_loop: #ff5c00;
+  --color_block_category_print: #ae81ff;
+  --color_block_category_input: #000aff;
+  --color_block_category_struct: #d10000;
+  --color_block_category_pointer: #3d72a8;
+  --color_block_category_memory: #696969;
+
+  /*Color de interfaces*/
+  --color_ui_top: #004482;
+  --color_ui_output: #94B2D1;
+  --color_ui_popup: #5692CE;
+  --color_ui_popup_title: white;
+  --font_ui:'Bradley Hand', cursive;
+
+  --color_ui_button: #6499D1;
+  --color_ui_button_confirm: green;
+  --color_ui_button_deny: red;
+
+
+
+}
+
+/*Estilo cuerpo de la pagina*/
+body {
+  margin: 0;
+}
+
+/*Estilo de sección de código*/
+pre,
+code {
+  overflow: auto;
+}
+
+/*Estilo de sección de herramientas de blockly*/
+#blockly-tools {
+  display: flex;
+  background-color: var(--color_ui_output);
+  height: 100%;
+  overflow: auto;
+}
+
+/*Estilo de workspace de blockly*/
+#blockly-div {
+  width: 78%
+}
+
+/*Estilo de sección de código de blockly*/
+#output-pane {
+  display: flex;
+  flex-direction: column;
+  width: 22%;
+  margin: 1rem;
+}
+
+/*Estilo de caja de código generado*/
+#generated-code {
+  background-color: #FFFFFF;
+  height: 80%;
+}
+
+/*Estilo contenedor barra superior*/
+#top-bar-container{
+  background-color: var(--color_ui_top);
+  display: flex;
+  height: 15%;
+}
+
+/*Estilo de contenedor de pagina*/
+#page-container{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/*Estilo de logo en la barra superior*/
+#top-bar-logo{
+  margin-left: 30px;
+  margin: 20px;
+  width: 50%;
+  vertical-align: middle;
+}
+
+/*Estilo de imagen de logo*/
+#img-logo{
+  width: 150px;
+}
+
+/*Estilo de botones en la barra superior*/
+#top-bar-buttons{
+  width: 45%; 
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: right;
+}
+
+/*Estilo de botones de sección de código*/
+#output-pane-buttons{
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+/*Estilo de botones*/
+.custom-button {
+  font-family: var(--font_ui);
+  background: var(--color_ui_button);
+  border-radius: 0.06em;
+  border: none;
+  outline: solid;
+  outline-width: 1.5px;
+  margin: 15px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/*Estilo de botones al ser presionado*/
+.custom-button:active{
+  background: #072139;
+  color: white;
+}
+
+/*Estilo de la caja de herramientas de Blockly*/
+.blocklyToolboxDiv .blocklyTreeLabel {
+  font-family: var(--font_ui)
+}

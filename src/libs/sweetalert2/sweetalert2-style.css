@@ -1,0 +1,31 @@
+/* -------------------------------------------------------------------------- */
+/*                      Archivo de estilo de sweetalert2                      */
+/* -------------------------------------------------------------------------- */
+
+.alert-title {
+    color:var(--color_ui_popup_title);
+    font-family: 'Bradley Hand', cursive;
+}
+
+.alert-popup {
+    color: var(--color_ui_popup_title);
+    font-family: var(--font_ui);
+    border-radius: 32px;
+}
+
+.alert-confirm-button, .alert-deny-button {
+    font-family: var(--font_ui);
+    border-radius: 8px;
+}
+
+.alert-confirm-button{
+    background-color: var(--color_ui_button_confirm);
+}
+
+.alert-deny-button{
+    background-color: var(--color_ui_button_deny);
+
+}
+
+
+

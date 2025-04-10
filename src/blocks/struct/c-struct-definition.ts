@@ -1,0 +1,105 @@
+/* -------------------------------------------------------------------------- */
+/*                Archivo de bloque de definición de estructura               */
+/* -------------------------------------------------------------------------- */
+
+import * as Blockly from 'blockly';
+import { cGenerator } from 'src/generators/c';
+import { BlockStructDefinition } from 'src/libs/interface/block-interface';
+import { addDatatypeStruct, datatypesDict, removeDatatypeStruct, updateDatatypeStruct } from 'src/libs/datatype';
+import { showWarningToast } from 'src/libs/toast/toast';
+import { identifierValidator } from 'src/libs/validator';
+
+//JSON de definición de bloque
+const cStructDefinition = {
+  "type": "c_struct_definition",
+  "tooltip": "Bloque para definir una estructura y encapsular variables en un solo conjunto.",
+  "helpUrl": "https://sites.google.com/site/programacioniiuno/temario/unidad-2---tipo-abstracto-de-dato/estructuras-de-datos-definidas-por-el-usuario-en-c",
+  "message0": "Definir estructura llamado: %1 %2 Miembros: %3",
+  "args0": [
+    {
+      "type": "field_input",
+      "name": "FIELD_INPUT_TAG",
+      "text": "etiqueta"
+    },
+    {
+      "type": "input_dummy",
+      "name": "INPUT_DUMMY_STRUCT"
+    },
+    {
+      "type": "input_statement",
+      "name": "INPUT_STATEMENT_MEMBERS",
+      "check": "Declaration"
+    }
+  ],
+  "style": 'c_struct_blocks'
+}
+
+//Registro de bloque
+Blockly.Blocks["c_struct_definition"] = {
+  init: function(){
+    //Inicializar bloque con JSON
+    this.jsonInit(cStructDefinition);
+
+    //Asinar validador al campo de etiqueta
+    const tagField = this.getField('FIELD_INPUT_TAG') as Blockly.FieldTextInput;
+    tagField.setValidator(identifierValidator);
+
+    if(!this.isInFlyout){
+      //Reasignar función de onFinishEditing_ para asignarlo a una función de actualización de tipo de dato
+      const block = this;
+      tagField.onFinishEditing_ = function(finalVal) {
+        //Verificar si se cambio el valor de la entrada
+        if(block.structTag != finalVal){
+            //Actualizar valor de tipo de dato
+            const oldName = block.structTagName;
+            block.structTagName = `STRUCT_${(finalVal).toLocaleUpperCase()}`;
+            block.structTag = finalVal;
+            updateDatatypeStruct(oldName,block.structTagName,finalVal);
+        }
+      };
+    }
+  },
+  destroy: function(){
+    //Eliminar tipo de dato agregado por el struct al borrar bloque colocado en el workspace
+    if(!this.isInFlyout){
+        removeDatatypeStruct(this.structTagName);
+        
+    }
+  },
+  onchange: function(event){
+    //Verificar que solo existan bloques de declaración de variables en el struct
+    const descendants = this.getDescendants(true); //Obtener bloques descendientes al bloque
+    //Verificar cada descendiente
+    descendants.forEach((curBlock,index) => {
+      if(index == 0) return; //Saltar el bloque de declaración de la estructura
+      //Verificar si no se trata de un bloque de declaración de variables
+      if(curBlock.type != "c_variable_declaration" && !curBlock.isShadow()){
+          curBlock.getChildren(true).forEach(block => {
+          block.dispose();
+        });
+        
+        curBlock.dispose(true);
+        showWarningToast("Solamente puedes unir bloques de declaración de variables dentro de este bloque y no puedes inicializarlos.")
+      }
+    });
+  },
+  //Método de guardado de estado
+  saveExtraState: function(state: any) {
+    return {
+      'structTag': this.structTag,
+      'structTagName': this.structTagName
+    }
+  },
+  //Método de cargado de estado
+  loadExtraState: function(state: any) {
+    this.structTag = state.structTag || 'etiqueta';
+    this.structTagName = state.structTagName || `STRUCT_${this.structTag.toLocaleUpperCase()}`;
+    addDatatypeStruct(this.structTagName,this.structTag);
+  }
+} as BlockStructDefinition;
+
+//Generador de código del bloque
+cGenerator.forBlock["c_struct_definition"] = function(block,generator) {
+  const tagCode = block.getFieldValue('FIELD_INPUT_TAG');
+  return `typedef struct ${tagCode}{\n${generator.statementToCode(block,'INPUT_STATEMENT_MEMBERS')}\n}${tagCode}`;
+}

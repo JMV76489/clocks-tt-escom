@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="17.06109mm"
+   height="17.06109mm"
+   viewBox="0 0 17.06109 17.06109"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   sodipodi:docname="button_statement.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#808080"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:export-bgcolor="#80808000"
+     inkscape:zoom="3.8954759"
+     inkscape:cx="10.011614"
+     inkscape:cy="36.580896"
+     inkscape:window-width="1920"
+     inkscape:window-height="991"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-39.403259,-96.272499)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.2889px;font-family:'Franklin Gothic Medium';-inkscape-font-specification:'Franklin Gothic Medium, ';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:none;stroke:#ffffff;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
+       x="24.451441"
+       y="108.87683"
+       id="text1"><tspan
+         sodipodi:role="line"
+         id="tspan1"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Franklin Gothic Medium';-inkscape-font-specification:'Franklin Gothic Medium, ';stroke-width:1"
+         x="24.451441"
+         y="108.87683" /></text>
+    <path
+       id="rect3"
+       style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:1.12557;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       d="m 40.747741,97.61698 v 14.37213 h 3.822061 a 3.4020091,3.4020091 0 0 1 0.336196,-1.52743 3.4020091,3.4020091 0 0 1 4.540986,-1.57338 l 0.02617,0.0128 a 3.4020091,3.4020091 0 0 1 1.89329,3.08801 h 3.753424 V 97.61698 h -3.785415 a 3.4020091,3.4020091 0 0 1 -0.34783,1.540809 3.4020091,3.4020091 0 0 1 -4.547968,1.553601 3.4020091,3.4020091 0 0 1 -1.903176,-3.09441 z" />
+  </g>
+</svg>

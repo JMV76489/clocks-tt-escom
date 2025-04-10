@@ -1,0 +1,41 @@
+{
+  "name": "clocks",
+  "version": "1.0.3",
+  "description": "Proyecto TT programación en C mediante bloques",
+  "main": "index.ts",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode production",
+    "start": "webpack serve --open --mode development"
+  },
+  "keywords": [
+    "blockly",
+    "c",
+    "programming",
+    "blocks"
+  ],
+  "author": "",
+  "license": "Apache-2.0",
+  "homepage": "./",
+  "devDependencies": {
+    "@types/toastify-js": "^1.12.3",
+    "@types/wicg-file-system-access": "^2023.10.5",
+    "css-loader": "^6.11.0",
+    "html-webpack-plugin": "^5.6.3",
+    "source-map-loader": "^4.0.2",
+    "style-loader": "^3.3.4",
+    "ts-loader": "^9.5.2",
+    "typescript": "^5.7.3",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.15.2",
+    "webpack-merge": "^6.0.1"
+  },
+  "dependencies": {
+    "@mit-app-inventor/blockly-plugin-workspace-multiselect": "^1.0.1",
+    "blockly": "^11.2.2",
+    "sweetalert2": "^11.6.13",
+    "toastify-js": "^1.12.0"
+  }
+}

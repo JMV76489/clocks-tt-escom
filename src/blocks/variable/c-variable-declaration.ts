@@ -1,0 +1,78 @@
+/* -------------------- Archivo de bloque de declaración de variable ------------------- */
+
+import * as Blockly from 'blockly';
+import { identifierValidator } from 'src/libs/validator';
+import { datatypeInfoGetFromName, datatypeOptionsGenerator, arrayOptionsDeclarationItemVariable } from 'src/libs/datatype';
+import { BlockVariableDeclaration, BlockVariableDeclarationMethods, BlockVariableOutput } from 'src/libs/interface/block-interface';
+import { cGenerator } from 'src/generators/c';
+
+//Registro de bloque de declaración de variable
+Blockly.Blocks["c_variable_declaration"] = {
+  init: function(){
+    /* --------------------------- Inicialización del bloque --------------------------- */
+    this.appendValueInput('INPUT_VALUE_SET')
+      .appendField('Declarar')
+      .appendField(new Blockly.FieldDropdown(arrayOptionsDeclarationItemVariable,this.fieldDeclarationItemValidator), 'FIELD_DROPDOWN_DECLARATION_ITEM')
+      .appendField(new Blockly.FieldLabel('de tipo'),'FIELD_LABEL_NEXUS')
+      .appendField(
+        new Blockly.FieldDropdown(function() {
+        return datatypeOptionsGenerator(this.getSourceBlock() as BlockVariableDeclaration,'FIELD_DROPDOWN_DECLARATION_ITEM')
+      },this.fieldDatatypeValidator), 'FIELD_DROPDOWN_DATATYPE')
+      .appendField('llamado')
+      .appendField(new Blockly.FieldTextInput('identificador',identifierValidator), 'FIELD_INPUT_IDENTIFIER');
+    this.setPreviousStatement(true, ['Procedure','Declaration']);
+    this.setNextStatement(true, ['Procedure','Declaration']);
+    this.setTooltip('Bloque para declarar una variable, apuntador o instancia de estructura.');
+    this.setHelpUrl('https://www.mikroe.com/ebooks/microcontroladores-pic-programacion-en-c-con-ejemplos/variables-y-constantes');
+    this.setStyle('c_variable_blocks');
+    /* -------------------------------------------------------------------------- */
+
+    //Asignar validador al campo de identificador
+    const fieldIdentifier = this.getField("FIELD_INPUT_IDENTIFIER") as Blockly.FieldTextInput
+    fieldIdentifier.onFinishEditing_ = function(newValue: string){
+      const block = this.getSourceBlock() as BlockVariableDeclaration;
+      block.updateIdentifier();
+      return newValue;
+    }
+
+  },
+  ...BlockVariableDeclarationMethods,
+  //Validador de campo de elemento de declaración
+  fieldDeclarationItemValidator : function(this: Blockly.FieldDropdown,newValue: string){
+    const block = this.getSourceBlock() as BlockVariableDeclaration;
+    switch(newValue){
+      case 'VARIABLE': {
+        block.setStyle('c_variable_blocks');
+        block.setFieldValue('de tipo','FIELD_LABEL_NEXUS');
+        break;
+      }
+      case 'POINTER': {
+        block.setStyle('c_pointer_blocks');
+        block.setFieldValue('hacia tipo','FIELD_LABEL_NEXUS');
+        break;
+      }
+      case 'INSTANCE': {
+        block.setStyle('c_struct_blocks');
+        block.setFieldValue('de','FIELD_LABEL_NEXUS');
+
+        break;
+      }
+    }
+
+    (this.getSourceBlock() as BlockVariableDeclaration).checkStructsDefined(newValue);
+
+    for(let blockId in block.blocksIdUsingDeclaration){
+      const curBlockUsingDeclaration = block.workspace.getBlockById(block.blocksIdUsingDeclaration[blockId]) as BlockVariableOutput;
+      curBlockUsingDeclaration?.setBlockStyleDeclaration(newValue);
+    }
+    return newValue;
+  },
+} as BlockVariableDeclaration;
+
+//Generador de código del bloque
+cGenerator.forBlock["c_variable_declaration"] = function(block,generator) {
+  const identifierCode = block.getFieldValue('FIELD_INPUT_IDENTIFIER');
+  const datatypeCode = datatypeInfoGetFromName(block.getFieldValue('FIELD_DROPDOWN_DATATYPE'))?.code;
+  const setValueCode = generator.valueToCode(block,'INPUT_VALUE_SET',0);
+  return `<span class="codeVariable">${datatypeCode} ${block.getFieldValue('FIELD_DROPDOWN_DECLARATION_ITEM')=='POINTER' ? '*' : ''}${identifierCode}${setValueCode == '' ? '' : ` = ${setValueCode}`}</span>`;
+}
