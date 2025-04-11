@@ -14,6 +14,7 @@ const config = {
   devServer: {
     static: './build',
     port: process.env.PORT || 8080,
+    allowedHosts: "all"
   },
   module: {
     rules: [
