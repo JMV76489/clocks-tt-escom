@@ -4,8 +4,8 @@
 
 import * as Blockly from 'blockly';
 import { cGenerator } from 'src/generators/c';
-import { BlockC } from 'src/libs/interface/block-interface';
-import { BLOCKS_TYPE_BINARY_OPERATORS, COMPARATOR_NAME_CODE_DICT } from 'src/libs/constants';
+import { IBlockC } from 'src/utils/interface/c-block';
+import { BLOCKS_TYPE_BINARY_OPERATORS, COMPARATOR_NAME_CODE_DICT } from 'src/utils/constants';
 
 //JSON de definición de bloque
 export const cLogicComparator = {
@@ -68,7 +68,7 @@ Blockly.Blocks["c_logic_comparator"] = {
     //Inicializar bloque con JSON
     this.jsonInit(cLogicComparator);
   }
-} as BlockC
+} as IBlockC
 
 //Generador de código del bloque
 cGenerator.forBlock['c_logic_comparator'] = function(block,generator){

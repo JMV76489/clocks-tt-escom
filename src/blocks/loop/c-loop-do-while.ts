@@ -4,7 +4,7 @@
 
 import * as Blockly from 'blockly';
 import { cGenerator } from 'src/generators/c';
-import { BlockC } from 'src/libs/interface/block-interface';
+import { IBlockC } from 'src/utils/interface/c-block';
 
 //JSON de definición de bloque
 export const cLoopDoWhile = {
@@ -35,7 +35,7 @@ Blockly.Blocks["c_loop_do_while"] = {
     //Inicializar bloque con JSON
     this.jsonInit(cLoopDoWhile);
   }
-} as BlockC;
+} as IBlockC;
 
 //Generador de código del bloque
 cGenerator.forBlock["c_loop_do_while"] = function(block,generator) {

@@ -4,8 +4,8 @@
 
 import * as Blockly from 'blockly';
 import { cGenerator } from 'src/generators/c';
-import { BlockC } from 'src/libs/interface/block-interface';
-import { LOOP_FLOW_MODIFIER_CODE_DICT } from 'src/libs/constants';
+import { IBlockC } from 'src/utils/interface/c-block';
+import { LOOP_FLOW_MODIFIER_CODE_DICT } from 'src/utils/constants';
 
 //JSON de definición de bloque
 export const cLoopFlowModiifer = {
@@ -40,7 +40,7 @@ export const cLoopFlowModiifer = {
                       
 //Registro de bloque
 Blockly.Blocks["c_loop_flow_modifier"] = {
-  init: function(this: BlockC){
+  init: function(this: IBlockC){
     //Inicializar bloque con JSON
     this.jsonInit(cLoopFlowModiifer);
   }

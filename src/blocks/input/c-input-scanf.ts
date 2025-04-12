@@ -4,8 +4,8 @@
 
 import * as Blockly from 'blockly';
 import { cGenerator } from 'src/generators/c';
-import { BlockC } from 'src/libs/interface/block-interface';
-import { arrayOptionsPrimitive, datatypeInfoGetFromName } from 'src/libs/datatype';
+import { IBlockC } from 'src/utils/interface/c-block';
+import { arrayOptionsPrimitive, datatypeInfoGetFromName } from 'src/utils/datatype';
 
 //JSON de definición de bloque
 export const cInputScanfSimple = {
@@ -35,7 +35,7 @@ export const cInputScanfSimple = {
    
 //Registro de bloque
 Blockly.Blocks["c_input_scanf_simple"] = {
-  init: function(this: BlockC){
+  init: function(this: IBlockC){
     //Inicializar bloque con JSON
     this.jsonInit(cInputScanfSimple);
   }

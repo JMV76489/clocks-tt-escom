@@ -4,11 +4,12 @@
 
 import * as Blockly from 'blockly';
 import { cGenerator } from 'src/generators/c';
-import { BlockC, BlockConditionSwitch } from 'src/libs/interface/block-interface';
+import { IBlockC } from 'src/utils/interface/c-block';
+import { IBlockCConditionSwitch } from 'src/utils/interface/c-condition-switch';
 
 //Registro de bloque
 Blockly.Blocks["c_condition_switch"]  = {
-    init: function(this: BlockConditionSwitch){
+    init: function(this: IBlockCConditionSwitch){
       /* ---------------- Incializar bloqque con entradas y campos ---------------- */
       this.appendValueInput('INPUT_VALUE_VARIABLE')
           .appendField('Verificar valor de');
@@ -24,7 +25,7 @@ Blockly.Blocks["c_condition_switch"]  = {
     
     if(this.isInFlyout){
       //Añadir bloque de casos de switch al crearse en el toolbox
-      const casesBlock = this.workspace.newBlock('c_condition_switch_cases') as BlockConditionSwitch;
+      const casesBlock = this.workspace.newBlock('c_condition_switch_cases') as IBlockCConditionSwitch;
       casesBlock.previousConnection.connect(this.getInput('INPUT_STATEMENT_CASES')?.connection!)
       casesBlock.initSvg();
       //Volver inamovible y no eliminable al bloque de casos
@@ -32,7 +33,7 @@ Blockly.Blocks["c_condition_switch"]  = {
       casesBlock.setDeletable(false);
     }
   },
-} as BlockC; 
+} as IBlockC; 
 
 //Generador de código del bloque
 cGenerator.forBlock["c_condition_switch"] = function(block,generator) {

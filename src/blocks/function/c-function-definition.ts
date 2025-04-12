@@ -4,10 +4,12 @@
 
 import * as Blockly from 'blockly';
 import { cGenerator } from 'src/generators/c';
-import { BlockC, BlockVariableDeclaration, BlockVariableDeclarationMethods } from 'src/libs/interface/block-interface';
-import { STRING_CODE_HTML_FORMAT } from 'src/libs/constants';
-import { arrayOptionsDeclarationItemFunction, arrayOptionsPrimitive, datatypeInfoGetFromName, datatypeOptionsGenerator} from 'src/libs/datatype';
-import { identifierValidator } from 'src/libs/validator';
+import { IBlockC } from 'src/utils/interface/c-block';
+import { BlockCVariableDeclarationMethods } from 'src/utils/interface/c-variable-declaration';
+import { IBlockCVariableDeclaration } from 'src/utils/interface/c-variable-declaration';
+import { STRING_CODE_HTML_FORMAT } from 'src/utils/constants';
+import { arrayOptionsDeclarationItemFunction, arrayOptionsPrimitive, datatypeInfoGetFromName, datatypeOptionsGenerator} from 'src/utils/datatype';
+import { identifierValidator } from 'src/utils/validator';
 
 //JSON de definición de bloque
 export const cFunctionDefinition = {
@@ -58,7 +60,7 @@ Blockly.Blocks["c_function_definition"] = {
       .appendField('que devuelve')
       .appendField(new Blockly.FieldDropdown(arrayOptionsDeclarationItemFunction,this.fieldDeclarationItemValidator), 'FIELD_DROPDOWN_RETURN_ITEM')
       .appendField(new Blockly.FieldLabel('de tipo'),'FIELD_LABEL_NEXUS')
-      .appendField(new Blockly.FieldDropdown(function(){return datatypeOptionsGenerator(this.getSourceBlock() as BlockC,'FIELD_DROPDOWN_RETURN_ITEM')}), 'FIELD_DROPDOWN_DATATYPE');
+      .appendField(new Blockly.FieldDropdown(function(){return datatypeOptionsGenerator(this.getSourceBlock() as IBlockC,'FIELD_DROPDOWN_RETURN_ITEM')}), 'FIELD_DROPDOWN_DATATYPE');
     this.appendStatementInput('INPUT_STATEMENT_PARAMETERS')
       .appendField('Parametros:')
       .setCheck('Parameter');
@@ -74,10 +76,10 @@ Blockly.Blocks["c_function_definition"] = {
     this.hat = "cap"; 
 
   },
-  checkStructsDefined: BlockVariableDeclarationMethods.checkStructsDefined,
+  checkStructsDefined: BlockCVariableDeclarationMethods.checkStructsDefined,
   //Se encarga de cambiar el texto del bloque dependiendo del tipo de declaración
   fieldDeclarationItemValidator : function(this: Blockly.FieldDropdown,newValue) {
-    const block = this.getSourceBlock() as BlockVariableDeclaration;
+    const block = this.getSourceBlock() as IBlockCVariableDeclaration;
 
     if(newValue == 'VOID'){
       if(block.getField('FIELD_DROPDOWN_DATATYPE')){
@@ -86,7 +88,7 @@ Blockly.Blocks["c_function_definition"] = {
       }
     }else{
       if(!block.getField('FIELD_DROPDOWN_DATATYPE')){
-        block.getInput("INPUT_DUMMY_INFO")?.appendField(new Blockly.FieldDropdown(function(){return datatypeOptionsGenerator(this.getSourceBlock() as BlockC,'FIELD_DROPDOWN_RETURN_ITEM')}), 'FIELD_DROPDOWN_DATATYPE');
+        block.getInput("INPUT_DUMMY_INFO")?.appendField(new Blockly.FieldDropdown(function(){return datatypeOptionsGenerator(this.getSourceBlock() as IBlockC,'FIELD_DROPDOWN_RETURN_ITEM')}), 'FIELD_DROPDOWN_DATATYPE');
         block.setFieldValue('','FIELD_LABEL_NEXUS');
       }
     }
@@ -105,9 +107,9 @@ Blockly.Blocks["c_function_definition"] = {
         break;
       }
     }
-    (this.getSourceBlock() as BlockVariableDeclaration).checkStructsDefined(newValue);
+    (this.getSourceBlock() as IBlockCVariableDeclaration).checkStructsDefined(newValue);
   },
-} as BlockVariableDeclaration;
+} as IBlockCVariableDeclaration;
 
 //Generador de código del bloque 
 cGenerator.forBlock["c_function_definition"] = function(block,generator) {

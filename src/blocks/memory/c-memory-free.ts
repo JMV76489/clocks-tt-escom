@@ -4,8 +4,9 @@
 
 import * as Blockly from 'blockly';
 import { cGenerator } from 'src/generators/c';
-import { BlockC, BlockVariableOutput } from 'src/libs/interface/block-interface';
-import { arrayOptionsPrimitive, datatypeInfoGetFromName } from 'src/libs/datatype';
+import { IBlockC } from 'src/utils/interface/c-block';
+import { IBlockCVariableOutput } from 'src/utils/interface/c-variable-output';
+import { arrayOptionsPrimitive, datatypeInfoGetFromName } from 'src/utils/datatype';
 
 //JSON de definición de bloque
 export const cMemoryFree = {
@@ -35,7 +36,7 @@ Blockly.Blocks["c_memory_free"] = {
     //Inicializar uso de biblioteca
     this.libraryUse = "stdlib.h";
   }
-} as BlockC;
+} as IBlockC;
 
 //Generador de código del bloque
 cGenerator.forBlock["c_memory_free"] = function(block,generator) {

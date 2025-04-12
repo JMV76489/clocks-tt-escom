@@ -4,11 +4,10 @@
 
 import * as Blockly from 'blockly'
 import {toolbox} from './toolbox'; 
-import { PALLETTE } from './libs/constants';
+import { PALLETTE } from './utils/constants';
 import {Multiselect} from '@mit-app-inventor/blockly-plugin-workspace-multiselect';
-import { DatatypeControl } from './libs/datatype/datatype-control';
 import Swal from 'sweetalert2';
-import 'src//libs/sweetalert2/sweetalert2-style.css';
+import 'src/utils/sweetalert2/sweetalert2-style.css';
 import { iconWarning } from './assets/assets';
 
 //Div para inyectar el workspace
@@ -162,7 +161,7 @@ const multiselectOptions = {
 const multiselectPlugin = new Multiselect(clocksWorkspace);
 multiselectPlugin.init(multiselectOptions);
 
-// Change context menu text
+//Cambiar el texto del menu contextual
 const selectAllBlocksOption = Blockly.ContextMenuRegistry.registry.getItem('workspaceSelectAll');
 if (selectAllBlocksOption) {
   Blockly.ContextMenuRegistry.registry.unregister('workspaceSelectAll');
@@ -181,11 +180,10 @@ export function workspaceInit(codeDiv: HTMLDivElement) {
     const blockMain = clocksWorkspace.newBlock('c_function_main');
     blockMain.initSvg();
     blockMain.render();
-    
-    
     codeDiv.innerHTML = ''; //Limpiar div de código generado
 }
 
+//Función para crear nuevo proyecto
 export function newProject(codeDiv: HTMLDivElement){
   Swal.fire({
     title: '¿Crear nuevo proyecto?',

@@ -3,7 +3,7 @@
 /* -------------------------------------------------------------------------- */
 
 import * as Blockly from 'blockly';
-import { BlockC } from 'src/libs/interface/block-interface';
+import { IBlockC } from 'src/utils/interface/c-block';
 import { cGenerator } from 'src/generators/c';
 
 //JSON de definición de bloque
@@ -34,7 +34,7 @@ Blockly.Blocks["c_variable_set"] = {
       //Inicializar bloque con JSON
       this.jsonInit(cVariableSet);
   }
-} as BlockC;
+} as IBlockC;
 
 //Generador de código del bloque
 cGenerator.forBlock["c_variable_set"] = function(block,generator) {

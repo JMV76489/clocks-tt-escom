@@ -5,12 +5,12 @@
 import * as Blockly from 'blockly';
 import { buttonBlockMinus, buttonBlockPlus, buttonRemove } from 'src/assets/assets';
 import { cGenerator } from 'src/generators/c';
-import { BlockConditionSwitch } from 'src/libs/interface/block-interface';
-import { STRING_CODE_HTML_FORMAT } from 'src/libs/constants';
+import { IBlockCConditionSwitch } from 'src/utils/interface/c-condition-switch';
+import { STRING_CODE_HTML_FORMAT } from 'src/utils/constants';
 
 //Registro de bloque
 Blockly.Blocks["c_condition_switch_cases"]  = {
-  init: function(this: BlockConditionSwitch){
+  init: function(this: IBlockCConditionSwitch){
 
     /* ---------------- Incializar bloque con entradas y campos ---------------- */
     this.appendDummyInput('INPUT_DUMMY_CASE_CONTROL')
@@ -128,12 +128,12 @@ Blockly.Blocks["c_condition_switch_cases"]  = {
     })
    this.updateDefaultCaseShape(this.isDefaultCaseEnabled);
   },
-} as BlockConditionSwitch; 
+} as IBlockCConditionSwitch; 
 
 //Generador de código del bloque
 cGenerator.forBlock["c_condition_switch_cases"] = function(block,generator) {
   let casesCode = '';
-  const blockSwitch = block as BlockConditionSwitch;
+  const blockSwitch = block as IBlockCConditionSwitch;
   blockSwitch.caseIndexArray.forEach((value,index) =>{
     casesCode += `case ${generator.valueToCode(block,`INPUT_VALUE_CASE_${value}`,0)}: {\n${generator.statementToCode(block,`INPUT_STATEMENT_${value}`)}\n  ${STRING_CODE_HTML_FORMAT.BREAK}${STRING_CODE_HTML_FORMAT.SEMICOLON}\n}${index == blockSwitch.caseIndexArray.length - 1 ? '' : '\n'}`;
   })

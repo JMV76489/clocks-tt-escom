@@ -5,8 +5,8 @@
 import * as Blockly from 'blockly';
 import { buttonBlockMinus, buttonBlockOutput, buttonBlockPlus, buttonBlockStatement } from 'src/assets/assets';
 import { cGenerator } from 'src/generators/c';
-import { BlockFunctionCall } from 'src/libs/interface/block-interface';
-import { identifierValidator } from 'src/libs/validator';
+import { IBlockCFunctionCall } from 'src/utils/interface/c-function-call';
+import { identifierValidator } from 'src/utils/validator';
 
 //JSON de blqoue de llamada de función
 export const c_function_call = {
@@ -187,12 +187,12 @@ Blockly.Blocks["c_function_call"] = {
         }
     }
     
-} as BlockFunctionCall;   
+} as IBlockCFunctionCall;   
 
 //Generador de código del bloque
 cGenerator.forBlock['c_function_call'] = function(block,generator){
     //Obtener código de entradas de parametros
-    const blockParametersCount = (block as BlockFunctionCall).parametersCount; 
+    const blockParametersCount = (block as IBlockCFunctionCall).parametersCount; 
     let parametersCode = '';
     for(var i = 0; i < blockParametersCount;i++){
         const curValueCode = generator.valueToCode(block,`INPUT_VALUE_PARAMETER_${i}`,0); 

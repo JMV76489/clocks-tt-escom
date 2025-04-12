@@ -4,7 +4,7 @@
 
 import * as Blockly from 'blockly';
 import { cGenerator } from 'src/generators/c';
-import { BlockC } from 'src/libs/interface/block-interface';
+import { IBlockC } from 'src/utils/interface/c-block';
 
 //JSON de definición de bloque
 export const cStructMemberGet = {
@@ -34,7 +34,7 @@ Blockly.Blocks["c_struct_member_get"] = {
       //Inicializar bloque con JSON
       this.jsonInit(cStructMemberGet);
     }
-} as BlockC;
+} as IBlockC;
 
 //Generador de código del bloque
 cGenerator.forBlock["c_struct_member_get"] = function(block,generator) {

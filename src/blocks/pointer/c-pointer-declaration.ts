@@ -3,9 +3,9 @@
 /* -------------------------------------------------------------------------- */
 
 import * as Blockly from 'blockly';
-import { datatypePrimitiveValidator, identifierValidator } from 'src/libs/validator';
-import { arrayOptionsPrimitive, datatypeInfoGetFromName } from 'src/libs/datatype';
-import { BlockC } from 'src/libs/interface/block-interface';
+import { datatypePrimitiveValidator, identifierValidator } from 'src/utils/validator';
+import { arrayOptionsPrimitive, datatypeInfoGetFromName } from 'src/utils/datatype';
+import { IBlockC } from 'src/utils/interface/c-block';
 import { cGenerator } from 'src/generators/c';
 import { buttonArrow } from 'src/assets/assets';
 
@@ -57,7 +57,7 @@ Blockly.Blocks["c_pointer_declaration"] = {
       this.getField("FIELD_INPUT_IDENTIFIER")?.setValidator(identifierValidator);
       
   }
-} as BlockC;
+} as IBlockC;
 
 //Generador de código del bloque
 cGenerator.forBlock["c_pointer_declaration"] = function(block,generator) {

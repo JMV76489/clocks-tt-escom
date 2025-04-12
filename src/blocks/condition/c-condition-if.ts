@@ -5,7 +5,7 @@
 import * as Blockly from 'blockly';
 import { buttonBlockMinus, buttonBlockPlus } from 'src/assets/assets';
 import { cGenerator } from 'src/generators/c';
-import { BlockConditionIf } from 'src/libs/interface/block-interface';
+import { IBlockCConditionIf } from 'src/utils/interface/c-condition-if';
 
 //JSON de bloque de condición if
 const cConditionIf = {
@@ -45,7 +45,7 @@ const cConditionIf = {
 
 //Registro de bloque if
 Blockly.Blocks["c_condition_if"]  = {
-  init: function(this: BlockConditionIf){
+  init: function(this: IBlockCConditionIf){
 
     //Inicializar bloque con JSON
     this.jsonInit(cConditionIf);
@@ -62,18 +62,18 @@ Blockly.Blocks["c_condition_if"]  = {
     
   },
   //Función de guardado de estado
-  saveExtraState: function(this: BlockConditionIf){
+  saveExtraState: function(this: IBlockCConditionIf){
     return {'haveElse': this.haveElse};
   },
 
   //Función de cargado de estado
-  loadExtraState: function(this: BlockConditionIf,state: {[key:string]:any}){
+  loadExtraState: function(this: IBlockCConditionIf,state: {[key:string]:any}){
     this.haveElse = state.haveElse || false; //Cargar valor almacenado de haveElse_
     this.updateShape(); //Actualizar forma al cargar
   },
 
   //Función de actualización de forma de bloque
-  updateShape: function(this: BlockConditionIf){
+  updateShape: function(this: IBlockCConditionIf){
 
     const fieldImageToggleElse = this.getField('FIELD_IMAGE_TOGGLE_ELSE'); //Boton de conmutación de else
 
@@ -93,7 +93,7 @@ Blockly.Blocks["c_condition_if"]  = {
   },
 
   //Función de conmutación de else
-  toggleElse: function(this: BlockConditionIf){
+  toggleElse: function(this: IBlockCConditionIf){
     this.haveElse = !this.haveElse;
     this.updateShape();
   }

@@ -4,8 +4,8 @@
 
 import * as Blockly from 'blockly';
 import { cGenerator } from 'src/generators/c';
-import { BlockC } from 'src/libs/interface/block-interface';
-import { BLOCKS_TYPE_BINARY_OPERATORS, OPERATION_BINARY_BASIC_NAME_CODE_DICT } from 'src/libs/constants';
+import { IBlockC } from 'src/utils/interface/c-block';
+import { BLOCKS_TYPE_BINARY_OPERATORS, OPERATION_BINARY_BASIC_NAME_CODE_DICT } from 'src/utils/constants';
 
 //JSON de definición de bloque
 export const cMathBinaryOperationArithmetic = {
@@ -78,10 +78,10 @@ Blockly.Blocks["c_math_binary_operation_arithmetic"] = {
 
   //Validador de uso de biblioteca
   libraryUseValidatorDropdown: function(this: Blockly.FieldDropdown,newValue : string){
-    (this.getSourceBlock() as BlockC).libraryUse = (newValue == 'OPERATION_EXPONENTIATION') ? "math.h" : undefined;
+    (this.getSourceBlock() as IBlockC).libraryUse = (newValue == 'OPERATION_EXPONENTIATION') ? "math.h" : undefined;
     return newValue;
   }
-} as BlockC;
+} as IBlockC;
 
 //Generador de código del bloque
 cGenerator.forBlock["c_math_binary_operation_arithmetic"] = function(block,generator) {

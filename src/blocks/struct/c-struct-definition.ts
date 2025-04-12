@@ -4,10 +4,10 @@
 
 import * as Blockly from 'blockly';
 import { cGenerator } from 'src/generators/c';
-import { BlockStructDefinition } from 'src/libs/interface/block-interface';
-import { addDatatypeStruct, datatypesDict, removeDatatypeStruct, updateDatatypeStruct } from 'src/libs/datatype';
-import { showWarningToast } from 'src/libs/toast/toast';
-import { identifierValidator } from 'src/libs/validator';
+import { IBlockCStructDefinition } from 'src/utils/interface/c-struct-definition';
+import { addDatatypeStruct, datatypesDict, removeDatatypeStruct, updateDatatypeStruct } from 'src/utils/datatype';
+import { showWarningToast } from 'src/utils/toast/toast';
+import { identifierValidator } from 'src/utils/validator';
 
 //JSON de definición de bloque
 const cStructDefinition = {
@@ -96,7 +96,7 @@ Blockly.Blocks["c_struct_definition"] = {
     this.structTagName = state.structTagName || `STRUCT_${this.structTag.toLocaleUpperCase()}`;
     addDatatypeStruct(this.structTagName,this.structTag);
   }
-} as BlockStructDefinition;
+} as IBlockCStructDefinition;
 
 //Generador de código del bloque
 cGenerator.forBlock["c_struct_definition"] = function(block,generator) {

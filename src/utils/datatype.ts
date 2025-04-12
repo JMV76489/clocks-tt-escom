@@ -1,5 +1,5 @@
 import * as Blockly from 'blockly';
-import { BlockC } from 'src/libs/interface/block-interface';
+import { IBlockC } from 'src/utils/interface/c-block';
 
 /* ------------------ Archivo de control de tipos de datos ------------------ */
 
@@ -148,7 +148,7 @@ arrayOptionsDeclarationItemFunction.push(["nada",'VOID']);
 
 
 //Generador de opciones de tipos de datos para bloques que especifican una variable
-export function datatypeOptionsGenerator(block: BlockC | null,fieldItemName: string): [string,string][]{
+export function datatypeOptionsGenerator(block: IBlockC | null,fieldItemName: string): [string,string][]{
     if(block){
         const blockFieldDeclarationItem = block?.getFieldValue(fieldItemName);
         if(blockFieldDeclarationItem == 'INSTANCE'){

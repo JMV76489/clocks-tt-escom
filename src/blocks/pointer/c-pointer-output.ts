@@ -4,7 +4,7 @@
 
 import * as Blockly from 'blockly';
 import { cGenerator } from 'src/generators/c';
-import { BlockC } from 'src/libs/interface/block-interface';
+import { IBlockC } from 'src/utils/interface/c-block';
 
 //JSON de definición de bloque
 export const cPointerOutput = {
@@ -30,7 +30,7 @@ Blockly.Blocks["c_pointer_output"] = {
     //Inicializar bloque con JSON
     this.jsonInit(cPointerOutput);
   }
-} as BlockC; 
+} as IBlockC; 
 
 //Generador de código del bloque
 cGenerator.forBlock["c_pointer_output"] = function(block,generator) {

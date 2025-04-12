@@ -1,8 +1,8 @@
 /* ------------------ - Archivo de generador de código de C ----------------- */
 
 import * as Blockly from 'blockly/core';
-import { BlockC } from 'src/libs/interface/block-interface';
-import { STRING_CODE_HTML_FORMAT } from 'src/libs/constants';
+import { IBlockC } from 'src/utils/interface/c-block';
+import { STRING_CODE_HTML_FORMAT } from 'src/utils/constants';
 
 //Crear generador de cógo en C
 export const cGenerator = new Blockly.Generator('C');
@@ -69,7 +69,7 @@ cGenerator.workspaceToCode = function(workspace): string{
   blocks?.forEach(block =>{
     //Agregar uso de librería unicamente a bloques que se encuentren dentro del main o de una función
     if(["c_function_definition","c_function_main"].indexOf(block.getRootBlock().type) !== -1){
-      const blockLibraryUse = (block as BlockC).libraryUse;
+      const blockLibraryUse = (block as IBlockC).libraryUse;
       if(blockLibraryUse){
         blocksLibraryUseSet.add(blockLibraryUse);
       }

@@ -4,8 +4,8 @@
 
 import * as Blockly from 'blockly';
 import { cGenerator } from 'src/generators/c';
-import { BlockC } from 'src/libs/interface/block-interface';
-import { MATH_CONSTANTS_CODE_DICT } from 'src/libs/constants';
+import { IBlockC } from 'src/utils/interface/c-block';
+import { MATH_CONSTANTS_CODE_DICT } from 'src/utils/constants';
 
 //JSON de definición de bloque
 export const cMathConstants = {
@@ -90,7 +90,7 @@ Blockly.Blocks["c_math_constants"] = {
     //Uso de biblioteca
     this.libraryUse = "math.h";
   },
-} as BlockC;
+} as IBlockC;
 
 //Generador de código de operaciones matemáticas básicas unarias
 cGenerator.forBlock['c_math_constants'] = function(block,generator){

@@ -4,7 +4,7 @@
 
 import * as Blockly from 'blockly';
 import { cGenerator } from 'src/generators/c';
-import { BlockC } from "src/libs/interface/block-interface";
+import { IBlockC } from "src/utils/interface/c-block";
 
 //JSON de definición de bloque
 export const cPrintSimpleString = {
@@ -36,7 +36,7 @@ Blockly.Blocks["c_print_simple_string"] = {
     //Uso de biblioteca
     this.libraryUse = "stdio.h";
   }
-} as BlockC;
+} as IBlockC;
 
 //Generador de código del bloque
 cGenerator.forBlock["c_print_simple_string"] = function(block) {

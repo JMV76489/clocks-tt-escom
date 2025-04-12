@@ -1,5 +1,4 @@
-import { IDatatypeDict } from "../datatype";
-import { BlockC } from "../interface/block-interface";
+import { IBlockC } from "../interface/c-block";
 import { Datatype } from "./datatype";
 
 interface IDatatypeControlDict{
@@ -97,7 +96,7 @@ export class DatatypeControl {
         return null; // Si no se encuentra el tipo de dato, devolver null
     }
 
-    public static datatypeOptionsGenerator(block: BlockC | null, fieldItemName: string): [string, string][] {
+    public static datatypeOptionsGenerator(block: IBlockC | null, fieldItemName: string): [string, string][] {
         const datatypeOptions: [string, string][] = [];
 
         if (block) {

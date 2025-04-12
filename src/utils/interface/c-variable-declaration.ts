@@ -1,0 +1,131 @@
+/* -------------------------------------------------------------------------- */
+/*          Archivo de interfaz de bloque de declaración de variable          */
+/* -------------------------------------------------------------------------- */
+
+import * as Blockly from 'blockly';
+import { arrayOptionsStruct } from '../datatype';
+import { Variable } from '../variable/Variable';
+import { IBlockC } from './c-block';
+import { IBlockCVariableOutput } from './c-variable-output';
+
+//Interfaz de bloque de declaración de variable
+export interface IBlockCVariableDeclaration extends IBlockC {
+  variableDeclaring: Variable;
+  blocksIdUsingDeclaration: { [blockId: string]: string; }; //Diccionario de ID's de bloques que usan el bloque de declaración
+  updateIdentifier(): void; //Método para actualizar identificador
+  searchBlocksUsingDeclaration(): void; //Método para buscar bloques que usan la declaración de variable
+  checkStructsDefined(newValue: string): void; //Método para verificar si hay estructuras definidas
+  fieldDeclarationItemValidator(newValue: string): string; //Validador de campo de elemento de declaración
+  fieldDatatypeValidator(newValue: string): string; //Validador de campo de tipo de dato
+  lastFieldDeclarationItemOption: string; //Ultima opción de tipo de dato seleccionada
+}
+
+//Métodos de Bloque de declaración de variables
+export const BlockCVariableDeclarationMethods = {
+  //Método para actualizar identificador
+  updateIdentifier: function () {
+    //Actualizar campo de itentificador de los bloques que usan el bloque de declaración
+    for (let blockId in this.blocksIdUsingDeclaration) {
+      const curBlockUsingDeclaration = this.workspace.getBlockById(this.blocksIdUsingDeclaration[blockId]);
+      curBlockUsingDeclaration?.setFieldValue(this.getFieldValue('FIELD_INPUT_IDENTIFIER'), 'FIELD_INPUT_IDENTIFIER');
+    }
+
+    //Buscar bloques que usen la declaración
+    this.searchBlocksUsingDeclaration();
+  },
+  //Manejador de cambio de bloque de declaración de variable
+  onchange: function (event) {
+    if (!this.workspace || this.isInFlyout) return;
+
+    //Actualizar campo de tipo de dato dependiendo del valor de campo de elemento de declaración
+    const fieldDeclarationItemOption = this.getFieldValue('FIELD_DROPDOWN_DECLARATION_ITEM');
+    const fieldDeclarationDatatypeOptions = (this.getField('FIELD_DROPDOWN_DATATYPE') as Blockly.FieldDropdown as Blockly.FieldDropdown).getOptions();
+
+    if (this.lastFieldDeclarationItemOption != fieldDeclarationItemOption) {
+      this.lastFieldDeclarationItemOption = fieldDeclarationItemOption;
+
+      this.setFieldValue(fieldDeclarationDatatypeOptions[0][1], 'FIELD_DROPDOWN_DATATYPE');
+    }
+
+    const moveEvent = event as Blockly.Events.BlockMove;
+    const changeEvent = event as Blockly.Events.BlockChange;
+
+    if (event.type === Blockly.Events.BLOCK_MOVE || (event.type == Blockly.Events.BLOCK_CHANGE && changeEvent.element === 'disabled')) {
+      if (moveEvent.blockId || changeEvent.blockId) {
+        if (moveEvent.blockId === this.id || changeEvent.blockId === this.id) {
+
+          if (this.type == "c_variable_declaration") {
+            if (this.getRootBlock().type == "c_struct_definition") {
+              this.setNextStatement(true, "Declaration");
+              this.setPreviousStatement(true, "Declaration");
+            } else {
+              this.setNextStatement(true, ['Procedure', 'Declaration']);
+              this.setPreviousStatement(true, ['Procedure', 'Declaration']);
+            }
+          }
+
+          for (let blockId in this.blocksIdUsingDeclaration) {
+            const curBlock = this.workspace.getBlockById(this.blocksIdUsingDeclaration[blockId]) as IBlockCVariableOutput;
+            curBlock?.setDeclarationBlockId(null);
+          }
+          this.blocksIdUsingDeclaration = {};
+          this.searchBlocksUsingDeclaration();
+        }
+      }
+    }
+  },
+  //Método que se llama cuando el bloque es eliminado
+  destroy: function () {
+    if (!this.isInFlyout) {
+      for (let blockId in this.blocksIdUsingDeclaration) {
+        const curBlock = this.workspace.getBlockById(this.blocksIdUsingDeclaration[blockId]) as IBlockCVariableOutput;
+        curBlock?.setDeclarationBlockId(null);
+        curBlock?.searchDeclarationBlock();
+
+      }
+    }
+  },
+  //Método para buscar bloques usando la declaración de variable
+  searchBlocksUsingDeclaration: function () {
+    /*Fijar bloques de busqueda a descendientes si se trata de un bloque de declaración de variable
+    o a los padres si se trata de un bloque de parametro*/
+    const descendants = this.type == "c_variable_declaration" ? this.getDescendants(true) : this.getParent()?.getDescendants(true);
+    (descendants as IBlockC[])?.forEach((block: IBlockC) => {
+      if (block.type == 'c_variable_output') {
+        if (block.getFieldValue('FIELD_INPUT_IDENTIFIER') == this.getFieldValue('FIELD_INPUT_IDENTIFIER')) {
+          //Verificar que el bloque aun no este registrado en el diccionarios de bloques utilizando la declaración
+          if (!this.blocksIdUsingDeclaration[block.id]) {
+            (block as IBlockCVariableOutput).setDeclarationBlockId(this.id);
+          }
+        }
+      }
+    });
+  },
+  //Función de guardado de estado
+  saveExtraState() {
+    const state = {
+      'blocksIdUsingDeclaration': this.blocksIdUsingDeclaration,
+      'lastFieldDeclarationItemOption': this.lastFieldDeclarationItemOption
+    };
+    return state;
+  },
+  //Función de cargado de estado
+  loadExtraState(state) {
+    this.blocksIdUsingDeclaration = state.blocksIdUsingDeclaration || {};
+    this.lastFieldDeclarationItemOption = state.lastFieldDeclarationItemOption || this.getFieldValue('FIELD_DROPDOWN_DECLARATION_ITEM');
+
+  },
+  //Método para verificar si hay estructuras
+  checkStructsDefined: function (newValue: string) {
+    if (newValue == 'INSTANCE') {
+      if (arrayOptionsStruct.length == 0)
+        this.setWarningText('No hay ninguna estructura definida.');
+
+      else
+        this.setWarningText(null);
+    }
+    else
+      this.setWarningText(null);
+  },
+} as IBlockCVariableDeclaration;
+

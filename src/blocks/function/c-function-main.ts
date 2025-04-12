@@ -4,7 +4,7 @@
 
 import * as Blockly from 'blockly';
 import { cGenerator } from 'src/generators/c';
-import { BlockC } from 'src/libs/interface/block-interface';
+import { IBlockC } from 'src/utils/interface/c-block';
 
 //JSON de definición de bloque
 const cFunctionMain = {
@@ -44,7 +44,7 @@ Blockly.Blocks["c_function_main"] = {
       options.splice(disableIndex, 1);
     }
   }
-} as BlockC
+} as IBlockC
 
 //Generador de código del bloque
 cGenerator.forBlock["c_function_main"] = function(block,generator) {

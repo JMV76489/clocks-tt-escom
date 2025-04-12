@@ -4,8 +4,9 @@
 
 import * as Blockly from 'blockly';
 import { cGenerator } from 'src/generators/c';
-import { BlockC, BlockMathUnaryOperator } from 'src/libs/interface/block-interface';
-import { OPERATION_UNARY_BASIC_NAME_CODE_DICT } from 'src/libs/constants';
+import { IBlockC } from 'src/utils/interface/c-block';
+import { IBlockCMathUnaryOperator } from 'src/utils/interface/c-math-unary-operator';
+import { OPERATION_UNARY_BASIC_NAME_CODE_DICT } from 'src/utils/constants';
 
 //JSON de definición de bloque
 export const cMathUnaryOperation = {
@@ -82,7 +83,7 @@ Blockly.Blocks["c_math_unary_operation"] = {
   },
   //Validador de operador
   operatorValidator: function(this: Blockly.FieldDropdown,newValue : string){
-    const block = this.getSourceBlock() as BlockC;
+    const block = this.getSourceBlock() as IBlockC;
     //Añadir label de radianes en caso de que se seleccione alguna operación trigonométrica
     if(['OPERATOR_SINE','OPERATOR_COSINE','OPERATOR_TANGENT'].indexOf(newValue) !=-1)
     {
@@ -97,7 +98,7 @@ Blockly.Blocks["c_math_unary_operation"] = {
     }
     return newValue;
   }
-} as BlockMathUnaryOperator;
+} as IBlockCMathUnaryOperator;
 
 //Generador de código de operaciones matemáticas básicas unarias
 cGenerator.forBlock['c_math_unary_operation'] = function(block,generator){

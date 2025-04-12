@@ -4,7 +4,7 @@
 
 import * as Blockly from 'blockly';
 import { cGenerator } from 'src/generators/c';
-import { BlockC } from 'src/libs/interface/block-interface';
+import { IBlockC } from 'src/utils/interface/c-block';
 
 //JSON de definición de bloque
 const cFunctionReturn = {
@@ -31,7 +31,7 @@ Blockly.Blocks["c_function_return"] = {
     //Evitar que se pueda borrar
     this.setDeletable(false) 
   }
-} as BlockC
+} as IBlockC
 
 //Generador de código del bloque
 cGenerator.forBlock["c_function_return"] = function(block,generator) {

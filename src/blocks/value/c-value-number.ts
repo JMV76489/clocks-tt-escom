@@ -4,7 +4,7 @@
 
 import * as Blockly from 'blockly';
 import { cGenerator } from 'src/generators/c';
-import { BlockC } from 'src/libs/interface/block-interface';
+import { IBlockC } from 'src/utils/interface/c-block';
 
 //JSON de bloque de valor numérico
 const cValueNumber = {
@@ -33,7 +33,7 @@ Blockly.Blocks["c_value_number"] = {
       //Inicializar bloque con JSON
       this.jsonInit(cValueNumber);
     }
-} as BlockC;
+} as IBlockC;
 
 //Generador de código del bloque
 cGenerator.forBlock["c_value_number"] = function(block) {

@@ -13,11 +13,10 @@ import * as Assets from './assets/assets';
 import * as Es from 'blockly/msg/es'; 
 import './index.css';
 import './blocks/blocks'
-import { save,load } from './quickSave';
 import { cGenerator } from './generators/c';
 import { clocksWorkspace,newProject,workspaceInit } from './workspace';
 import { loadWorkspace, saveWorkspace } from './serialization';
-import { showToastSuccess } from './libs/toast/toast';
+import { showToastSuccess } from './utils/toast/toast';
 
 /* ---------------- Ajustar elementos de la interfaz gráfica ---------------- */
 

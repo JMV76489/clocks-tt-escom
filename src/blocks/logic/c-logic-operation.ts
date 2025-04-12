@@ -4,8 +4,8 @@
 
 import * as Blockly from 'blockly';
 import { cGenerator } from 'src/generators/c';
-import { BlockC} from 'src/libs/interface/block-interface';
-import { BLOCKS_TYPE_BINARY_OPERATORS, LOGIC_OPERATOR_NAME_CODE_DICT } from 'src/libs/constants';
+import { IBlockC} from 'src/utils/interface/c-block';
+import { BLOCKS_TYPE_BINARY_OPERATORS, LOGIC_OPERATOR_NAME_CODE_DICT } from 'src/utils/constants';
 
 //JSON de definición de bloque
 const cLogicOperator = {
@@ -60,7 +60,7 @@ Blockly.Blocks["c_logic_operator"] = {
   },
   // Función para conmutar operador 1 en el bloque
   libraryUseValidatorDropdown : function(this: Blockly.FieldDropdown,newValue: string){
-    const block = this.getSourceBlock() as BlockC;  
+    const block = this.getSourceBlock() as IBlockC;  
     const blockOperand1Input =  block.getInput('INPUT_VALUE_OPERAND_1');
     //Remover entrada del operador 1 cuando el valor del dropdown del operador este en un operador lógico unario
     if(newValue == 'LOGIC_NOT'){
@@ -82,7 +82,7 @@ Blockly.Blocks["c_logic_operator"] = {
     }
     return newValue;
   }
-} as BlockC;
+} as IBlockC;
 
 //Generador de código de operador lógico
 cGenerator.forBlock['c_logic_operator'] = function(block,generator){

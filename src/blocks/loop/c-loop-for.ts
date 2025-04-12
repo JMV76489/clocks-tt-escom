@@ -4,8 +4,9 @@
 
 import * as Blockly from 'blockly';
 import { cGenerator } from 'src/generators/c';
-import { BlockC, BlockLoopFor } from 'src/libs/interface/block-interface';
-import { FOR_SIMPLE_INCREMENT_DICT_CODE } from 'src/libs/constants';
+import { IBlockC } from 'src/utils/interface/c-block';
+import { IBlockCLoopFor } from 'src/utils/interface/c-loop-for';
+import { FOR_SIMPLE_INCREMENT_DICT_CODE } from 'src/utils/constants';
 
 //JSON de definición de bloque
 export const cLoopForIncrement = {
@@ -74,13 +75,13 @@ export const cLoopForIncrement = {
                     
 //Registro de bloque while
 Blockly.Blocks["c_loop_for_increment"] = {
-  init: function(this: BlockLoopFor){
+  init: function(this: IBlockCLoopFor){
     //Inicializar atributo de booleano de declaración de variable
     this.doDeclareVariable = true;
     //Inicializar bloque con JSON
     this.jsonInit(cLoopForIncrement);
   }
-} as BlockC
+} as IBlockC
 
 //Generador de código del bloque
 cGenerator.forBlock["c_loop_for_increment"] = function(block,generator) {
