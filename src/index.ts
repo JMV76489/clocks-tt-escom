@@ -15,7 +15,7 @@ import './index.css';
 import './blocks/blocks'
 import { cGenerator } from './generators/c';
 import { clocksWorkspace,newProject,workspaceInit } from './workspace';
-import { loadWorkspace, saveWorkspace } from './serialization';
+import { loadProject, saveProject } from './serialization';
 import { showToastSuccess } from './utils/toast/toast';
 
 /* ---------------- Ajustar elementos de la interfaz gráfica ---------------- */
@@ -63,12 +63,12 @@ buttonCodeCopy.onclick = function(){
 
 //Botón de guardar workspace
 buttonSaveWorkspace.onclick = function(){
-  saveWorkspace(clocksWorkspace);
+  saveProject(clocksWorkspace);
 }
 
 //Botón de cargar workspace
 buttonLoadWorkspace.onclick = function(){
-  loadWorkspace(clocksWorkspace);
+  loadProject(clocksWorkspace);
 }
 
 //Botón de nuevo proyecto

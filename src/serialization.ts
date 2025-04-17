@@ -19,7 +19,7 @@ function downloadWorkspaceFile(workspaceDataString: string,filename: string){
 }
 
 //Función para guardar workspace
-export async function saveWorkspace(workspace: Blockly.Workspace){
+export async function saveProject(workspace: Blockly.Workspace){
 
     //Construir nombre de archivo con fecha
     const fileDate = new Date();
@@ -27,7 +27,7 @@ export async function saveWorkspace(workspace: Blockly.Workspace){
     const filenameTime = fileDate.toLocaleTimeString().replace(/:/gi,"-").replace(/[\.]/gi,"_").replace(/\s/g,"");
     const filename = `ProyectoClocks-${filenameDate}-${filenameTime}.clocks`
 
-    const saveData = {
+    const projectData = {
         //Guardar tipos de datos de estructuras
         "datatypesStruct": datatypesDict["STRUCT"],
         //Guardar datos de workspace
@@ -35,7 +35,7 @@ export async function saveWorkspace(workspace: Blockly.Workspace){
     }
 
     //Serializar workspace en JSON
-    const saveDataString = JSON.stringify(saveData); 
+    const saveDataString = JSON.stringify(projectData); 
 
     //Probar compatibilidad con el File Picker, en caso de que no se pueda, descargar archivo automaticamente
     try{
@@ -75,7 +75,7 @@ function fileSelectFromLocal(): Promise<File | null> {
 }
 
 //Función para cargar workspace
-export function loadWorkspace(workspace: Blockly.Workspace){
+export function loadProject(workspace: Blockly.Workspace){
     fileSelectFromLocal().then((file) =>{
         if(file){
             const reader = new FileReader();
@@ -90,7 +90,9 @@ export function loadWorkspace(workspace: Blockly.Workspace){
                 }
                 Blockly.Events.disable();
                 //Cargar workspace
-                Blockly.serialization.workspaces.load(loadData.workspace, workspace, undefined); 
+                Blockly.serialization.workspaces.load(loadData.workspace, workspace, {
+                    recordUndo: true, //Habilitar undo al cargar workspace
+                }); 
                 Blockly.Events.enable();
             }
             reader.readAsText(file);
