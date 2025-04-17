@@ -3,6 +3,7 @@
 /* -------------------------------------------------------------------------- */
 
 import * as Blockly from 'blockly';
+import { iconPlay } from 'src/assets/assets';
 import { cGenerator } from 'src/generators/c';
 import { IBlockC } from 'src/utils/interface/c-block';
 
@@ -11,12 +12,23 @@ const cFunctionMain = {
   "type": "c_function_main",
   "tooltip": "",
   "helpUrl": "",
-  "message0": "Al iniciar %1",
+  "message0": "%1 Al iniciar %2 Hacer: %3",
   "args0": [
     {
+      "type": "field_image",
+      "src": iconPlay,
+      "width": 16,
+      "height": 16,
+      "alt": ">",
+      "flipRtl": "FALSE"
+    },
+    {
+      "type": "input_dummy",
+      "name": "INPUT_DUMMY"
+    },
+    {
       "type": "input_statement",
-      "name": "INPUT_STATEMENT",
-      "check": "Procedure"
+      "name": "INPUT_STATEMENT"
     }
   ],
   "disable": false,
