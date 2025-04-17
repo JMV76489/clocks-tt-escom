@@ -10,8 +10,8 @@ import { IBlockCConditionIf } from 'src/utils/interface/c-condition-if';
 //JSON de bloque de condición if
 const cConditionIf = {
   "type": "c_condition_if",
-  "tooltip": "",
-  "helpUrl": "",
+  "tooltip": "Bloque para verificar una condición y ejecutar un conjunto de bloques en caso de cumplirse.",
+  "helpUrl": "https://www.freecodecamp.org/espanol/news/sentencia-if-else-en-c-explicada/",
   "message0": "Sí %1 Entonces %2 %3 %4",
   "args0": [
     {

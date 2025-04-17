@@ -18,8 +18,8 @@ Blockly.Blocks["c_condition_switch"]  = {
       this.setInputsInline(true)
       this.setPreviousStatement(true, 'Procedure');
       this.setNextStatement(true, 'Procedure');
-      this.setTooltip('');
-      this.setHelpUrl('');
+      this.setTooltip('Bloque para realizar un control de flujo condicional mediante la instrucción switch. Permite evaluar una variable y ejecutar diferentes conjuntos de bloques de código según su valor.');
+      this.setHelpUrl('https://www2.eii.uva.es/fund_inf/cpp/temas/5_control_flujo_condicional/switch.html');
       this.setStyle('c_condition_blocks');
     /* ------------------------------------  ----------------------------------- */
     
