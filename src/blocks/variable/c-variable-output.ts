@@ -65,12 +65,16 @@ Blockly.Blocks["c_variable_output"] = {
     //Manejador de cambio de bloque
     onchange: function (event) {
       if (!this.workspace || this.isInFlyout) return; // Evita llamadas innecesarias
+      //Verifica si el evento es de creación de bloque o de movimiento de bloque
       if (event.type === Blockly.Events.BLOCK_MOVE || event.type == Blockly.Events.BLOCK_CHANGE) {
         const moveEvent = event as Blockly.Events.BlockMove;
+        //Verificar si el id del bloque existe
         if(moveEvent.blockId){
-          if (moveEvent.blockId === this.id) {
+          //Buscar bloque de declaración de variable si el bloque de movimiento es el bloque de declaración de variable
+          if (moveEvent.blockId == this.id) {
             this.searchDeclarationBlock();
           }else{
+            //Buscar bloque de declaración de variable si el bloque de movimiento es un bloque hijo
             const blockMoved = this.workspace.getBlockById(moveEvent.blockId);
             if(blockMoved?.getDescendants(true).includes(this))
               this.searchDeclarationBlock();
@@ -89,7 +93,7 @@ Blockly.Blocks["c_variable_output"] = {
     },
     //Método para checar si la variable esta declarada
     checkDeclarationBlock: function(){
-      this.setWarningText(this.blockIdVariableDeclaration ? null : 'Error variable no declarada');
+      this.setWarningText(this.blockIdVariableDeclaration ? null : `"${this.getFieldValue('FIELD_INPUT_IDENTIFIER')}" no esta declarado`);
     },
     //Método para buscar declaración de la variable
     searchDeclarationBlock: function(){
@@ -118,6 +122,8 @@ Blockly.Blocks["c_variable_output"] = {
     //Método para buscar declaración de la variable en los bloques
     searchDeclarationOnBlocks: function(curBlock) {
       if(curBlock){
+        /*Verificar si el bloque es un bloque de declaración de variable y si el identificador 
+        es el mismo que el del bloque de salida de variable*/
         if(
             curBlock.type == 'c_variable_declaration' 
             && curBlock.getFieldValue('FIELD_INPUT_IDENTIFIER') == this.getFieldValue('FIELD_INPUT_IDENTIFIER')
@@ -181,6 +187,7 @@ Blockly.Extensions.registerMutator('mutator_variable_output',{
     this.blockIdVariableDeclaration = state.blockIdVariableDeclaration || null;
     this.setStyle(state.styleName);
     this.checkDeclarationBlock();
+    console.log(this.blockIdVariableDeclaration)
   },
 } as IBlockCVariableOutput)
 
