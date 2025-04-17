@@ -6,7 +6,7 @@ import * as Blockly from 'blockly';
 import { cGenerator } from 'src/generators/c';
 import { IBlockC } from 'src/utils/interface/c-block';
 import { IBlockCMathUnaryOperator } from 'src/utils/interface/c-math-unary-operator';
-import { OPERATION_UNARY_BASIC_NAME_CODE_DICT } from 'src/utils/constants';
+import { MATH_H_FUNCTIONS_NAME_CODE_DICT } from 'src/utils/constants';
 
 //JSON de definición de bloque
 export const cMathUnaryOperation = {
@@ -21,44 +21,44 @@ export const cMathUnaryOperation = {
         "options": [
             [
               "√",
-              "OPERATOR_SQUARE_ROOT"
+              "SQUARE_ROOT"
             ],
             [
               "e^",
-              "OPERATOR_EXP"
+              "EXP"
             ],
             [
               "ln",
-              "OPERATOR_LOGARITHM_NATURAL"
+              "LOGARITHM_NATURAL"
             ],
             [
               "log",
-              "OPERATOR_LOGARITHM_10"
+              "LOGARITHM_10"
             ],
             [
               "seno",
-              "OPERATOR_SINE"
+              "SINE"
             ],
             [
               "coseno",
-              "OPERATOR_COSINE"
+              "COSINE"
             ],
             [
               "tangente",
-              "OPERATOR_TANGENT"
+              "TANGENT"
             ],
             [
               "arcoseno",
-              "OPERATOR_ARCSINE"
+              "ARCSINE"
             ],
             [
               "arcocoseno",
-              "OPERATOR_ARCCOSINE"
+              "ARCCOSINE"
             ],
             [
               "arcotangente",
-              "OPERATOR_ARCTANGENT"
-            ]
+              "ARCTANGENT"
+            ],
         ]
         },
         {
@@ -104,7 +104,7 @@ Blockly.Blocks["c_math_unary_operation"] = {
 cGenerator.forBlock['c_math_unary_operation'] = function(block,generator){
   //Obtener código y campos de bloques
   const operandValueCode = generator.valueToCode(block,"INPUT_VALUE_OPERAND",0);
-  const operationValueDropdown = OPERATION_UNARY_BASIC_NAME_CODE_DICT[block.getFieldValue("FIELD_DROPDOWN_OPERATOR")];
+  const operationValueDropdown = MATH_H_FUNCTIONS_NAME_CODE_DICT[block.getFieldValue("FIELD_DROPDOWN_OPERATOR")];
   const code = `${operationValueDropdown}(${operandValueCode})`;
   return  [code,0];
 }

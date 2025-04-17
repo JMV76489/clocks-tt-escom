@@ -1,8 +1,10 @@
-/* ------------------ - Archivo de generador de código de C ----------------- */
+/* -------------------------------------------------------------------------- */
+/*                     Archivo de generador de código de C                    */
+/* -------------------------------------------------------------------------- */
 
 import * as Blockly from 'blockly/core';
 import { IBlockC } from 'src/utils/interface/c-block';
-import { STRING_CODE_HTML_FORMAT } from 'src/utils/constants';
+import { STRINGS_CODE_HTML_FORMAT } from 'src/utils/constants';
 
 //Crear generador de cógo en C
 export const cGenerator = new Blockly.Generator('C');
@@ -40,15 +42,15 @@ cGenerator.scrub_ = function(block, code, thisOnly) {
 
   //Siguiente bloque conectado al actual
   const nextBlock = block.nextConnection && block.nextConnection.targetBlock();
-
-  //Verificar que el bloque no sea una sentencia
+  
+  //Verificar que el bloque no sea un bloque de salida
   if(!block.outputConnection){
     //Booleano que identifica si es un bloque que no necesita punto y coma
     const noNeedSemicolon = BLOCKS_STATEMENTS_NOT_NEED_SEMICOLON.indexOf(block.type) == -1;
-    return code + (noNeedSemicolon ? STRING_CODE_HTML_FORMAT.SEMICOLON : '') + ((nextBlock && !thisOnly) ? `\n${this.blockToCode(nextBlock)}` : '')
+    return code + (noNeedSemicolon ? STRINGS_CODE_HTML_FORMAT.SEMICOLON : '') + ((nextBlock && !thisOnly) ? `\n${this.blockToCode(nextBlock)}` : '')
   }else{
     //Devolver unicamente el código si no se trata de una sentencia
-    return code
+    return code;
   }
 }
 
@@ -78,7 +80,6 @@ cGenerator.workspaceToCode = function(workspace): string{
 
   //Concatenar código de liberías
   blocksLibraryUseSet.forEach(library =>{
-    
     workspaceCode += `#include &lt${library}&gt\n`;
   });
   if(blocksLibraryUseSet.size)
@@ -104,7 +105,7 @@ cGenerator.workspaceToCode = function(workspace): string{
 
   //Concatenar códigos de prototipos de función
   functionDefinitionCodes.forEach(code =>{
-    workspaceCode += `${code.split("{")[0]}${STRING_CODE_HTML_FORMAT.SEMICOLON}\n`;
+    workspaceCode += `${code.split("{")[0]}${STRINGS_CODE_HTML_FORMAT.SEMICOLON}\n`;
   });
   if(functionBlocks?.length)
     workspaceCode += "\n";
