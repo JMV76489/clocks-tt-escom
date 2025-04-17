@@ -6,7 +6,7 @@ import * as Blockly from 'blockly';
 import { buttonBlockMinus, buttonBlockPlus, buttonRemove } from 'src/assets/assets';
 import { cGenerator } from 'src/generators/c';
 import { IBlockCConditionSwitch } from 'src/utils/interface/c-condition-switch';
-import { STRING_CODE_HTML_FORMAT } from 'src/utils/constants';
+import { STRINGS_CODE_HTML_FORMAT } from 'src/utils/constants';
 
 //Registro de bloque
 Blockly.Blocks["c_condition_switch_cases"]  = {
@@ -50,7 +50,8 @@ Blockly.Blocks["c_condition_switch_cases"]  = {
     this.appendStatementInput(inputStatementName)
       .appendField('Hacer:');
     const shadowBlockValue = this.workspace.newBlock('c_value_number') as Blockly.BlockSvg;
-    shadowBlockValue.setShadow(true);
+    shadowBlockValue.setMovable(false);
+    shadowBlockValue.setDeletable(false);
     shadowBlockValue.setFieldValue(this.caseIndex,'FIELD_NUMBER_VALUE');
     shadowBlockValue.outputConnection.connect(valueInputCase.connection!);
     shadowBlockValue.initSvg();
@@ -135,7 +136,7 @@ cGenerator.forBlock["c_condition_switch_cases"] = function(block,generator) {
   let casesCode = '';
   const blockSwitch = block as IBlockCConditionSwitch;
   blockSwitch.caseIndexArray.forEach((value,index) =>{
-    casesCode += `case ${generator.valueToCode(block,`INPUT_VALUE_CASE_${value}`,0)}: {\n${generator.statementToCode(block,`INPUT_STATEMENT_${value}`)}\n  ${STRING_CODE_HTML_FORMAT.BREAK}${STRING_CODE_HTML_FORMAT.SEMICOLON}\n}${index == blockSwitch.caseIndexArray.length - 1 ? '' : '\n'}`;
+    casesCode += `case ${generator.valueToCode(block,`INPUT_VALUE_CASE_${value}`,0)}: {\n${generator.statementToCode(block,`INPUT_STATEMENT_${value}`)}\n  ${STRINGS_CODE_HTML_FORMAT.BREAK}${STRINGS_CODE_HTML_FORMAT.SEMICOLON}\n}${index == blockSwitch.caseIndexArray.length - 1 ? '' : '\n'}`;
   })
 
   

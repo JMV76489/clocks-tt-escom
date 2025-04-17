@@ -7,7 +7,7 @@ import { cGenerator } from 'src/generators/c';
 import { IBlockC } from 'src/utils/interface/c-block';
 import { BlockCVariableDeclarationMethods } from 'src/utils/interface/c-variable-declaration';
 import { IBlockCVariableDeclaration } from 'src/utils/interface/c-variable-declaration';
-import { STRING_CODE_HTML_FORMAT } from 'src/utils/constants';
+import { STRINGS_CODE_HTML_FORMAT } from 'src/utils/constants';
 import { arrayOptionsDeclarationItemFunction, arrayOptionsPrimitive, datatypeInfoGetFromName, datatypeOptionsGenerator} from 'src/utils/datatype';
 import { identifierValidator } from 'src/utils/validator';
 
@@ -127,7 +127,7 @@ cGenerator.forBlock["c_function_definition"] = function(block,generator) {
       const identifierCode = curBlockParameter.getFieldValue('FIELD_INPUT_IDENTIFIER');
       const datatypeCode = datatypeInfoGetFromName(curBlockParameter.getFieldValue('FIELD_DROPDOWN_DATATYPE'))!.code;
       curConnection = curBlockParameter?.nextConnection;
-      parametersCode +=  `${datatypeCode} ${block.getFieldValue('FIELD_DROPDOWN_DECLARATION_ITEM')=='POINTER' ? '*' : ''}${identifierCode}${curConnection?.targetBlock() ? STRING_CODE_HTML_FORMAT.COMMA : ''}`;
+      parametersCode +=  `${datatypeCode} ${block.getFieldValue('FIELD_DROPDOWN_DECLARATION_ITEM')=='POINTER' ? '*' : ''}${identifierCode}${curConnection?.targetBlock() ? STRINGS_CODE_HTML_FORMAT.COMMA : ''}`;
     }else
       break;
   }
