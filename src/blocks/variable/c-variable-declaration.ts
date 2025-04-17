@@ -29,6 +29,8 @@ Blockly.Blocks["c_variable_declaration"] = {
     this.setStyle('c_variable_blocks');
     /* -------------------------------------------------------------------------- */
 
+    this.blocksIdUsingDeclaration = {}; //Diccionario de ID's de bloques que usan el bloque de declaración
+
     //Asignar validador al campo de identificador
     const fieldIdentifier = this.getField("FIELD_INPUT_IDENTIFIER") as Blockly.FieldTextInput
     fieldIdentifier.onFinishEditing_ = function(newValue: string){
