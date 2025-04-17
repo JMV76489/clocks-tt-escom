@@ -121,18 +121,66 @@ export const C_FORMAT_SPECIFIER_DATATYPE_DICT: { [key: string]: string } = {
     "PRIMITIVE_DOUBLE": "lf",
 };
 
-//Diccionario de equivalencia de nombre de campo de operadores básicos a código
-export const OPERATION_UNARY_BASIC_NAME_CODE_DICT: {[key:string]: string} = {
-    "OPERATOR_SQUARE_ROOT": "sqrt",
-    "OPERATOR_EXP": "exp",
-    "OPERATOR_LOGARITHM_NATURAL": "log",
-    "OPERATOR_LOGARITHM_10": "log10",
-    "OPERATOR_SINE": "sin",
-    "OPERATOR_COSINE": "sin",
-    "OPERATOR_TANGENT": "tan",
-    "OPERATOR_ARCSINE": "asin",
-    "OPERATOR_ARCCOSINE": "acos",
-    "OPERATOR_ARCTANGENT": "atan"
+//Diccionario de equivalencia de nombre de funciones de la librería math.h a código
+export const MATH_H_FUNCTIONS_NAME_CODE_DICT: {[key:string]: string} = {
+    "ARCCOSINE": "acos",
+    "ARCCOSINE_H": "acosh",
+    "ARCSINE": "asin",
+    "ARCSINE_H": "asinh",
+    "ARCTANGENT": "atan",
+    "ARCTANGENT_2": "atan2",
+    "ARCTANGENT_H": "atanh",
+    "CUBE_ROOT": "cbrt",
+    "CEILING": "ceil",
+    "COPY_SIGN": "copysign",
+    "COSINE": "cos",
+    "COSINE_H": "cosh",
+    "EXPONENT": "exp",
+    "EXPONENT_H": "exp2",
+    "EXPONENT_MINUS_ONE": "expm1",
+    "ERF": "erf",
+    "ERFC": "erfc",
+    "FABS": "fabs",
+    "FDIM": "fdim",
+    "FLOOR": "floor",
+    "FMA": "fma",
+    "FMAX": "fmax",
+    "FMIN": "fmin",
+    "FMOD": "fmod",
+    "FREXP": "frexp",
+    "HYPOT": "hypot",
+    "ILOGB": "ilogb",
+    "LDEXP": "ldexp",
+    "LGAMMA": "lgamma",
+    "LLRINT": "llrint",
+    "LLROUND": "llround",
+    "LOG": "log",
+    "LOG_10": "log10",
+    "LOG_2": "log2",
+    "LOG1P": "log1p",
+    "LOG2": "log2",
+    "LOGB": "logb",
+    "LRINT": "lrint",
+    "LROUND": "lround",
+    "MODF": "modf",
+    "NAN": "nan",
+    "NEARBYINT": "nearbyint",
+    "NEXT_AFTER": "nextafter",
+    "NEXT_TOWARD": "nexttoward",
+    "POW": "pow",
+    "REMAINDER": "remainder",
+    "REMQUO": "remquo",
+    "RINT": "rint",
+    "ROUND": "round",
+    "SCALBlN": "scalbn",
+    "SCALBN": "scalbn",
+    "SINE": "sin",
+    "SINE_H": "sinh",
+    "SQUARE_ROOT": "sqrt",
+    "TANGENT": "tan",
+    "TANGENT_H": "tanh",
+    "TGAMMA": "tgamma",
+    "TRUNC": "trunc",
 }
 
 //Diccionario de equivalencia de nombre de campo de operadores básicos a código
@@ -158,8 +206,14 @@ export const LOOP_FLOW_MODIFIER_CODE_DICT: {[key:string]: string} = {
     "LOOP_CONTINUE": "continue",
 }
 
-export const STRING_CODE_HTML_FORMAT = {
+//Diccionario de cadenas con formato HTML para bloques de código
+export const STRINGS_CODE_HTML_FORMAT: {[key:string]: string} = {
     "SEMICOLON": `<span style = "color: black">;</span>`,
     "COMMA": `<span style = "color: black">,</span>`,
     "BREAK": `<span style = "color: ${PALLETTE.BLOCKS.loop}">break</span>`
+}
+
+//Diccionario de identificadores reservados de C
+export const C_RESERVED_IDENTIFIERS: {[key:string]: string} = {   
+    "MAIN": "main",
 }
