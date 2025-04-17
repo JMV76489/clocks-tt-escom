@@ -12,7 +12,7 @@ export const cLoopFlowModiifer = {
     "type": "c_loop_flow_modifier",
     "tooltip": "",
     "helpUrl": "",
-    "message0": "%1 bucle actual %2",
+    "message0": "%1 %2 %3",
     "args0": [
       {
         "type": "field_dropdown",
@@ -29,12 +29,16 @@ export const cLoopFlowModiifer = {
         ]
       },
       {
+        "type": "field_label_serializable",
+        "name": "FIELD_LABEL_SENTENCE",
+        "text": "el bucle"
+      },
+      {
         "type": "input_dummy",
         "name": "INPUT_DUMMY"
       }
     ],
     "previousStatement": "Procedure",
-    "nextStatement": "Procedure",
     "style": 'c_loop_blocks',
 }
                       
@@ -43,6 +47,14 @@ Blockly.Blocks["c_loop_flow_modifier"] = {
   init: function(this: IBlockC){
     //Inicializar bloque con JSON
     this.jsonInit(cLoopFlowModiifer);
+
+    //Asignar validador al campo de modificador de flujo de bucle
+    this.getField('FIELD_DROPDOWN_FLOW_MODIFIER')?.setValidator((newValue: string) =>{
+      if(newValue == 'LOOP_BREAK')
+        this.setFieldValue('bucle actual','FIELD_LABEL_SENTENCE');
+      else if(newValue == 'LOOP_CONTINUE')
+        this.setFieldValue('con siguiente iteración.','FIELD_LABEL_SENTENCE');
+    })
   }
 }    
 
