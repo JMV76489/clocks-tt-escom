@@ -10,7 +10,6 @@ import { IBlockCVariableOutput } from './c-variable-output';
 
 //Interfaz de bloque de declaración de variable
 export interface IBlockCVariableDeclaration extends IBlockC {
-  variableDeclaring: Variable;
   blocksIdUsingDeclaration: { [blockId: string]: string; }; //Diccionario de ID's de bloques que usan el bloque de declaración
   updateIdentifier(): void; //Método para actualizar identificador
   searchBlocksUsingDeclaration(): void; //Método para buscar bloques que usan la declaración de variable
@@ -47,13 +46,25 @@ export const BlockCVariableDeclarationMethods = {
       this.setFieldValue(fieldDeclarationDatatypeOptions[0][1], 'FIELD_DROPDOWN_DATATYPE');
     }
 
+    /* ------------------------- Verificación de eventos ------------------------ */
     const moveEvent = event as Blockly.Events.BlockMove;
     const changeEvent = event as Blockly.Events.BlockChange;
+    const createEvent = event as Blockly.Events.BlockCreate;
 
-    if (event.type === Blockly.Events.BLOCK_MOVE || (event.type == Blockly.Events.BLOCK_CHANGE && changeEvent.element === 'disabled')) {
+    //Verificar si el evento es de movimiento o cambio de bloque
+    if (event.type === Blockly.Events.BLOCK_MOVE 
+      || (event.type == Blockly.Events.BLOCK_CHANGE 
+      && changeEvent.element === 'disabled')) {
+      //Verificar si el bloque del evento es el bloque de declaración de variable
       if (moveEvent.blockId || changeEvent.blockId) {
-        if (moveEvent.blockId === this.id || changeEvent.blockId === this.id) {
-
+        if (moveEvent.blockId === this.id || changeEvent.blockId === this.id){
+          /*Cambiar la conexión dependiendo del bloque ráiz, para que el bloque pueda unicamente
+          aceptar un bloque de declaración o tambíen aceptar otro bloque de procedimiento
+          *
+          *Bloque de definición de estructura: unicamente aceptar bloques de declaración
+          *Cualquier otra: aceptar bloques de declaración y de procedimiento
+          *
+          */
           if (this.type == "c_variable_declaration") {
             if (this.getRootBlock().type == "c_struct_definition") {
               this.setNextStatement(true, "Declaration");
@@ -63,13 +74,26 @@ export const BlockCVariableDeclarationMethods = {
               this.setPreviousStatement(true, ['Procedure', 'Declaration']);
             }
           }
-
+          //Eliminar los bloques que usan la declaración de variable del diccionario de bloques que usan la declaración
           for (let blockId in this.blocksIdUsingDeclaration) {
             const curBlock = this.workspace.getBlockById(this.blocksIdUsingDeclaration[blockId]) as IBlockCVariableOutput;
             curBlock?.setDeclarationBlockId(null);
           }
+          //Limpiar el diccionario de bloques que usan la declaración de variable y buscar nuevamente
           this.blocksIdUsingDeclaration = {};
           this.searchBlocksUsingDeclaration();
+        }
+      }
+    } else {
+      //Verificar si el evento es de creación de bloque
+      if(event.type === Blockly.Events.BLOCK_CREATE){
+        /* 
+        Si el evento es de creación de bloque, limpiar el diccionario de bloques que usan la declaración
+        por alguna extraña razon el diccionario no se limpia al inicializar el bloque si este fue duplicado
+        de otro
+        */
+        if(createEvent.blockId == this.id){
+          this.blocksIdUsingDeclaration = {};
         }
       }
     }
