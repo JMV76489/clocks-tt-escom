@@ -13,3 +13,4 @@ export const clocksLogo = require('./clocks_logo.png') as string;
 export const iconFav = require('./favicon.png') as string;
 export const iconWarning = require('./icon_warning.svg') as string;
 export const iconTick = require('./icon_tick.svg') as string;
+export const iconPlay = require('./icon_play.svg') as string;
