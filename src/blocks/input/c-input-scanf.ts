@@ -28,8 +28,8 @@ export const cInputScanfSimple = {
         "name": "INPUT_DUMMY"
       }
     ],
-    "previousStatement": null,
-    "nextStatement": null,
+    "previousStatement": "Procedure",
+    "nextStatement": "Procedure",
     "style": "c_input_blocks"
 }
    

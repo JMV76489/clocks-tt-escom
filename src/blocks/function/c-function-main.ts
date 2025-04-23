@@ -28,12 +28,12 @@ const cFunctionMain = {
     },
     {
       "type": "input_statement",
-      "name": "INPUT_STATEMENT"
+      "name": "INPUT_STATEMENT",
+      "check": "Procedure",
     }
   ],
   "disable": false,
   "style": 'c_function_blocks'
-  
 }
 
 //Registro de bloque

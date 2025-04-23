@@ -20,7 +20,7 @@ export const cMemoryFree = {
         "name": "INPUT_VALUE_IDENTIFIER"
       }
     ],
-    "previousStatement": "",
+    "previousStatement": "Procedure",
     "nextStatement": "Procedure",
     "inputsInline": true,
     "style": 'c_memory_blocks'
