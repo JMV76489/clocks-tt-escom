@@ -5,7 +5,7 @@
 import * as Blockly from 'blockly';
 import { cGenerator } from 'src/generators/c';
 import { IBlockC } from 'src/utils/interface/c-block';
-import { MATH_CONSTANTS_CODE_DICT } from 'src/utils/constants';
+import { MATH_H_MACROS_CODE_DICT } from 'src/utils/constants';
 
 //JSON de definición de bloque
 export const cMathConstants = {
@@ -95,5 +95,5 @@ Blockly.Blocks["c_math_constants"] = {
 //Generador de código de operaciones matemáticas básicas unarias
 cGenerator.forBlock['c_math_constants'] = function(block,generator){
   //Obtener código y campos de bloques
-  return  [MATH_CONSTANTS_CODE_DICT[block.getFieldValue("FIELD_DROPDOWN_CONSTANT")],0];
+  return  [MATH_H_MACROS_CODE_DICT[block.getFieldValue("FIELD_DROPDOWN_CONSTANT")],0];
 }
