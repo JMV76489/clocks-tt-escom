@@ -58,7 +58,6 @@ Blockly.Blocks["c_variable_declaration"] = {
       case 'INSTANCE': {
         block.setStyle('c_struct_blocks');
         block.setFieldValue('de','FIELD_LABEL_NEXUS');
-
         break;
       }
     }
