@@ -4,7 +4,6 @@
 
 import * as Blockly from 'blockly';
 import { arrayOptionsStruct } from '../datatype';
-import { Variable } from '../variable/Variable';
 import { IBlockC } from './c-block';
 import { IBlockCVariableOutput } from './c-variable-output';
 
