@@ -1,6 +1,6 @@
 /* ------------------ Archivo de definicion de validadores ------------------ */
 
-import { C_PRIMITIVE_DATATYPES, C_RESERVED_IDENTIFIERS, C_RESERVED_KEYWORDS, MATH_CONSTANTS_CODE_DICT, MATH_H_FUNCTIONS_NAME_CODE_DICT, OPERATION_BINARY_BASIC_NAME_CODE_DICT } from "./constants";
+import { C_PRIMITIVE_DATATYPES, C_RESERVED_IDENTIFIERS, C_RESERVED_KEYWORDS, MATH_H_MACROS_CODE_DICT, MATH_H_FUNCTIONS_NAME_CODE_DICT, OPERATION_BINARY_BASIC_NAME_CODE_DICT, STDIO_H_MACROS_NAME_CODE_DICT, STDIO_H_FUNCTIONS_NAME_CODE_DICT } from "./constants";
 
 //Expresión regular para validar campo de indetificador
 const regex_variable_identifier = new RegExp("^[_a-zA-Z][_a-zA-Z0-9]{0,30}$") 
@@ -13,13 +13,23 @@ function isIdentifierUsed(fieldValue: string){
         if (fieldValue == curIdentifier) 
             return true;
     }
-    for(const key in MATH_CONSTANTS_CODE_DICT){
-        const curConstant = MATH_CONSTANTS_CODE_DICT[key];
+    for(const key in MATH_H_MACROS_CODE_DICT){
+        const curConstant = MATH_H_MACROS_CODE_DICT[key];
         if (fieldValue == curConstant) 
             return true;
     }
     for(const key in MATH_H_FUNCTIONS_NAME_CODE_DICT){
         const curConstant = MATH_H_FUNCTIONS_NAME_CODE_DICT[key];
+        if (fieldValue == curConstant) 
+            return true;
+    }
+    for(const key in STDIO_H_MACROS_NAME_CODE_DICT){
+        const curConstant = STDIO_H_MACROS_NAME_CODE_DICT[key];
+        if (fieldValue == curConstant) 
+            return true;
+    }
+    for(const key in STDIO_H_FUNCTIONS_NAME_CODE_DICT){
+        const curConstant = STDIO_H_FUNCTIONS_NAME_CODE_DICT[key];
         if (fieldValue == curConstant) 
             return true;
     }
