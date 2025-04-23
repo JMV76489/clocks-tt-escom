@@ -13,7 +13,6 @@ Blockly.Blocks["c_condition_switch"]  = {
       /* ---------------- Incializar bloqque con entradas y campos ---------------- */
       this.appendValueInput('INPUT_VALUE_VARIABLE')
           .appendField('Verificar valor de');
-      this.appendEndRowInput('INPUT_END_ROW_CONDITION')
       this.appendStatementInput('INPUT_STATEMENT_CASES').setCheck('SwitchCase');
       this.setInputsInline(true)
       this.setPreviousStatement(true, 'Procedure');
