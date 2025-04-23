@@ -29,9 +29,9 @@ export const cLoopFlowModiifer = {
         ]
       },
       {
-        "type": "field_label_serializable",
+        "type": "field_label",
         "name": "FIELD_LABEL_SENTENCE",
-        "text": "el bucle"
+        "text": "bucle actual."
       },
       {
         "type": "input_dummy",
@@ -51,7 +51,7 @@ Blockly.Blocks["c_loop_flow_modifier"] = {
     //Asignar validador al campo de modificador de flujo de bucle
     this.getField('FIELD_DROPDOWN_FLOW_MODIFIER')?.setValidator((newValue: string) =>{
       if(newValue == 'LOOP_BREAK')
-        this.setFieldValue('bucle actual','FIELD_LABEL_SENTENCE');
+        this.setFieldValue('bucle actual.','FIELD_LABEL_SENTENCE');
       else if(newValue == 'LOOP_CONTINUE')
         this.setFieldValue('con siguiente iteración.','FIELD_LABEL_SENTENCE');
     })
