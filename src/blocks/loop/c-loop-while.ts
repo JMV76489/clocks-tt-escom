@@ -39,5 +39,5 @@ Blockly.Blocks["c_loop_while"] = {
 
 //Generador de código del bloque
 cGenerator.forBlock["c_loop_while"] = function(block,generator) {
-  return `while(${generator.valueToCode(block,'INPUT_VALUE_CONDITION',0)}){\n${generator.statementToCode(block,'INPUT_STATEMENT_DO')}\n}`;
+  return `while${generator.valueToCode(block,'INPUT_VALUE_CONDITION',-1)}{\n${generator.statementToCode(block,'INPUT_STATEMENT_DO')}\n}`;
 }

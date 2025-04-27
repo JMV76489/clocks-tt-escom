@@ -1,12 +1,13 @@
 /* -------------------- Archivo de bloque de declaración de variable ------------------- */
 
 import * as Blockly from 'blockly';
-import { identifierValidator } from 'src/utils/validator';
+import { identifierDeclarationFieldValidator } from 'src/utils/validator';
 import { datatypeInfoGetFromName, datatypeOptionsGenerator, arrayOptionsDeclarationItemVariable } from 'src/utils/datatype';
 import { IBlockCVariableOutput } from 'src/utils/interface/c-variable-output';
 import { BlockCVariableDeclarationMethods } from 'src/utils/interface/c-variable-declaration';
 import { IBlockCVariableDeclaration } from 'src/utils/interface/c-variable-declaration';
 import { cGenerator } from 'src/generators/c';
+import { CIdentifierFieldTextInput } from 'src/utils/blockly-custom/field/CIdentifierFieldTextInput';
 
 //Registro de bloque de declaración de variable
 Blockly.Blocks["c_variable_declaration"] = {
@@ -21,7 +22,9 @@ Blockly.Blocks["c_variable_declaration"] = {
         return datatypeOptionsGenerator(this.getSourceBlock() as IBlockCVariableDeclaration,'FIELD_DROPDOWN_DECLARATION_ITEM')
       },this.fieldDatatypeValidator), 'FIELD_DROPDOWN_DATATYPE')
       .appendField('llamado')
-      .appendField(new Blockly.FieldTextInput('identificador',identifierValidator), 'FIELD_INPUT_IDENTIFIER');
+      .appendField(new CIdentifierFieldTextInput('identificador',identifierDeclarationFieldValidator), 'FIELD_INPUT_IDENTIFIER');
+
+
     this.setPreviousStatement(true, ['Procedure','Declaration']);
     this.setNextStatement(true, ['Procedure','Declaration']);
     this.setTooltip('Bloque para declarar una variable, apuntador o instancia de estructura.');
@@ -32,13 +35,7 @@ Blockly.Blocks["c_variable_declaration"] = {
     this.blocksIdUsingDeclaration = {}; //Diccionario de ID's de bloques que usan el bloque de declaración
 
     //Asignar validador al campo de identificador
-    const fieldIdentifier = this.getField("FIELD_INPUT_IDENTIFIER") as Blockly.FieldTextInput
-    fieldIdentifier.onFinishEditing_ = function(newValue: string){
-      const block = this.getSourceBlock() as IBlockCVariableDeclaration;
-      block.updateIdentifier();
-      return newValue;
-    }
-
+    const fieldIdentifier = this.getField("FIELD_INPUT_IDENTIFIER") as CIdentifierFieldTextInput
   },
   ...BlockCVariableDeclarationMethods,
   //Validador de campo de elemento de declaración

@@ -176,6 +176,21 @@ export const toolbox = {
               }
             }
           }
+        },
+        //Bloque de negación aritmética
+        {
+          kind: 'block',
+          type: 'c-math-negation-arithmetic',
+          inputs: {
+            INPUT_VALUE_OPERAND: {
+              shadow: {
+                type: 'c_value_number',
+                fields: {
+                  FIELD_NUMBER_VALUE: 1
+                }
+              }
+            }
+          }
         }
       ]
     },

@@ -1,6 +1,6 @@
 {
   "name": "clocks",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Proyecto TT programación en C mediante bloques",
   "main": "index.ts",
   "private": true,

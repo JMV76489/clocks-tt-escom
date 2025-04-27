@@ -25,6 +25,7 @@ import './math/c-math-unary-operation';
 import './math/c-math-constants';
 import './condition/c-condition-switch';
 import './condition/c-condition-switch-cases';
+import './math/c-math-negation-arithmetic';
 
 /* ---------------------------- Bloques de lógica --------------------------- */
 import './logic/c-logic-comparator';
@@ -44,7 +45,6 @@ import './print/c-print-simple-variable';
 import './input/c-input-scanf';
 
 /* -------------------------- Bloques de apuntador -------------------------- */
-import './pointer/c-pointer-declaration';
 import './pointer/c-pointer-output';
 
 /* -------------------------- Bloques de estructura ------------------------- */

@@ -7,23 +7,19 @@ import { cGenerator } from 'src/generators/c';
 import { IBlockC } from 'src/utils/interface/c-block';
 import { IBlockCVariableOutput } from 'src/utils/interface/c-variable-output';
 import { IBlockCVariableDeclaration } from 'src/utils/interface/c-variable-declaration';
-import { identifierValidator } from 'src/utils/validator';
+import { identifierDeclarationFieldValidator } from 'src/utils/validator';
+import { CIdentifierFieldTextInput } from 'src/utils/blockly-custom/field/CIdentifierFieldTextInput';
 
 //JSON de definición de bloque
 export const c_variable_output = {
   "type": "c_variable_output",
   "tooltip": "Bloque para obtener o acceder al valor de una variable, dirección de memoria de un apuntador o instancia de una estructura.",
   "helpUrl": "",
-  "message0": "%1 %2 %3",
+  "message0": "%1 %2",
   "args0": [
     {
       "type": "input_dummy",
       "name": "INPUT_DUMMY_LABEL"
-    },
-    {
-      "type": "field_input",
-      "name": "FIELD_INPUT_IDENTIFIER",
-      "text": "identificador"
     },
     {
       "type": "input_dummy",
@@ -42,24 +38,14 @@ Blockly.Blocks["c_variable_output"] = {
       //Inicializar bloque con JSON
       this.jsonInit(c_variable_output);
 
+      this.getInput('INPUT_DUMMY_VARIABLE_OUTPUT')?.
+      appendField(new CIdentifierFieldTextInput('identificador',identifierDeclarationFieldValidator), 'FIELD_INPUT_IDENTIFIER');
+
       //Asignar validador al campo de identificador
       const fieldInputIdentifier = this.getField("FIELD_INPUT_IDENTIFIER") as Blockly.FieldTextInput;
-      fieldInputIdentifier?.setValidator(identifierValidator);
+      fieldInputIdentifier?.setValidator(identifierDeclarationFieldValidator);
 
-      //Reasignar función a onFinishingEdition_ para ejecutar una busqueda de variable cuando se termine de editar el campo
-      fieldInputIdentifier.onFinishEditing_ = function(newValue: string){
-        console.log("Actualizando identificador de bloque de salida de variable");
-        const block = this.getSourceBlock() as IBlockCVariableOutput; 
-        if(block.blockIdVariableDeclaration){
-          //Borrar el id del bloque en el bloque de declaración que estaba usando y realizar una busqueda nueva de bloque de declaración
-          const blockDeclaration = block.workspace.getBlockById(block.blockIdVariableDeclaration) as IBlockCVariableDeclaration;
-          delete blockDeclaration.blocksIdUsingDeclaration[block.id];
-        }
-        block.searchDeclarationBlock();
-        return newValue;
-      }
-
-
+      
       this.getInput('INPUT_DUMMY_LABEL')?.appendField(new Blockly.FieldLabelSerializable(''),'FIELD_LABEL_TYPE');
     },
     //Manejador de cambio de bloque

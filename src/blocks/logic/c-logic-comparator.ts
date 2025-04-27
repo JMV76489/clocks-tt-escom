@@ -78,8 +78,5 @@ cGenerator.forBlock['c_logic_comparator'] = function(block,generator){
   const comparatorValueCode = COMPARATOR_NAME_CODE_DICT[block.getFieldValue("FIELD_DROPDOWN_COMPARATOR")];
   const code = `${comparand1ValueCode} ${comparatorValueCode} ${comparand2ValueCode}`;
 
-  //Fijar orden dependiendo de si se encuentra dentro de un bloque de operación binaria
-  const order = BLOCKS_TYPE_BINARY_OPERATORS.indexOf(block.getParent()?.type!) == -1 ? 0 : 1;
-
-  return  [code,order];
+  return  [code,1];
 }

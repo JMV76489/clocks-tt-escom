@@ -88,7 +88,7 @@ cGenerator.forBlock["c_loop_for_increment"] = function(block,generator) {
   //Obtener código y campos de bloques
   const identifierValueCode = generator.valueToCode(block,'INPUT_VALUE_IDENTIFIER',0);
   const beginningValueCode = generator.valueToCode(block,'INPUT_VALUE_BEGINNING',0);
-  const conditionValueCode = generator.valueToCode(block,'INPUT_VALUE_CONDITION',0);
+  const conditionValueCode = generator.valueToCode(block,'INPUT_VALUE_CONDITION',2);
   const incrementTypeCode = FOR_SIMPLE_INCREMENT_DICT_CODE[block.getFieldValue('FIELD_DROPDOWN_INCREMENT')];
   const incrementValueCode = generator.valueToCode(block,'INPUT_VALUE_INCREMENT',0);
   const statementCode = generator.statementToCode(block,'INPUT_STATEMENT');

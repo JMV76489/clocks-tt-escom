@@ -6,6 +6,7 @@ import * as Blockly from 'blockly';
 import { buttonBlockMinus, buttonBlockPlus, buttonRemove } from 'src/assets/assets';
 import { cGenerator } from 'src/generators/c';
 import { IBlockCConditionSwitch } from 'src/utils/interface/c-condition-switch';
+import { helpUrl} from './c-condition-switch';
 import { STRINGS_CODE_HTML_FORMAT } from 'src/utils/constants';
 
 //Registro de bloque
@@ -23,8 +24,8 @@ Blockly.Blocks["c_condition_switch_cases"]  = {
     this.setInputsInline(true)
     this.setPreviousStatement(true, 'SwitchCase');
     this.setNextStatement(true, 'SwitchCase');
-    this.setTooltip('');
-    this.setHelpUrl('');
+    this.setTooltip('Bloque de casos de sentencia switch. Permite agregar múltiples casos y un caso por defecto. No puedes eliminarlo ni separarlo del bloque principal.');
+    this.setHelpUrl(helpUrl);
     this.setStyle('c_condition_blocks');
 
     /* -------------------------------------------------------------------------- */
@@ -49,13 +50,16 @@ Blockly.Blocks["c_condition_switch_cases"]  = {
       .appendField('Cuando sea')
     this.appendStatementInput(inputStatementName)
       .appendField('Hacer:');
+
+    //Añadir bloque sombra para el valor de caso
     const shadowBlockValue = this.workspace.newBlock('c_value_number') as Blockly.BlockSvg;
     shadowBlockValue.setMovable(false);
     shadowBlockValue.setDeletable(false);
     shadowBlockValue.setFieldValue(this.caseIndex,'FIELD_NUMBER_VALUE');
     shadowBlockValue.outputConnection.connect(valueInputCase.connection!);
     shadowBlockValue.initSvg();
-    
+    shadowBlockValue.setShadow(true);
+
     this.moveInputBefore(inputValueCaseName,'INPUT_DUMMY_CASE_CONTROL');
     this.moveInputBefore(inputStatementName,'INPUT_DUMMY_CASE_CONTROL');
 
@@ -127,7 +131,8 @@ Blockly.Blocks["c_condition_switch_cases"]  = {
     this.caseIndexArray.forEach(value =>{
       this.appendCaseInputs(value);
     })
-   this.updateDefaultCaseShape(this.isDefaultCaseEnabled);
+    this.updateDefaultCaseShape(this.isDefaultCaseEnabled);
+
   },
 } as IBlockCConditionSwitch; 
 
@@ -136,11 +141,9 @@ cGenerator.forBlock["c_condition_switch_cases"] = function(block,generator) {
   let casesCode = '';
   const blockSwitch = block as IBlockCConditionSwitch;
   blockSwitch.caseIndexArray.forEach((value,index) =>{
-    casesCode += `case ${generator.valueToCode(block,`INPUT_VALUE_CASE_${value}`,0)}: {\n${generator.statementToCode(block,`INPUT_STATEMENT_${value}`)}\n  ${STRINGS_CODE_HTML_FORMAT.BREAK}${STRINGS_CODE_HTML_FORMAT.SEMICOLON}\n}${index == blockSwitch.caseIndexArray.length - 1 ? '' : '\n'}`;
+    casesCode += `case ${generator.valueToCode(block,`INPUT_VALUE_CASE_${value}`,-1)}: {\n${generator.statementToCode(block,`INPUT_STATEMENT_${value}`)}\n  ${STRINGS_CODE_HTML_FORMAT.BREAK}${STRINGS_CODE_HTML_FORMAT.SEMICOLON}\n}${index == blockSwitch.caseIndexArray.length - 1 ? '' : '\n'}`;
   })
 
-  
-  
   if(block.getInput('INPUT_STATEMENT_CASE_DEFAULT') && block.getInput('INPUT_DUMMY_CASE_DEFAULT'))
     casesCode+= `\ndefault: {\n${generator.statementToCode(block,'INPUT_STATEMENT_CASE_DEFAULT')}\n  break;\n}`
   

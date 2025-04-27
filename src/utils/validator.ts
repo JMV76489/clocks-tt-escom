@@ -1,51 +1,63 @@
 /* ------------------ Archivo de definicion de validadores ------------------ */
 
-import { C_PRIMITIVE_DATATYPES, C_RESERVED_IDENTIFIERS, C_RESERVED_KEYWORDS, MATH_H_MACROS_CODE_DICT, MATH_H_FUNCTIONS_NAME_CODE_DICT, OPERATION_BINARY_BASIC_NAME_CODE_DICT, STDIO_H_MACROS_NAME_CODE_DICT, STDIO_H_FUNCTIONS_NAME_CODE_DICT } from "./constants";
+import { C_PRIMITIVE_DATATYPES, C_LIBRARY_DICT_CODE, C_RESERVED_KEYWORDS} from "./constants";
 
 //Expresión regular para validar campo de indetificador
 const regex_variable_identifier = new RegExp("^[_a-zA-Z][_a-zA-Z0-9]{0,30}$") 
 
 
 //Función para validar si el identificador es utilizable
-function isIdentifierUsed(fieldValue: string){
-    for(const key in C_RESERVED_IDENTIFIERS){
-        const curIdentifier = C_RESERVED_IDENTIFIERS[key];
-        if (fieldValue == curIdentifier) 
-            return true;
-    }
-    for(const key in MATH_H_MACROS_CODE_DICT){
-        const curConstant = MATH_H_MACROS_CODE_DICT[key];
-        if (fieldValue == curConstant) 
-            return true;
-    }
-    for(const key in MATH_H_FUNCTIONS_NAME_CODE_DICT){
-        const curConstant = MATH_H_FUNCTIONS_NAME_CODE_DICT[key];
-        if (fieldValue == curConstant) 
-            return true;
-    }
-    for(const key in STDIO_H_MACROS_NAME_CODE_DICT){
-        const curConstant = STDIO_H_MACROS_NAME_CODE_DICT[key];
-        if (fieldValue == curConstant) 
-            return true;
-    }
-    for(const key in STDIO_H_FUNCTIONS_NAME_CODE_DICT){
-        const curConstant = STDIO_H_FUNCTIONS_NAME_CODE_DICT[key];
-        if (fieldValue == curConstant) 
-            return true;
+function isIdentifierUsedByLibrary(fieldValue: string){
+    for(const type in C_LIBRARY_DICT_CODE){
+        for(const library in C_LIBRARY_DICT_CODE[type]){
+            for(const code in C_LIBRARY_DICT_CODE[type][library]){
+                if(C_LIBRARY_DICT_CODE[type][library][code] == fieldValue){
+                    return true; //Identificador en uso por una funcion o constante de una libreria
+                }
+            }
+        }
     }
     return false;
 }
 
+//Función para verificar si el identificador es invalido
+export const identifierDeclarationInvalidCheckType = function(identifier: string): number{
+    const isSyntaxCorrect = regex_variable_identifier.test(identifier) 
+    if(identifier == "") //Verificar que no sea una cadena vacia
+        return 0; //Identificador incorrecto por ser una cadena vacia
+    if(!isSyntaxCorrect)
+        return 1; //Identificador incorrecto por sintaxis incorrecta
+    else if(C_RESERVED_KEYWORDS.indexOf(identifier) > -1 ){
+        return 2; //Identificador incorrecto por ser una palabra reservada
+    }else if(isIdentifierUsedByLibrary(identifier))
+        return 3; //Identificador incorrecto por estar en uso por una funcion o constante de una libreria
+    else    
+        return -1; //Identificador correcto
+}
+
+
 //Validador de campo de de identificador
-export const identifierValidator = function(fieldValue: string){
+export const identifierDeclarationFieldValidator = function(fieldValue: string){
     fieldValue = fieldValue.trim(); //Recortar espacios al inicio y al final de la cadena
     //Validar si la sintaxis es correcta
     const isSyntaxCorrect = regex_variable_identifier.test(fieldValue) 
     //Verificar que el tenga sintaxis correcta y no use ninguna palabra clave
-    if (!isSyntaxCorrect || C_RESERVED_KEYWORDS.indexOf(fieldValue) > -1 || isIdentifierUsed(fieldValue)) {
-        return null;
-    }
-    return fieldValue
+    if (identifierDeclarationInvalidCheckType(fieldValue) !== -1) {
+         return null;
+    }else
+        return fieldValue
+}
+
+//Validador de campo de de identificador
+export const identifierUseFieldValidator = function(fieldValue: string){
+    fieldValue = fieldValue.trim(); //Recortar espacios al inicio y al final de la cadena
+    //Validar si la sintaxis es correcta
+    const isSyntaxCorrect = regex_variable_identifier.test(fieldValue) 
+    //Verificar que el tenga sintaxis correcta y no use ninguna palabra clave
+    if (identifierDeclarationInvalidCheckType(fieldValue) !== -1 && identifierDeclarationInvalidCheckType(fieldValue) !== 3) {
+         return null;
+    }else
+        return fieldValue
 }
 
 //Validador de campo de tipo de dato primitivo
