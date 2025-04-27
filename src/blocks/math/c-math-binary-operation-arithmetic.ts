@@ -5,7 +5,7 @@
 import * as Blockly from 'blockly';
 import { cGenerator } from 'src/generators/c';
 import { IBlockC } from 'src/utils/interface/c-block';
-import { BLOCKS_TYPE_BINARY_OPERATORS, OPERATION_BINARY_BASIC_NAME_CODE_DICT } from 'src/utils/constants';
+import { OPERATION_BINARY_BASIC_NAME_CODE_DICT } from 'src/utils/constants';
 
 //JSON de definición de bloque
 export const cMathBinaryOperationArithmetic = {
@@ -85,19 +85,16 @@ Blockly.Blocks["c_math_binary_operation_arithmetic"] = {
 
 //Generador de código del bloque
 cGenerator.forBlock["c_math_binary_operation_arithmetic"] = function(block,generator) {
+
   //Código de entradas y campos
   const operand1Code = generator.valueToCode(block,'INPUT_VALUE_OPERAND_1',0);
   const operand2Code = generator.valueToCode(block,'INPUT_VALUE_OPERAND_2',0);
   const operatorValue = block.getFieldValue('FIELD_DROPDOWN_OPERATOR');
   let code = '';
 
-  //Fijar orden dependiendo de si se encuentra dentro de un bloque de operación binaria
-  let order = BLOCKS_TYPE_BINARY_OPERATORS.indexOf(block.getParent()?.type!) == -1 ? 0 : 1;
-
   switch(operatorValue){
     case "OPERATION_EXPONENTIATION": {
       code = `pow(${operand1Code},${operand2Code})`;
-      order = 0;
       break;
     }
     default: {
@@ -105,5 +102,5 @@ cGenerator.forBlock["c_math_binary_operation_arithmetic"] = function(block,gener
       break;
     }
   }
-  return [code,order];
+  return [code,1];
 }

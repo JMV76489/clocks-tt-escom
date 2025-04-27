@@ -4,9 +4,9 @@
 
 import * as Blockly from 'blockly';
 import { cGenerator } from 'src/generators/c';
+import { C_LIBRARY_DICT_CODE } from 'src/utils/constants';
 import { IBlockC } from 'src/utils/interface/c-block';
 import { IBlockCMathUnaryOperator } from 'src/utils/interface/c-math-unary-operator';
-import { MATH_H_FUNCTIONS_NAME_CODE_DICT } from 'src/utils/constants';
 
 //JSON de definición de bloque
 export const cMathUnaryOperation = {
@@ -25,15 +25,15 @@ export const cMathUnaryOperation = {
             ],
             [
               "e^",
-              "EXP"
+              "EXPONENT"
             ],
             [
               "ln",
-              "LOGARITHM_NATURAL"
+              "LOG"
             ],
             [
               "log",
-              "LOGARITHM_10"
+              "LOG_10"
             ],
             [
               "seno",
@@ -104,7 +104,8 @@ Blockly.Blocks["c_math_unary_operation"] = {
 cGenerator.forBlock['c_math_unary_operation'] = function(block,generator){
   //Obtener código y campos de bloques
   const operandValueCode = generator.valueToCode(block,"INPUT_VALUE_OPERAND",0);
-  const operationValueDropdown = MATH_H_FUNCTIONS_NAME_CODE_DICT[block.getFieldValue("FIELD_DROPDOWN_OPERATOR")];
+  console.log(C_LIBRARY_DICT_CODE.FUNCTIONS["MATH_H_FUNCTIONS_NAME_CODE_DICT"]["SINE"]);
+  const operationValueDropdown = C_LIBRARY_DICT_CODE["FUNCTIONS"]["MATH_H_FUNCTIONS_NAME_CODE_DICT"][block.getFieldValue("FIELD_DROPDOWN_OPERATOR")];
   const code = `${operationValueDropdown}(${operandValueCode})`;
-  return  [code,0];
+  return  [code,1];
 }

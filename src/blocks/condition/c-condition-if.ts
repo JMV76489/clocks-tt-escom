@@ -102,9 +102,9 @@ Blockly.Blocks["c_condition_if"]  = {
 //Generador de código del bloque
 cGenerator.forBlock["c_condition_if"] = function(block,generator) {
   //Obtener códigos de entradas y campos
-  const conditionCode = generator.valueToCode(block,'INPUT_VALUE_CONDITION',0);
+  const conditionCode = generator.valueToCode(block,'INPUT_VALUE_CONDITION',-1);
   const statementThenCode = generator.statementToCode(block,'INPUT_STATEMENT_THEN');
   const statementElseCode = block.getInput('INPUT_ELSE_STATEMENT') ? generator.statementToCode(block,'INPUT_ELSE_STATEMENT') : null;
   
-  return `if(${conditionCode}){\n${statementThenCode}\n}${statementElseCode!= null ? `\nelse{\n${statementElseCode}\n}` : ''}`;
+  return `if${conditionCode}{\n${statementThenCode}\n}${statementElseCode!= null ? `\nelse{\n${statementElseCode}\n}` : ''}`;
 }

@@ -100,7 +100,5 @@ cGenerator.forBlock['c_logic_operator'] = function(block,generator){
   }
   
   //Fijar orden dependiendo de si se encuentra dentro de un bloque de operación binaria
-  const order = BLOCKS_TYPE_BINARY_OPERATORS.indexOf(block.getParent()?.type!) == -1 ? 0 : 1;
-
-  return  [code,order];
+  return  [code,1];
 }
