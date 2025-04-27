@@ -7,7 +7,7 @@ import { cGenerator } from 'src/generators/c';
 import { IBlockC } from 'src/utils/interface/c-block';
 import { IBlockCVariableOutput } from 'src/utils/interface/c-variable-output';
 import { IBlockCVariableDeclaration } from 'src/utils/interface/c-variable-declaration';
-import { identifierFieldValidator } from 'src/utils/validator';
+import { identifierDeclarationFieldValidator } from 'src/utils/validator';
 import { CIdentifierFieldTextInput } from 'src/utils/blockly-custom/field/CIdentifierFieldTextInput';
 
 //JSON de definición de bloque
@@ -39,11 +39,11 @@ Blockly.Blocks["c_variable_output"] = {
       this.jsonInit(c_variable_output);
 
       this.getInput('INPUT_DUMMY_VARIABLE_OUTPUT')?.
-      appendField(new CIdentifierFieldTextInput('identificador',identifierFieldValidator), 'FIELD_INPUT_IDENTIFIER');
+      appendField(new CIdentifierFieldTextInput('identificador',identifierDeclarationFieldValidator), 'FIELD_INPUT_IDENTIFIER');
 
       //Asignar validador al campo de identificador
       const fieldInputIdentifier = this.getField("FIELD_INPUT_IDENTIFIER") as Blockly.FieldTextInput;
-      fieldInputIdentifier?.setValidator(identifierFieldValidator);
+      fieldInputIdentifier?.setValidator(identifierDeclarationFieldValidator);
 
       
       this.getInput('INPUT_DUMMY_LABEL')?.appendField(new Blockly.FieldLabelSerializable(''),'FIELD_LABEL_TYPE');

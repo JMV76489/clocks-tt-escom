@@ -12,19 +12,19 @@ import { IBlockCStructDefinition } from 'src/utils/interface/c-struct-definition
 import { IBlockCVariableDeclaration } from 'src/utils/interface/c-variable-declaration';
 import { IBlockCVariableOutput } from 'src/utils/interface/c-variable-output';
 import { showWarningToast } from 'src/utils/toast/toast';
-import { identifierInvalidCheckType } from 'src/utils/validator';
+import { identifierDeclarationFieldValidator, identifierDeclarationInvalidCheckType } from 'src/utils/validator';
 
 export class CIdentifierFieldTextInput extends Blockly.FieldTextInput {
 
     lastInvalidValue: string; //Ultimo valor inválido ingresado
     wasLastValueInvalid: boolean; //Booleano para indicar si el último valor ingresado fue inválido
-
+    
     constructor(text: string, validator?: (newValue: string) => string | null) {
         super(text, validator);
         // Inicializar el valor inválido y el booleano
         this.lastInvalidValue = '';
         this.wasLastValueInvalid = false;
-        
+        this.validator_ = identifierDeclarationFieldValidator;
     }
 
     //Sobreescribir el método doValueInvalid_ para guardar el último valor inválido ingresado
@@ -42,7 +42,7 @@ export class CIdentifierFieldTextInput extends Blockly.FieldTextInput {
         //Verificar si el ultimo valor ingresado fue inválido
         if (this.wasLastValueInvalid) {
             // Mostrar mensaje de advertencia dependiendo del tipo de error
-            switch(identifierInvalidCheckType(this.lastInvalidValue)){
+            switch(identifierDeclarationInvalidCheckType(this.lastInvalidValue)){
                 case 0:
                     showWarningToast("El campo no puede estar vacio. Ingresa un identificador valido");
                     break;

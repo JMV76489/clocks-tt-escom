@@ -1,7 +1,7 @@
 /* -------------------- Archivo de bloque de declaración de variable ------------------- */
 
 import * as Blockly from 'blockly';
-import { identifierFieldValidator } from 'src/utils/validator';
+import { identifierDeclarationFieldValidator } from 'src/utils/validator';
 import { datatypeInfoGetFromName, datatypeOptionsGenerator, arrayOptionsDeclarationItemVariable } from 'src/utils/datatype';
 import { IBlockCVariableOutput } from 'src/utils/interface/c-variable-output';
 import { BlockCVariableDeclarationMethods } from 'src/utils/interface/c-variable-declaration';
@@ -22,7 +22,7 @@ Blockly.Blocks["c_variable_declaration"] = {
         return datatypeOptionsGenerator(this.getSourceBlock() as IBlockCVariableDeclaration,'FIELD_DROPDOWN_DECLARATION_ITEM')
       },this.fieldDatatypeValidator), 'FIELD_DROPDOWN_DATATYPE')
       .appendField('llamado')
-      .appendField(new CIdentifierFieldTextInput('identificador',identifierFieldValidator), 'FIELD_INPUT_IDENTIFIER');
+      .appendField(new CIdentifierFieldTextInput('identificador',identifierDeclarationFieldValidator), 'FIELD_INPUT_IDENTIFIER');
 
 
     this.setPreviousStatement(true, ['Procedure','Declaration']);

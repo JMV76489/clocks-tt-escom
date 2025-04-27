@@ -7,7 +7,7 @@ import { cGenerator } from 'src/generators/c';
 import { IBlockCStructDefinition } from 'src/utils/interface/c-struct-definition';
 import { addDatatypeStruct, datatypesDict, removeDatatypeStruct, updateDatatypeStruct } from 'src/utils/datatype';
 import { showWarningToast } from 'src/utils/toast/toast';
-import { identifierFieldValidator } from 'src/utils/validator';
+import { identifierDeclarationFieldValidator } from 'src/utils/validator';
 import { CIdentifierFieldTextInput } from 'src/utils/blockly-custom/field/CIdentifierFieldTextInput';
 
 //JSON de definición de bloque
@@ -37,7 +37,7 @@ Blockly.Blocks["c_struct_definition"] = {
     this.jsonInit(cStructDefinition);
 
     this.getInput('INPUT_DUMMY_STRUCT')?.
-    appendField(new CIdentifierFieldTextInput('etiqueta',identifierFieldValidator), 'FIELD_INPUT_TAG')
+    appendField(new CIdentifierFieldTextInput('etiqueta',identifierDeclarationFieldValidator), 'FIELD_INPUT_TAG')
 
 
   },

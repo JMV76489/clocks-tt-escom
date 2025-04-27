@@ -6,7 +6,7 @@ import * as Blockly from 'blockly';
 import { buttonBlockMinus, buttonBlockOutput, buttonBlockPlus, buttonBlockStatement } from 'src/assets/assets';
 import { cGenerator } from 'src/generators/c';
 import { IBlockCFunctionCall } from 'src/utils/interface/c-function-call';
-import { identifierValidator } from 'src/utils/validator';
+import { identifierDeclarationFieldValidator, identifierUseFieldValidator } from 'src/utils/validator';
 
 //JSON de blqoue de llamada de función
 export const c_function_call = {
@@ -77,7 +77,7 @@ Blockly.Blocks["c_function_call"] = {
         //Inicializar bloque con JSON
         this.jsonInit(c_function_call);
 
-        this.getField('FIELD_INPUT_IDENTIFIER')?.setValidator(identifierValidator);
+        this.getField('FIELD_INPUT_IDENTIFIER')?.setValidator(identifierUseFieldValidator);
 
         //Asignar funciones a botones para conmutar bloque de salida y para agregar y quitar parametros
         let buttonToggleOutput = this.getField('FIELD_IMAGE_TOGGLE_OUTPUT') as Blockly.FieldImage;

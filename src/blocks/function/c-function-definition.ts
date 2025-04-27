@@ -9,7 +9,8 @@ import { BlockCVariableDeclarationMethods } from 'src/utils/interface/c-variable
 import { IBlockCVariableDeclaration } from 'src/utils/interface/c-variable-declaration';
 import { STRINGS_CODE_HTML_FORMAT } from 'src/utils/constants';
 import { arrayOptionsDeclarationItemFunction, arrayOptionsPrimitive, datatypeInfoGetFromName, datatypeOptionsGenerator} from 'src/utils/datatype';
-import { identifierValidator } from 'src/utils/validator';
+import { identifierDeclarationFieldValidator } from 'src/utils/validator';
+import { CIdentifierFieldTextInput } from 'src/utils/blockly-custom/field/CIdentifierFieldTextInput';
 
 //JSON de definición de bloque
 export const cFunctionDefinition = {
@@ -56,7 +57,7 @@ Blockly.Blocks["c_function_definition"] = {
   init: function(){
     this.appendDummyInput('INPUT_DUMMY_INFO')
       .appendField('Función llamado')
-      .appendField(new Blockly.FieldTextInput('identificador',identifierValidator), 'FIELD_INPUT_IDENTIFIER')
+      .appendField(new CIdentifierFieldTextInput('identificador'), 'FIELD_INPUT_IDENTIFIER')
       .appendField('que devuelve')
       .appendField(new Blockly.FieldDropdown(arrayOptionsDeclarationItemFunction,this.fieldDeclarationItemValidator), 'FIELD_DROPDOWN_RETURN_ITEM')
       .appendField(new Blockly.FieldLabel('de tipo'),'FIELD_LABEL_NEXUS')

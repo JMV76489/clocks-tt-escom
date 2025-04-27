@@ -21,8 +21,7 @@ function isIdentifierUsedByLibrary(fieldValue: string){
 }
 
 //Función para verificar si el identificador es invalido
-export const identifierInvalidCheckType = function(identifier: string): number{
-
+export const identifierDeclarationInvalidCheckType = function(identifier: string): number{
     const isSyntaxCorrect = regex_variable_identifier.test(identifier) 
     if(identifier == "") //Verificar que no sea una cadena vacia
         return 0; //Identificador incorrecto por ser una cadena vacia
@@ -36,13 +35,26 @@ export const identifierInvalidCheckType = function(identifier: string): number{
         return -1; //Identificador correcto
 }
 
+
 //Validador de campo de de identificador
-export const identifierFieldValidator = function(fieldValue: string){
+export const identifierDeclarationFieldValidator = function(fieldValue: string){
     fieldValue = fieldValue.trim(); //Recortar espacios al inicio y al final de la cadena
     //Validar si la sintaxis es correcta
     const isSyntaxCorrect = regex_variable_identifier.test(fieldValue) 
     //Verificar que el tenga sintaxis correcta y no use ninguna palabra clave
-    if (identifierInvalidCheckType(fieldValue) !== -1) {
+    if (identifierDeclarationInvalidCheckType(fieldValue) !== -1) {
+         return null;
+    }else
+        return fieldValue
+}
+
+//Validador de campo de de identificador
+export const identifierUseFieldValidator = function(fieldValue: string){
+    fieldValue = fieldValue.trim(); //Recortar espacios al inicio y al final de la cadena
+    //Validar si la sintaxis es correcta
+    const isSyntaxCorrect = regex_variable_identifier.test(fieldValue) 
+    //Verificar que el tenga sintaxis correcta y no use ninguna palabra clave
+    if (identifierDeclarationInvalidCheckType(fieldValue) !== -1 && identifierDeclarationInvalidCheckType(fieldValue) !== 3) {
          return null;
     }else
         return fieldValue
