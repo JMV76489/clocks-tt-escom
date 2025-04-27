@@ -7,20 +7,16 @@ import { cGenerator } from 'src/generators/c';
 import { IBlockCStructDefinition } from 'src/utils/interface/c-struct-definition';
 import { addDatatypeStruct, datatypesDict, removeDatatypeStruct, updateDatatypeStruct } from 'src/utils/datatype';
 import { showWarningToast } from 'src/utils/toast/toast';
-import { identifierValidator } from 'src/utils/validator';
+import { identifierFieldValidator } from 'src/utils/validator';
+import { CIdentifierFieldTextInput } from 'src/utils/blockly-custom/field/CIdentifierFieldTextInput';
 
 //JSON de definición de bloque
 const cStructDefinition = {
   "type": "c_struct_definition",
   "tooltip": "Bloque para definir una estructura y encapsular variables en un solo conjunto.",
   "helpUrl": "https://sites.google.com/site/programacioniiuno/temario/unidad-2---tipo-abstracto-de-dato/estructuras-de-datos-definidas-por-el-usuario-en-c",
-  "message0": "Definir estructura llamado: %1 %2 Miembros: %3",
+  "message0": "Definir estructura llamado: %1 Miembros: %2",
   "args0": [
-    {
-      "type": "field_input",
-      "name": "FIELD_INPUT_TAG",
-      "text": "etiqueta"
-    },
     {
       "type": "input_dummy",
       "name": "INPUT_DUMMY_STRUCT"
@@ -40,24 +36,10 @@ Blockly.Blocks["c_struct_definition"] = {
     //Inicializar bloque con JSON
     this.jsonInit(cStructDefinition);
 
-    //Asinar validador al campo de etiqueta
-    const tagField = this.getField('FIELD_INPUT_TAG') as Blockly.FieldTextInput;
-    tagField.setValidator(identifierValidator);
+    this.getInput('INPUT_DUMMY_STRUCT')?.
+    appendField(new CIdentifierFieldTextInput('etiqueta',identifierFieldValidator), 'FIELD_INPUT_TAG')
 
-    if(!this.isInFlyout){
-      //Reasignar función de onFinishEditing_ para asignarlo a una función de actualización de tipo de dato
-      const block = this;
-      tagField.onFinishEditing_ = function(finalVal) {
-        //Verificar si se cambio el valor de la entrada
-        if(block.structTag != finalVal){
-            //Actualizar valor de tipo de dato
-            const oldName = block.structTagName;
-            block.structTagName = `STRUCT_${(finalVal).toLocaleUpperCase()}`;
-            block.structTag = finalVal;
-            updateDatatypeStruct(oldName,block.structTagName,finalVal);
-        }
-      };
-    }
+
   },
   destroy: function(){
     //Eliminar tipo de dato agregado por el struct al borrar bloque colocado en el workspace
