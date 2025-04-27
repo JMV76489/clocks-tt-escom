@@ -10,8 +10,8 @@ import { LOOP_FLOW_MODIFIER_CODE_DICT } from 'src/utils/constants';
 //JSON de definición de bloque
 export const cLoopFlowModiifer = {
     "type": "c_loop_flow_modifier",
-    "tooltip": "",
-    "helpUrl": "",
+    "tooltip": "Bloque para modificar el flujo de un bucle.",
+    "helpUrl": "https://learn.microsoft.com/es-es/cpp/c/language/loop-control-statements?view=msvc-170",
     "message0": "%1 %2 %3",
     "args0": [
       {
