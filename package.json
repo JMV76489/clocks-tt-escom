@@ -5,9 +5,9 @@
   "main": "index.ts",
   "private": true,
   "scripts": {
-    "test": "exit 0",
-    "build": "webpack --mode production",
-    "start": "webpack serve --open --mode development"
+    "start": "webpack serve --open --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js",
+    "test": "exit 0"
   },
   "keywords": [
     "blockly",
