@@ -8,7 +8,6 @@ const common = require('./webpack.common.js');
 console.log('Compilando para modo de producción'); //Mensaje para indicar que se está en modo de producción
 
 module.exports = merge(common, {
-    port: process.env.PORT || 8080, //Puerto donde se ejecuta el servidor
     mode: 'production', //Modo de producción
     optimization: {
         usedExports: true, //Eliminar el código muerto que no se utiliza en la aplicación
