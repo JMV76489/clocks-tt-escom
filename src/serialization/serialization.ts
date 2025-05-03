@@ -3,7 +3,7 @@
 /* -------------------------------------------------------------------------- */
 
 import * as Blockly from 'blockly'
-import { addDatatypeStruct, datatypesDict, IDatatypeInfo } from './utils/datatype';
+import { addDatatypeStruct, datatypesDict, IDatatypeInfo } from '../utils/datatype';
 
 //Descargar workspace como archivo
 function downloadWorkspaceFile(workspaceDataString: string,filename: string){

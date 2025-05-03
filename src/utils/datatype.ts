@@ -140,7 +140,8 @@ export function updateDatatypeStruct(oldName: string,newName:string,newKeyword: 
 export const arrayOptionsDeclarationItemVariable: [string,string][] = [
     ['variable', 'VARIABLE'],
     ['apuntador', 'POINTER'],
-    ['instancia', 'INSTANCE']
+    ['instancia', 'INSTANCE'],
+    ['arreglo', 'ARRAY'],
 ]
 
 export const arrayOptionsDeclarationItemFunction: [string,string][] = [...arrayOptionsDeclarationItemVariable]

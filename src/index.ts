@@ -14,8 +14,8 @@ import * as Es from 'blockly/msg/es';
 import './index.css';
 import './blocks/blocks'
 import { cGenerator } from './generators/c';
-import { clocksWorkspace,newProject,workspaceInit } from './workspace';
-import { loadProject, saveProject } from './serialization';
+import { clocksWorkspace,newProject,workspaceInit } from './workspace/workspace';
+import { loadProject, saveProject } from './serialization/serialization';
 import { showToastSuccess } from './utils/toast/toast';
 
 /* ---------------- Ajustar elementos de la interfaz gráfica ---------------- */

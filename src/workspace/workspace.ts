@@ -3,12 +3,12 @@
 /* -------------------------------------------------------------------------- */
 
 import * as Blockly from 'blockly'
-import {toolbox} from './toolbox'; 
-import { PALLETTE } from './utils/constants';
+import {toolbox} from 'src/toolbox/toolbox'; 
+import { PALLETTE } from 'src/utils/constants';
 import {Multiselect} from '@mit-app-inventor/blockly-plugin-workspace-multiselect';
 import Swal from 'sweetalert2';
 import 'src/utils/sweetalert2/sweetalert2-style.css';
-import { iconWarning } from './assets/assets';
+import { iconWarning } from 'src/assets/assets';
 
 //Div para inyectar el workspace
 const blocklyDiv = document.getElementById('blockly-div') as HTMLDivElement;
