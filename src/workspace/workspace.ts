@@ -9,6 +9,7 @@ import {Multiselect} from '@mit-app-inventor/blockly-plugin-workspace-multiselec
 import Swal from 'sweetalert2';
 import 'src/utils/sweetalert2/sweetalert2-style.css';
 import { iconWarning } from 'src/assets/assets';
+import { clearDatatypeStruct } from 'src/utils/datatype';
 
 //Div para inyectar el workspace
 const blocklyDiv = document.getElementById('blockly-div') as HTMLDivElement;
@@ -181,6 +182,8 @@ export function workspaceInit(codeDiv: HTMLDivElement) {
     blockMain.initSvg();
     blockMain.render();
     codeDiv.innerHTML = ''; //Limpiar div de código generado
+    //Reiniciar tipos de datos de estructura
+    clearDatatypeStruct();
 }
 
 //Función para crear nuevo proyecto

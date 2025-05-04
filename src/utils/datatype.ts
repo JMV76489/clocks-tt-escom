@@ -131,6 +131,17 @@ export function removeDatatypeStruct(name: string): void {
     })
 }
 
+//Función para eliminar todos los tipos de datos
+export function clearDatatypeStruct(){
+    //Eliminar todos los tipos de dato en el diccionario de tipos de datos
+    for(let name in datatypesDict["STRUCT"]){
+        delete datatypesDict["STRUCT"][name]; 
+    }
+    //Eliminar todos los tipos de dato en los arreglos de opciones
+    arrayOptionsAll.length = 0;
+    arrayOptionsStruct.length = 0;
+}
+
 //Función para actualizar tipo de dato de estructura
 export function updateDatatypeStruct(oldName: string,newName:string,newKeyword: string){
     removeDatatypeStruct(oldName);
