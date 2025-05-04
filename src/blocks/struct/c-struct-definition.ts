@@ -6,7 +6,7 @@ import * as Blockly from 'blockly';
 import { cGenerator } from 'src/generators/c';
 import { IBlockCStructDefinition } from 'src/utils/interface/c-struct-definition';
 import { addDatatypeStruct, datatypesDict, removeDatatypeStruct, updateDatatypeStruct } from 'src/utils/datatype';
-import { showWarningToast } from 'src/utils/toast/toast';
+import { showWarningIdentifierToast } from 'src/utils/toast/toast';
 import { identifierDeclarationFieldValidator } from 'src/utils/validator';
 import { CIdentifierFieldTextInput } from 'src/utils/blockly-custom/field/CIdentifierFieldTextInput';
 
@@ -61,7 +61,7 @@ Blockly.Blocks["c_struct_definition"] = {
         });
         
         curBlock.dispose(true);
-        showWarningToast("Solamente puedes unir bloques de declaración de variables dentro de este bloque y no puedes inicializarlos.")
+        showWarningIdentifierToast("Solamente puedes unir bloques de declaración de variables dentro de este bloque y no puedes inicializarlos.")
       }
     });
   },
