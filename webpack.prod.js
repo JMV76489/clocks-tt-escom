@@ -4,11 +4,14 @@
 
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
+const TerserPlugin = require('terser-webpack-plugin');
+
 
 console.log('Compilando para modo de producción'); //Mensaje para indicar que se está en modo de producción
 
 module.exports = merge(common, {
     mode: 'production', //Modo de producción
+    devtool:false, //Desactivar el source map para producción
     optimization: {
         usedExports: true, //Eliminar el código muerto que no se utiliza en la aplicación
         //Dividir el código en diferentes archivos para optimizar la carga
@@ -37,7 +40,7 @@ module.exports = merge(common, {
         minimize: true, //Minificar el código para reducir el tamaño del bundle
         //Utilizar el plugin TerserPlugin para minificar el código
         minimizer: [
-            new (require('terser-webpack-plugin'))({
+            new TerserPlugin({
             terserOptions: {
                 compress: {
                     drop_console: true, //Eliminar los console.log del código
