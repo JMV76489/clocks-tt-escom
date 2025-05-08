@@ -22,9 +22,8 @@ Blockly.Blocks["c_variable_declaration"] = {
         return datatypeOptionsGenerator(this.getSourceBlock() as IBlockCVariableDeclaration,'FIELD_DROPDOWN_DECLARATION_ITEM')
       },this.fieldDatatypeValidator), 'FIELD_DROPDOWN_DATATYPE')
       .appendField('llamado')
-      .appendField(new CIdentifierFieldTextInput('identificador',identifierDeclarationFieldValidator), 'FIELD_INPUT_IDENTIFIER');
-
-
+      .appendField(new CIdentifierFieldTextInput('identificador',identifierDeclarationFieldValidator), 'FIELD_INPUT_IDENTIFIER')
+      .appendField('con');
     this.setPreviousStatement(true, ['Procedure','Declaration']);
     this.setNextStatement(true, ['Procedure','Declaration']);
     this.setTooltip('Bloque para declarar una variable, apuntador o instancia de estructura.');
