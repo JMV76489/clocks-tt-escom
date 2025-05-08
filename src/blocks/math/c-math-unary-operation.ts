@@ -85,7 +85,7 @@ Blockly.Blocks["c_math_unary_operation"] = {
   operatorValidator: function(this: Blockly.FieldDropdown,newValue : string){
     const block = this.getSourceBlock() as IBlockC;
     //Añadir label de radianes en caso de que se seleccione alguna operación trigonométrica
-    if(['OPERATOR_SINE','OPERATOR_COSINE','OPERATOR_TANGENT'].indexOf(newValue) !=-1)
+    if(['SINE','COSINE','TANGENT'].indexOf(newValue) !=-1)
     {
       if(!block.getInput('INPUT_DUMMY_LABEL_RADIANS')){
         block.appendDummyInput('INPUT_DUMMY_LABEL_RADIANS').
