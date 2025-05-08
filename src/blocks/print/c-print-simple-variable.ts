@@ -5,7 +5,7 @@
 import * as Blockly from 'blockly';
 import { cGenerator } from 'src/generators/c';
 import { IBlockC } from 'src/utils/interface/c-block';
-import { arrayOptionsPrimitive, datatypeInfoGetFromName } from 'src/utils/datatype';
+import { arrayOptionsPrintVariable, datatypeInfoGetFromName } from 'src/utils/datatype';
 
 //JSON de definición de bloque
 export const cPrintSimpleVariable = {
@@ -21,7 +21,7 @@ export const cPrintSimpleVariable = {
     {
       "type": "field_dropdown",
       "name": "FIELD_DROPDOWN_DATATYPE",
-      "options": arrayOptionsPrimitive
+      "options": arrayOptionsPrintVariable
     },
     {
       "type": "input_dummy",
