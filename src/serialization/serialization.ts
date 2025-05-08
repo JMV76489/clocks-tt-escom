@@ -3,7 +3,8 @@
 /* -------------------------------------------------------------------------- */
 
 import * as Blockly from 'blockly'
-import { addDatatypeStruct, datatypesDict, IDatatypeInfo } from '../utils/datatype';
+import { addDatatypeStruct, clearDatatypeStruct, datatypesDict, IDatatypeInfo } from '../utils/datatype';
+import { clearFunctionDictionary } from 'src/utils/function/function';
 
 //Descargar workspace como archivo
 function downloadWorkspaceFile(workspaceDataString: string,filename: string){
@@ -30,6 +31,8 @@ export async function saveProject(workspace: Blockly.Workspace){
     const projectData = {
         //Guardar tipos de datos de estructuras
         "datatypesStruct": datatypesDict["STRUCT"],
+        //Guardar funciones definidas por el usuario
+        "functions": datatypesDict["FUNCTION"],
         //Guardar datos de workspace
         "workspace": Blockly.serialization.workspaces.save(workspace)
     }
@@ -83,10 +86,20 @@ export function loadProject(workspace: Blockly.Workspace){
                 //Cargar datos
                 const loadData = JSON.parse(reader.result as string); 
                 //Cargar tipos de datos de estructuras
-                const structsDict: {[key: string]: IDatatypeInfo}  = loadData.datatypesStruct; 
+                const structsDict: {[key: string]: IDatatypeInfo}  = loadData.datatypesStruct || {}; 
+                //Limpiar tipos de datos de estructuras
+                clearDatatypeStruct();
                 //Agregar tipos de datos de estructuras al diccionario
                 for(let structName in structsDict){
                     addDatatypeStruct(structName,structsDict[structName].code);
+                }
+                //Cargar funciones definidas por el usuario
+                const functionsDict: {[key: string]: IDatatypeInfo}  = loadData.functions || {};
+                //Limpiar funciones definidas por el usuario
+                clearFunctionDictionary();
+                //Agregar funciones al diccionario
+                for(let functionName in functionsDict){
+                    addDatatypeStruct(functionName,functionsDict[functionName].code);
                 }
                 Blockly.Events.disable();
                 //Cargar workspace
