@@ -7,7 +7,9 @@
 
 import * as Blockly from 'blockly/core';
 import { updateDatatypeStruct } from 'src/utils/datatype';
+import { updateFunctionDefinition } from 'src/utils/function/function';
 import { IBlockC } from 'src/utils/interface/c-block';
+import { IBlockCFunctionDefinition } from 'src/utils/interface/c-function-definition';
 import { IBlockCStructDefinition } from 'src/utils/interface/c-struct-definition';
 import { IBlockCVariableDeclaration } from 'src/utils/interface/c-variable-declaration';
 import { IBlockCVariableOutput } from 'src/utils/interface/c-variable-output';
@@ -79,8 +81,18 @@ export class CIdentifierFieldTextInput extends Blockly.FieldTextInput {
                     updateDatatypeStruct(oldName,structBlock.structTagName,_value);
                 }
             }
+            else if ('functionIdentifier' in block) {
+                const functionBlock = block as IBlockCFunctionDefinition;
+                //Verificar si se cambio el valor de la entrada
+                if(functionBlock.functionIdentifier != _value){
+                    console.log("Se cambio el valor de la entrada");
+                    //Actualizar valor de tipo de dato
+                    const oldName = functionBlock.functionIdentifier;
+                    functionBlock.functionIdentifier = _value;
+                    updateFunctionDefinition(oldName,functionBlock.functionIdentifier);
+                }
+            }
         }
-        
     }
 
     //Metodo para mostrar el mensaje de advertencia dependiendo del tipo de error
@@ -105,6 +117,4 @@ export class CIdentifierFieldTextInput extends Blockly.FieldTextInput {
                 break;
         } 
     }
-
-
 }

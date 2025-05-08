@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 import 'src/utils/sweetalert2/sweetalert2-style.css';
 import { iconWarning } from 'src/assets/assets';
 import { clearDatatypeStruct } from 'src/utils/datatype';
+import { clearFunctionDictionary } from 'src/utils/function/function';
 
 //Div para inyectar el workspace
 const blocklyDiv = document.getElementById('blockly-div') as HTMLDivElement;
@@ -184,6 +185,8 @@ export function workspaceInit(codeDiv: HTMLDivElement) {
     codeDiv.innerHTML = ''; //Limpiar div de código generado
     //Reiniciar tipos de datos de estructura
     clearDatatypeStruct();
+    //Reiniciar diccionario de funciones
+    clearFunctionDictionary();
 }
 
 //Función para crear nuevo proyecto
@@ -209,6 +212,8 @@ export function newProject(codeDiv: HTMLDivElement){
   }).then((result)=>{
     if(result.isConfirmed){
       workspaceInit(codeDiv);
+      //Cerrar la caja de herramientas para que actualizar los bloques de estructura
+      clocksWorkspace.getToolbox()?.clearSelection(); //Limpiar seleccion de la caja de herramientas
     }
   })
 }

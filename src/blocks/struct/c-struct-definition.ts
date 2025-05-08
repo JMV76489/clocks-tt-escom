@@ -36,16 +36,33 @@ Blockly.Blocks["c_struct_definition"] = {
     //Inicializar bloque con JSON
     this.jsonInit(cStructDefinition);
 
+    this.structTag = 'etiqueta'; //Etiqueta por defecto
+    this.structTagName = `STRUCT_${this.structTag.toLocaleUpperCase()}`; //Nombre por defecto de la etiqueta
+
+    //Verificar si la etiqueta ya existe y si si, crear un nuevo nombre basado en el anterior
+    if(datatypesDict["STRUCT"][this.structTagName]){
+      let i = 1;
+      let newTagName = this.structTagName + i;
+      while(datatypesDict["STRUCT"][newTagName]){
+        i++;
+        newTagName = this.structTagName + i;
+      }
+      this.structTagName = newTagName;
+      this.structTag = this.structTag + i;
+    }
+
+    console.log(this.structTagName);
+
     this.getInput('INPUT_DUMMY_STRUCT')?.
-    appendField(new CIdentifierFieldTextInput('etiqueta',identifierDeclarationFieldValidator), 'FIELD_INPUT_TAG')
+    appendField(new CIdentifierFieldTextInput(this.structTag,identifierDeclarationFieldValidator), 'FIELD_INPUT_TAG')
 
 
   },
+  //Método de destrucción del bloque
   destroy: function(){
-    //Eliminar tipo de dato agregado por el struct al borrar bloque colocado en el workspace
+    //Eliminar tipo de dato de estructura al eliminar el bloque que no se encuentra en el flyout
     if(!this.isInFlyout){
-        removeDatatypeStruct(this.structTagName);
-        
+        removeDatatypeStruct(this.structTagName);  
     }
   },
   onchange: function(event){
