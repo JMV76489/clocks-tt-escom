@@ -29,11 +29,15 @@ export class CIdentifierFieldTextInput extends Blockly.FieldTextInput {
         this.wasLastValueInvalid = false;
     }
 
+    protected override doValueUpdate_(newValue: string): void {
+        super.doValueUpdate_(newValue);
+        this.wasLastValueInvalid = false; // Reiniciar el estado
+        
+    }
+
     //Sobreescribir el método doValueInvalid_ para guardar el último valor inválido ingresado
     override doValueInvalid_(_invalidValue: any, fireChangeEvent?: boolean): void {
         super.doValueInvalid_(_invalidValue, fireChangeEvent);
-
-        //Mostrar el mensaje de advertencia
         this.showInvalidIdentifierWarningToast(_invalidValue);
         this.lastInvalidValue = _invalidValue; // Guardar el último valor inválido ingresado
         this.wasLastValueInvalid = true; // Marcar que el último valor fue inválido
@@ -104,7 +108,7 @@ export class CIdentifierFieldTextInput extends Blockly.FieldTextInput {
         // Mostrar mensaje de advertencia dependiendo del tipo de error
         switch(identifierDeclarationInvalidCheckType(identifier)){
             case 0:
-                showIdentifierWarningToast("El campo no puede estar vacio. Ingresa un identificador valido");
+                showIdentifierWarningToast("El campo no puede estar vacio.");
                 break;
             case 1:
                 showIdentifierWarningToast("Identificador invalido por que la sintaxis no es correcta");
