@@ -73,5 +73,5 @@ cGenerator.forBlock["c_variable_declaration"] = function(block,generator) {
   const identifierCode = block.getFieldValue('FIELD_INPUT_IDENTIFIER');
   const datatypeCode = datatypeInfoGetFromName(block.getFieldValue('FIELD_DROPDOWN_DATATYPE'))?.code;
   const setValueCode = generator.valueToCode(block,'INPUT_VALUE_SET',0);
-  return `<span class="codeVariable">${datatypeCode} ${block.getFieldValue('FIELD_DROPDOWN_DECLARATION_ITEM')=='POINTER' ? '*' : ''}${identifierCode}${setValueCode == '' ? '' : ` = ${setValueCode}`}</span>`;
+  return `${datatypeCode} ${block.getFieldValue('FIELD_DROPDOWN_DECLARATION_ITEM')=='POINTER' ? '*' : ''}${identifierCode}${setValueCode == '' ? '' : ` = ${setValueCode}`}`;
 }
