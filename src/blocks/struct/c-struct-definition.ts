@@ -71,14 +71,15 @@ Blockly.Blocks["c_struct_definition"] = {
     //Verificar cada descendiente
     descendants.forEach((curBlock,index) => {
       if(index == 0) return; //Saltar el bloque de declaración de la estructura
-      //Verificar si no se trata de un bloque de declaración de variables
-      if(curBlock.type != "c_variable_declaration" && !curBlock.isShadow()){
-          curBlock.getChildren(true).forEach(block => {
-          block.dispose();
-        });
-        
-        curBlock.dispose(true);
-        showWarningIdentifierToast("Solamente puedes unir bloques de declaración de variables dentro de este bloque y no puedes inicializarlos.")
+      /*Verificar si el bloque es de declaración de variable no pueda conectarse un bloque de
+      salida en su entrada*/
+      if(curBlock.type === 'c_variable_declaration'){
+        const outputBlock = curBlock.getInputTargetBlock('INPUT_VALUE_SET');
+        if(outputBlock && !outputBlock.isInFlyout){
+          outputBlock.unplug(true); //Desconectar bloque de salida
+          outputBlock.moveBy(20,20); //Mover bloque de salida para que no se vuelva a conectar
+          showWarningIdentifierToast('Los miembros de una estructura no puede inicalizarse en su definición.');
+        }
       }
     });
   },
