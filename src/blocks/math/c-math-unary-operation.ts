@@ -107,5 +107,5 @@ cGenerator.forBlock['c_math_unary_operation'] = function(block,generator){
   console.log(C_LIBRARY_DICT_CODE.FUNCTIONS["MATH_H_FUNCTIONS_NAME_CODE_DICT"]["SINE"]);
   const operationValueDropdown = C_LIBRARY_DICT_CODE["FUNCTIONS"]["MATH_H_FUNCTIONS_NAME_CODE_DICT"][block.getFieldValue("FIELD_DROPDOWN_OPERATOR")];
   const code = `${operationValueDropdown}(${operandValueCode})`;
-  return  [code,1];
+  return  [code,0];
 }
