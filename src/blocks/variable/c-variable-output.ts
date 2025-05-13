@@ -38,6 +38,8 @@ Blockly.Blocks["c_variable_output"] = {
       //Inicializar bloque con JSON
       this.jsonInit(c_variable_output);
 
+      this.haveArrayIndexInput = false; //Inicializar el bloque con el input de índice de arreglo
+
       this.getInput('INPUT_DUMMY_VARIABLE_OUTPUT')?.
       appendField(new CIdentifierFieldTextInput('identificador',identifierDeclarationFieldValidator), 'FIELD_INPUT_IDENTIFIER');
 
@@ -122,23 +124,47 @@ Blockly.Blocks["c_variable_output"] = {
     },
      //Método para fijar el estilo del bloque con base al bloque de declaración
     setBlockStyleDeclaration(itemDeclarationName){
-        switch(itemDeclarationName){
-          case 'VARIABLE':{
-            this.getField('FIELD_LABEL_TYPE')?.setValue('Valor de');
-            this.setStyle('c_variable_blocks');
-            break;
-          }
-          case 'POINTER':{
-            this.getField('FIELD_LABEL_TYPE')?.setValue('dirección apuntado por');
-            this.setStyle('c_pointer_blocks');
-            break;
-          }
-          case 'INSTANCE':{
-            this.getField('FIELD_LABEL_TYPE')?.setValue('instancia de');
-            this.setStyle('c_struct_blocks');
-            break;
-          }
+
+      if(itemDeclarationName != 'ARRAY'){
+        //Eliminar input de índice de arreglo
+        this.haveArrayIndexInput = false;
+        this.updateArrayIndexInput();
+      }
+
+      switch(itemDeclarationName){
+        case 'VARIABLE':{
+          this.getField('FIELD_LABEL_TYPE')?.setValue('Valor de');
+          this.setStyle('c_variable_blocks');
+          break;
         }
+        case 'POINTER':{
+          this.getField('FIELD_LABEL_TYPE')?.setValue('dirección apuntado por');
+          this.setStyle('c_pointer_blocks');
+          break;
+        }
+        case 'INSTANCE':{
+          this.getField('FIELD_LABEL_TYPE')?.setValue('instancia de');
+          this.setStyle('c_struct_blocks');
+          break;
+        }
+        case 'ARRAY':{
+          this.getField('FIELD_LABEL_TYPE')?.setValue('valor de arreglo');
+          this.setStyle('c_variable_blocks');
+          //Agregar input de índice de arreglo
+          this.haveArrayIndexInput = true;
+          this.updateArrayIndexInput();
+          //Agregar bloque de sombra al input de índice de arreglo
+          const inputIndex = this.getInput('INPUT_VALUE_INDEX');
+          if(inputIndex && inputIndex.connection && !inputIndex.connection.targetBlock()){
+            const shadowBlock = this.workspace.newBlock('c_value_number');
+            shadowBlock.setShadow(true);
+            shadowBlock.initSvg();
+            shadowBlock.render();
+            inputIndex.connection.connect(shadowBlock.outputConnection);
+          }
+          break;
+        }
+      }
     },
     //Método para asignar bloque de declaración
     setDeclarationBlockId: function(blockDeclarationId){
@@ -154,30 +180,49 @@ Blockly.Blocks["c_variable_output"] = {
       }
       this.checkDeclarationBlock();
     },
+    //Método para actualizar el input de índice de arreglo
+    updateArrayIndexInput: function(){
+      if(this.haveArrayIndexInput){
+        if(!this.getInput('INPUT_VALUE_INDEX')){
+          //Agregar input de índice de arreglo
+          this.appendValueInput('INPUT_VALUE_INDEX')
+          .appendField('en');
+        }
+      }else{
+        if(this.getInput('INPUT_VALUE_INDEX')){
+          //Eliminar input de índice de arreglo
+          this.removeInput('INPUT_VALUE_INDEX');
+        }
+      }
+    }
 } as IBlockCVariableOutput;
 
 //Registrar mutator de declaración de variable
 Blockly.Extensions.registerMutator('mutator_variable_output',{
-  //Método de gaurdado de estado
+  //Método de guardado de estado
   saveExtraState() {
     //Guardar id de bloque de declaración y nombre de estilo
     const state = {
       'blockIdVariableDeclaration': this.blockIdVariableDeclaration,
-      'styleName': this.getStyleName()
+      'styleName': this.getStyleName(),
+      'haveArrayIndexInput': this.haveArrayIndexInput
     }
     return state ;
   },
   //Método de cargado de estado
   loadExtraState(state) {
-    //Reasignar id bloque de declaración y nombre de estilo 
     this.blockIdVariableDeclaration = state.blockIdVariableDeclaration || null;
+    this.haveArrayIndexInput = state.haveArrayIndexInput || false;
+    this.updateArrayIndexInput();
+    //Reasignar id bloque de declaración y nombre de estilo
     this.setStyle(state.styleName);
     this.checkDeclarationBlock();
-    console.log(this.blockIdVariableDeclaration)
   },
 } as IBlockCVariableOutput)
 
 //Generador de código del bloque
 cGenerator.forBlock["c_variable_output"] = function(block) {
-  return [block.getFieldValue('FIELD_INPUT_IDENTIFIER').toString(),0];
+  const arrayIndexInput = block.getInput('INPUT_VALUE_INDEX');
+  const arrayIndexCode = arrayIndexInput ? cGenerator.valueToCode(block,'INPUT_VALUE_INDEX',0) : '';
+  return [`${block.getFieldValue('FIELD_INPUT_IDENTIFIER').toString()}${arrayIndexInput ? `[${arrayIndexCode}]` : ''}`,0];
 }
