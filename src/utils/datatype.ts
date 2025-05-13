@@ -163,9 +163,11 @@ export const arrayOptionsDeclarationItemVariable: [string,string][] = [
     ['variable', 'VARIABLE'],
     ['apuntador', 'POINTER'],
     ['instancia', 'INSTANCE'],
+    // ['arreglo', 'ARRAY'],
 ]
 
 export const arrayOptionsDeclarationItemFunction: [string,string][] = [...arrayOptionsDeclarationItemVariable]
+arrayOptionsDeclarationItemFunction.pop(); //Eliminar la opción de arreglo ya que las funciones en C no pueden devolver un arreglo estático
 arrayOptionsDeclarationItemFunction.push(["nada",'VOID']);
 
 
