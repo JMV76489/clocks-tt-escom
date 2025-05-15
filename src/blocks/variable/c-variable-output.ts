@@ -55,7 +55,7 @@ Blockly.Blocks["c_variable_output"] = {
     onchange: function (event) {
       if (!this.workspace || this.isInFlyout) return; // Evita llamadas innecesarias
       //Verifica si el evento es de creación de bloque o de movimiento de bloque
-      if (event.type === Blockly.Events.BLOCK_MOVE || event.type == Blockly.Events.BLOCK_CHANGE) {
+      if (event.type === Blockly.Events.BLOCK_MOVE) {
         const moveEvent = event as Blockly.Events.BlockMove;
         //Verificar si el id del bloque existe
         if(moveEvent.blockId){
