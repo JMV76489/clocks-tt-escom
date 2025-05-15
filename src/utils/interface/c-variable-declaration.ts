@@ -60,6 +60,7 @@ export const BlockCVariableDeclarationMethods = {
     if (event.type === Blockly.Events.BLOCK_MOVE 
       || (event.type == Blockly.Events.BLOCK_CHANGE 
       && changeEvent.element === 'disabled')) {
+        console.log("Evento de movimiento o cambio de bloque");
       //Verificar si el bloque del evento es el bloque de declaración de variable
       if (moveEvent.blockId || changeEvent.blockId) {
         if (moveEvent.blockId === this.id || changeEvent.blockId === this.id){

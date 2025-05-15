@@ -83,7 +83,9 @@ Blockly.Blocks["c_variable_output"] = {
     //Método para checar si la variable esta declarada
     checkDeclarationBlock: function(){
       this.setWarningText(this.blockIdVariableDeclaration ? null : `No se encuentra "${this.getFieldValue('FIELD_INPUT_IDENTIFIER')}" dentro del alcance.`);
-      this.getField('FIELD_LABEL_TYPE')?.setValue('');
+      if(!this.blockIdVariableDeclaration){
+        this.getField('FIELD_LABEL_TYPE')?.setValue(''); 
+      }
     },
     //Método para buscar declaración de la variable
     searchDeclarationBlock: function(){
@@ -155,7 +157,11 @@ Blockly.Blocks["c_variable_output"] = {
           break;
         }
         case 'ARRAY':{
-          console.log('bloque de arreglo');
+          if(this.haveArrayIndexInput){
+            this.getField('FIELD_LABEL_TYPE')?.setValue('Valor de arreglo');
+          }else{
+            this.getField('FIELD_LABEL_TYPE')?.setValue('Arreglo');
+          }
           this.setStyle('c_variable_blocks');
           this.updateBlockShape();
           break;
@@ -178,7 +184,6 @@ Blockly.Blocks["c_variable_output"] = {
     },
     //Método para actualizar la forma del bloque
     updateBlockShape: function(){
-      console.log('input',this.haveArrayIndexInput);
       if(this.itemTypeNameDeclaration == 'ARRAY'){
         if(!this.getInput('INPUT_TOGGLE_INDEX')){
           const fieldImageToggleIndex = new Blockly.FieldImage(buttonBlockMinus, 20, 20, 'Alternar índice de arreglo');
