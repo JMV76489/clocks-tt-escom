@@ -181,7 +181,6 @@ export function workspaceInit(codeDiv: HTMLDivElement) {
     //Colocar bloque main en el workspace
     const blockMain = clocksWorkspace.newBlock('c_function_main');
     blockMain.initSvg();
-    blockMain.render();
     codeDiv.innerHTML = ''; //Limpiar div de código generado
     //Reiniciar tipos de datos de estructura
     clearDatatypeStruct();

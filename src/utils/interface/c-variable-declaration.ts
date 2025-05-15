@@ -196,7 +196,6 @@ export const BlockCVariableDeclarationMethods = {
         shadowBlock.setShadow(true);
         shadowBlock.setFieldValue('0', 'FIELD_NUMBER_VALUE');
         shadowBlock.initSvg();
-        shadowBlock.render();
         initValueInput.connection?.connect(shadowBlock.outputConnection);
       }
     }
