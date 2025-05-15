@@ -163,7 +163,7 @@ export const arrayOptionsDeclarationItemVariable: [string,string][] = [
     ['variable', 'VARIABLE'],
     ['apuntador', 'POINTER'],
     ['instancia', 'INSTANCE'],
-    // ['arreglo', 'ARRAY'],
+    ['arreglo', 'ARRAY'],
 ]
 
 export const arrayOptionsDeclarationItemFunction: [string,string][] = [...arrayOptionsDeclarationItemVariable]
