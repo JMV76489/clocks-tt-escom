@@ -174,7 +174,6 @@ export const BlockCVariableDeclarationMethods = {
         //Agregar bloque de sombra para el input de tamaño si no hay bloque conectado
         if(!sizeValueInput.connection?.targetBlock()){
           const shadowBlock = this.workspace.newBlock('c_value_number');
-          shadowBlock.setShadow(true);
           shadowBlock.setFieldValue('1', 'FIELD_NUMBER_VALUE');
           shadowBlock.initSvg();
           sizeValueInput.connection?.connect(shadowBlock.outputConnection);
