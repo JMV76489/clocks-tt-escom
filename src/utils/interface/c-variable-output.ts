@@ -14,6 +14,5 @@ export interface IBlockCVariableOutput extends IBlockC {
   searchDeclarationOnParameters(): void; //Método para buscar declaración en los parametros de la función
   setDeclarationBlockId(blockDeclarationId: string | null): void; //Método para asignar ID bloque de declaración
   setBlockStyleDeclaration(itemDeclarationName: string): void; //Método para fijar el estilo del bloque con base a lo que se está declarando
-  updateBlockShape(): void; //Método para agregar el input de índice de arreglo
   toggleArrayIndexInput(): void; //Método para alternar el input de índice de arreglo
 }
