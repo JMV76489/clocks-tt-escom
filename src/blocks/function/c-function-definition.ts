@@ -162,7 +162,7 @@ cGenerator.forBlock["c_function_definition"] = function(block,generator) {
       const identifierCode = curBlockParameter.getFieldValue('FIELD_INPUT_IDENTIFIER');
       const datatypeCode = datatypeInfoGetFromName(curBlockParameter.getFieldValue('FIELD_DROPDOWN_DATATYPE'))!.code;
       curConnection = curBlockParameter?.nextConnection;
-      parametersCode +=  `${datatypeCode} ${block.getFieldValue('FIELD_DROPDOWN_DECLARATION_ITEM')=='POINTER' ? '*' : ''}${identifierCode}${curBlockParameter.getFieldValue('FIELD_DROPDOWN_DECLARATION_ITEM') == 'ARRAY' ? '[]' : ''}${curConnection?.targetBlock() ? STRINGS_CODE_HTML_FORMAT.COMMA : ''}`;
+      parametersCode +=  `${datatypeCode} ${curBlockParameter.getFieldValue('FIELD_DROPDOWN_DECLARATION_ITEM')=='POINTER' ? '*' : ''}${identifierCode}${curBlockParameter.getFieldValue('FIELD_DROPDOWN_DECLARATION_ITEM') == 'ARRAY' ? '[]' : ''}${curConnection?.targetBlock() ? STRINGS_CODE_HTML_FORMAT.COMMA : ''}`;
     }else
       break;
   }
