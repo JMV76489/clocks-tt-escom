@@ -43,7 +43,7 @@ export const cLogicComparator = {
           "COMPARATOR_LESS_EQUAL"
         ],
         [
-          "no igual",
+          "no igual a",
           "COMPARATOR_EQUAL_NOT"
         ]
       ]
