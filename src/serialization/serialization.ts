@@ -4,7 +4,7 @@
 
 import * as Blockly from 'blockly'
 import { addDatatypeStruct, clearDatatypeStruct, datatypesDict, IDatatypeInfo } from '../utils/datatype';
-import { clearFunctionDictionary } from 'src/utils/function/function';
+import { clearFunctionDictionary, functionsDictionary } from 'src/utils/function/function';
 
 //Descargar workspace como archivo
 function downloadWorkspaceFile(workspaceDataString: string,filename: string){
@@ -27,7 +27,7 @@ export const serializeProject = function(workspace: Blockly.Workspace) {
         //Guardar tipos de datos de estructuras
         "datatypesStruct": datatypesDict["STRUCT"],
         //Guardar funciones definidas por el usuario
-        "functions": datatypesDict["FUNCTION"],
+        "functions": functionsDictionary,
         //Guardar datos de workspace
         "workspace": Blockly.serialization.workspaces.save(workspace)
     }
