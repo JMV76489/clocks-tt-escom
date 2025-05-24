@@ -32,7 +32,11 @@ export const cMathUnaryOperation = {
               "LOG"
             ],
             [
-              "log",
+              "log₂",
+              "LOG2"
+            ],
+            [
+              "log₁₀",
               "LOG_10"
             ],
             [
