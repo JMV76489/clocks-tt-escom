@@ -97,5 +97,6 @@ cGenerator.forBlock["c_variable_declaration"] = function(block,generator) {
   const initValueCode = block.getInput('INPUT_VALUE_INIT')? generator.valueToCode(block,'INPUT_VALUE_INIT',0) : '';
   const itemOption = block.getFieldValue('FIELD_DROPDOWN_DECLARATION_ITEM');
   const arraySizeCode = block.getInput('INPUT_VALUE_SIZE')?  generator.valueToCode(block,'INPUT_VALUE_SIZE',0) : '';
-  return `${datatypeCode} ${itemOption=='POINTER' ? '*' : ''}${identifierCode}${itemOption=='ARRAY' ? `[${arraySizeCode}]` : ''}${initValueCode == '' ? '' : ` = ${initValueCode}`}`;
+
+  return `${datatypeCode} ${itemOption=='POINTER' ? '*' : ''}${identifierCode}${itemOption=='ARRAY' ? `[${arraySizeCode}]` : ''}${(initValueCode == '' || block.getRootBlock()?.type == 'c_struct_definition'? '' : ` = ${initValueCode}`)}`;
 }
