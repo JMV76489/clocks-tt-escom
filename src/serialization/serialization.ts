@@ -32,6 +32,10 @@ export const serializeProject = function(workspace: Blockly.Workspace) {
         "workspace": Blockly.serialization.workspaces.save(workspace)
     }
 
+    //DEBUG
+    //console.log(JSON.stringify(Blockly.serialization.workspaces.save(workspace)));
+
+
     //Serializar workspace en JSON
     return JSON.stringify(projectData);
 }
