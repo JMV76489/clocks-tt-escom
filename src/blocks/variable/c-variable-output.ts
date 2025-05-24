@@ -189,12 +189,13 @@ Blockly.Blocks["c_variable_output"] = {
           const fieldImageToggleIndex = new Blockly.FieldImage(buttonBlockMinus, 20, 20, 'Alternar índice de arreglo');
           //Agregar input de índice de arreglo
           this.appendDummyInput('INPUT_TOGGLE_INDEX')
-          .appendField(fieldImageToggleIndex, 'FIELD_TOGGLE_INDEX');
+          .appendField(fieldImageToggleIndex, 'FIELD_IMAGE_TOGGLE_INDEX');
           fieldImageToggleIndex.setOnClickHandler(this.toggleArrayIndexInput.bind(this));
         }
         if(this.haveArrayIndexInput){
           if(!this.getInput('INPUT_VALUE_INDEX')){
             this.getField('FIELD_LABEL_TYPE')?.setValue('Valor de arreglo');
+            this.getField('FIELD_IMAGE_TOGGLE_INDEX')?.setValue(buttonBlockMinus);
             const inputIndex = this.appendValueInput('INPUT_VALUE_INDEX');
             //Agregar input de índice de arreglo
             inputIndex.appendField('en');
@@ -211,6 +212,7 @@ Blockly.Blocks["c_variable_output"] = {
           //Eliminar input de índice de arreglo para hacer referencia al arreglo (apuntador) y no a uno de sus elementos
           if(this.getInput('INPUT_VALUE_INDEX')){
             this.getField('FIELD_LABEL_TYPE')?.setValue('Arreglo');
+            this.getField('FIELD_IMAGE_TOGGLE_INDEX')?.setValue(buttonBlockPlus);
             //Eliminar input de índice de arreglo
             this.removeInput('INPUT_VALUE_INDEX');
           }
