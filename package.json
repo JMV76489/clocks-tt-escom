@@ -37,6 +37,7 @@
     "@mit-app-inventor/blockly-plugin-workspace-multiselect": "^1.0.1",
     "blockly": "^11.2.2",
     "sweetalert2": "^11.6.13",
+    "terser": "^5.39.2",
     "toastify-js": "^1.12.0"
   }
 }

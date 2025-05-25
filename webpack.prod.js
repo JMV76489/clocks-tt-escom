@@ -41,12 +41,7 @@ module.exports = merge(common, {
         //Utilizar el plugin TerserPlugin para minificar el código
         minimizer: [
             new TerserPlugin({
-                extractComments: true,
-                cache: true,
-                parallel: true,
-                sourceMap: false,
                 terserOptions: {
-                    extractComments: 'all',
                     compress: {
                         drop_console: true, //Eliminar los console.log del código
                     },
