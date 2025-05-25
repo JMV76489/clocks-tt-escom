@@ -4,7 +4,7 @@
 
 import * as Blockly from 'blockly'
 import { addDatatypeStruct, clearDatatypeStruct, datatypesDict, IDatatypeInfo } from '../utils/datatype';
-import { clearFunctionDictionary, functionsDictionary } from 'src/utils/function/function';
+import { addFunctionDefinition, clearFunctionDictionary, functionsDictionary } from 'src/utils/function/function';
 
 //Descargar workspace como archivo
 function downloadWorkspaceFile(workspaceDataString: string,filename: string){
@@ -115,7 +115,7 @@ export function loadProject(workspace: Blockly.Workspace,data: string){
     clearFunctionDictionary();
     //Agregar funciones al diccionario
     for(let functionName in functionsDict){
-        addDatatypeStruct(functionName,functionsDict[functionName].code);
+        addFunctionDefinition(functionName);
     }
     Blockly.Events.disable();
     //Cargar workspace
