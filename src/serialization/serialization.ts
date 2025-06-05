@@ -5,6 +5,8 @@
 import * as Blockly from 'blockly'
 import { addDatatypeStruct, clearDatatypeStruct, datatypesDict, IDatatypeInfo } from '../utils/datatype';
 import { addFunctionDefinition, clearFunctionDictionary, functionsDictionary } from 'src/utils/function/function';
+import Swal from 'sweetalert2';
+import { PALLETTE } from 'src/utils/constants';
 
 //Descargar workspace como archivo
 function downloadWorkspaceFile(workspaceDataString: string,filename: string){
@@ -72,6 +74,20 @@ export async function saveProject(workspace: Blockly.Workspace){
         });
         const writable = await handleFilePicker.createWritable();
         await writable.write(saveDataString);
+        await writable.close();
+        //Si se guarda correctamente, mostrar mensaje de éxito
+        Swal.fire({
+            title: 'Proyecto guardado',
+            text: `El proyecto se ha guardado correctamente como: "${filename}"`,
+            icon: 'success',
+            confirmButtonText: 'Aceptar',
+            background: PALLETTE.UI.popup,
+            customClass: {
+                title: 'alert-title',
+                popup: 'alert-popup',
+                confirmButton: 'alert-confirm-button',
+            }
+        });
     }catch(exception: any){
         if (exception.name === 'AbortError')
             return;
