@@ -78,7 +78,7 @@ export async function saveProject(workspace: Blockly.Workspace){
         //Si se guarda correctamente, mostrar mensaje de éxito
         Swal.fire({
             title: 'Proyecto guardado',
-            text: `El proyecto se ha guardado correctamente como: "${filename}"`,
+            text: `El proyecto se ha guardado correctamente como: "${handleFilePicker.name}"`,
             icon: 'success',
             confirmButtonText: 'Aceptar',
             background: PALLETTE.UI.popup,
