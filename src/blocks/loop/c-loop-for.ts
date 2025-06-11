@@ -13,7 +13,7 @@ export const cLoopForIncrement = {
   "type": "c_loop_for_increment",
   "tooltip": "Bloque para iterar una variable desde un numero especifico mientras se cumpla una condición y realizandole un incremento especificado.",
   "helpUrl": "https://www.aprenderaprogramar.com/index.php?option=com_content&view=article&id=931:bucles-en-lenguaje-c-estructura-de-repeticion-condicion-contador-ejemplos-tabla-de-multiplicar-cu00533f&catid=82&Itemid=210",
-  "message0": "Iterar %1 %2 desde %3 ; mientras %4 ; %5 por %6 %7",
+  "message0": "Iterar %1 %2 desde %3 ; mientras %4 ; %5 por %6 y en cada iteración: %7",
   "args0": [
     {
       "type": "input_dummy",
