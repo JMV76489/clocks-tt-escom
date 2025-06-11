@@ -37,7 +37,7 @@ export const datatypesDict: IDatatypeDict = {
             "formatSpecifier": "%f"
         },
         "PRIMITIVE_DOUBLE": {
-            "optionString": "Double",
+            "optionString": "Doble",
             "code": "double",
             "formatSpecifier": "%lf"
         },
