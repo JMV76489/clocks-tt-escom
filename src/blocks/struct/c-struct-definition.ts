@@ -6,7 +6,7 @@ import * as Blockly from 'blockly';
 import { cGenerator } from 'src/generators/c';
 import { IBlockCStructDefinition } from 'src/utils/interface/c-struct-definition';
 import { addDatatypeStruct, datatypesDict, removeDatatypeStruct, updateDatatypeStruct } from 'src/utils/datatype';
-import { showWarningToast } from 'src/utils/toast/toast';
+import { showWarningIdentifierToast } from 'src/utils/toast/toast';
 import { identifierDeclarationFieldValidator } from 'src/utils/validator';
 import { CIdentifierFieldTextInput } from 'src/utils/blockly-custom/field/CIdentifierFieldTextInput';
 
@@ -36,16 +36,33 @@ Blockly.Blocks["c_struct_definition"] = {
     //Inicializar bloque con JSON
     this.jsonInit(cStructDefinition);
 
+    this.structTag = 'etiqueta'; //Etiqueta por defecto
+    this.structTagName = `STRUCT_${this.structTag.toLocaleUpperCase()}`; //Nombre por defecto de la etiqueta
+
+    //Verificar si la etiqueta ya existe y si si, crear un nuevo nombre basado en el anterior
+    if(datatypesDict["STRUCT"][this.structTagName]){
+      let i = 1;
+      let newTagName = this.structTagName + i;
+      while(datatypesDict["STRUCT"][newTagName]){
+        i++;
+        newTagName = this.structTagName + i;
+      }
+      this.structTagName = newTagName;
+      this.structTag = this.structTag + i;
+    }
+
+    console.log(this.structTagName);
+
     this.getInput('INPUT_DUMMY_STRUCT')?.
-    appendField(new CIdentifierFieldTextInput('etiqueta',identifierDeclarationFieldValidator), 'FIELD_INPUT_TAG')
+    appendField(new CIdentifierFieldTextInput(this.structTag,identifierDeclarationFieldValidator), 'FIELD_INPUT_TAG')
 
 
   },
+  //Método de destrucción del bloque
   destroy: function(){
-    //Eliminar tipo de dato agregado por el struct al borrar bloque colocado en el workspace
+    //Eliminar tipo de dato de estructura al eliminar el bloque que no se encuentra en el flyout
     if(!this.isInFlyout){
-        removeDatatypeStruct(this.structTagName);
-        
+        removeDatatypeStruct(this.structTagName);  
     }
   },
   onchange: function(event){
@@ -54,14 +71,15 @@ Blockly.Blocks["c_struct_definition"] = {
     //Verificar cada descendiente
     descendants.forEach((curBlock,index) => {
       if(index == 0) return; //Saltar el bloque de declaración de la estructura
-      //Verificar si no se trata de un bloque de declaración de variables
-      if(curBlock.type != "c_variable_declaration" && !curBlock.isShadow()){
-          curBlock.getChildren(true).forEach(block => {
-          block.dispose();
-        });
-        
-        curBlock.dispose(true);
-        showWarningToast("Solamente puedes unir bloques de declaración de variables dentro de este bloque y no puedes inicializarlos.")
+      /*Verificar si el bloque es de declaración de variable no pueda conectarse un bloque de
+      salida en su entrada*/
+      if(curBlock.type === 'c_variable_declaration'){
+        const outputBlock = curBlock.getInputTargetBlock('INPUT_VALUE_SET');
+        if(outputBlock && !outputBlock.isInFlyout){
+          outputBlock.unplug(true); //Desconectar bloque de salida
+          outputBlock.moveBy(20,20); //Mover bloque de salida para que no se vuelva a conectar
+          showWarningIdentifierToast('Los miembros de una estructura no puede inicalizarse en su definición.');
+        }
       }
     });
   },

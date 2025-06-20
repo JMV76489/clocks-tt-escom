@@ -61,8 +61,7 @@ export const c_function_call = {
         "name": "INPUT_DUMMY_PARAMETERS"
       }
     ],
-    "previousStatement": "Procedure",
-    "nextStatement": "Procedure",
+    "output": null,
     "inputsInline": true,
     "style": 'c_function_blocks'
 }
@@ -71,7 +70,7 @@ export const c_function_call = {
 Blockly.Blocks["c_function_call"] = {
     init: function(){
         //Atributos del bloque
-        this.isOutput_ = false; //Booleano para indicar que el bloque es de salida
+        this.isOutput_ = true; //Booleano para indicar que el bloque es de salida
         this.parametersCount = 0; //Número de parametros de llamada de función
 
         //Inicializar bloque con JSON
@@ -107,7 +106,7 @@ Blockly.Blocks["c_function_call"] = {
 
     //Función de cargado de estado
     loadExtraState:function(state){
-        this.isOutput_ = state.isOutput || false; //Cargar booleano de bloque de salida
+        this.isOutput_ = (typeof state.isOutput === 'undefined') ? true : state.isOutput; // Correctly restore boolean
         this.parametersCount = state.parametersCount || 0; //Cargar numero de parametros de salida
         this.updateOutputShape();
         this.updateParametersShape();
@@ -130,10 +129,10 @@ Blockly.Blocks["c_function_call"] = {
         //Conmutar forma de bloque dependiendo del valor del booleano de conmutación de bloque de salida
         if(this.isOutput_){
             //Remover conexiones de sentencias
-            const previousStatement = this.previousConnection as Blockly.Connection;
-            const nextStatement = this.nextConnection as Blockly.Connection;
-            previousStatement.disconnect();
-            nextStatement.disconnect();
+            const previousStatement = this.previousConnection;
+            const nextStatement = this.nextConnection;
+            previousStatement?.disconnect();
+            nextStatement?.disconnect();
             //Eliminar conexiones de sentencias
             this.setPreviousStatement(false);
             this.setNextStatement(false);
@@ -141,7 +140,7 @@ Blockly.Blocks["c_function_call"] = {
             this.setOutput(true);
         }else{
             //Remover conexión de salida
-            const outputConnection = this.outputConnection as Blockly.Connection;
+            const outputConnection = this.outputConnection;
             if(outputConnection)
                 outputConnection.disconnect();
             //Agregar conexiones de sentencias

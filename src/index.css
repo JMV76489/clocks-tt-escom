@@ -47,27 +47,31 @@ code {
 #blockly-tools {
   display: flex;
   background-color: var(--color_ui_output);
-  height: 100%;
+  height: 85%;
   overflow: auto;
 }
 
 /*Estilo de workspace de blockly*/
 #blockly-div {
-  width: 78%
+  width: 75%
 }
 
 /*Estilo de sección de código de blockly*/
 #output-pane {
   display: flex;
   flex-direction: column;
-  width: 22%;
-  margin: 1rem;
+  margin: 1rem 0;
+  width: 25%;
+  align-content: center;
+  align-items: center;
 }
 
 /*Estilo de caja de código generado*/
 #generated-code {
   background-color: #FFFFFF;
-  height: 80%;
+  height: 90%;
+  box-shadow: 3px 3px 7px rgba(0,0,0,0.8);
+  width: 90%;
 }
 
 /*Estilo contenedor barra superior*/
@@ -81,7 +85,7 @@ code {
 #page-container{
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100dvh;
   overflow: hidden;
 }
 
@@ -91,6 +95,7 @@ code {
   margin: 20px;
   width: 50%;
   vertical-align: middle;
+  filter: drop-shadow(2px 2px 7px rgba(0,0,0,0.8));
 }
 
 /*Estilo de imagen de logo*/
@@ -126,6 +131,7 @@ code {
   margin: 15px;
   cursor: pointer;
   font-weight: bold;
+  box-shadow: 3px 3px 7px rgba(0,0,0,0.8);
 }
 
 /*Estilo de botones al ser presionado*/

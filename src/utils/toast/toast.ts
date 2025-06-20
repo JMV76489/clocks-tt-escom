@@ -5,8 +5,9 @@
 import * as Toastify from 'toastify-js';
 import { iconTick, iconWarning } from 'src/assets/assets';
 import "./toast-style.css";
+import Swal from 'sweetalert2';
 
-export function showWarningToast(messageText: string){
+export function showWarningIdentifierToast(messageText: string){
     Toastify({
         avatar: iconWarning,
         text: messageText,
@@ -14,6 +15,7 @@ export function showWarningToast(messageText: string){
         gravity: "top",
         position: "center",
         close: true,
+        backgroundColor: "#cd5959"
     }).showToast();
 }
 
@@ -25,7 +27,8 @@ export function showToastSuccess(messageText: string){
         gravity: "top",
         position: "center",
         close: true,
-        stopOnFocus: true
+        stopOnFocus: true,
+        backgroundColor: "#5692CE",
     }).showToast();
 
 }

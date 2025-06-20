@@ -9,6 +9,7 @@ import { IBlockCVariableOutput } from 'src/utils/interface/c-variable-output';
 import { IBlockCVariableDeclaration } from 'src/utils/interface/c-variable-declaration';
 import { identifierDeclarationFieldValidator } from 'src/utils/validator';
 import { CIdentifierFieldTextInput } from 'src/utils/blockly-custom/field/CIdentifierFieldTextInput';
+import { buttonBlockMinus, buttonBlockPlus } from 'src/assets/assets';
 
 //JSON de definición de bloque
 export const c_variable_output = {
@@ -38,6 +39,8 @@ Blockly.Blocks["c_variable_output"] = {
       //Inicializar bloque con JSON
       this.jsonInit(c_variable_output);
 
+      this.haveArrayIndexInput = true; //Inicializar el bloque con el input de índice de arreglo
+
       this.getInput('INPUT_DUMMY_VARIABLE_OUTPUT')?.
       appendField(new CIdentifierFieldTextInput('identificador',identifierDeclarationFieldValidator), 'FIELD_INPUT_IDENTIFIER');
 
@@ -46,13 +49,13 @@ Blockly.Blocks["c_variable_output"] = {
       fieldInputIdentifier?.setValidator(identifierDeclarationFieldValidator);
 
       
-      this.getInput('INPUT_DUMMY_LABEL')?.appendField(new Blockly.FieldLabelSerializable(''),'FIELD_LABEL_TYPE');
+      this.getInput('INPUT_DUMMY_LABEL')?.appendField(new Blockly.FieldLabelSerializable('Valor de'),'FIELD_LABEL_TYPE');
     },
     //Manejador de cambio de bloque
     onchange: function (event) {
       if (!this.workspace || this.isInFlyout) return; // Evita llamadas innecesarias
       //Verifica si el evento es de creación de bloque o de movimiento de bloque
-      if (event.type === Blockly.Events.BLOCK_MOVE || event.type == Blockly.Events.BLOCK_CHANGE) {
+      if (event.type === Blockly.Events.BLOCK_MOVE) {
         const moveEvent = event as Blockly.Events.BlockMove;
         //Verificar si el id del bloque existe
         if(moveEvent.blockId){
@@ -79,7 +82,10 @@ Blockly.Blocks["c_variable_output"] = {
     },
     //Método para checar si la variable esta declarada
     checkDeclarationBlock: function(){
-      this.setWarningText(this.blockIdVariableDeclaration ? null : `"${this.getFieldValue('FIELD_INPUT_IDENTIFIER')}" no esta declarado`);
+      this.setWarningText(this.blockIdVariableDeclaration ? null : `No se encuentra "${this.getFieldValue('FIELD_INPUT_IDENTIFIER')}" dentro del alcance.`);
+      if(!this.blockIdVariableDeclaration){
+        this.getField('FIELD_LABEL_TYPE')?.setValue(''); 
+      }
     },
     //Método para buscar declaración de la variable
     searchDeclarationBlock: function(){
@@ -122,30 +128,52 @@ Blockly.Blocks["c_variable_output"] = {
     },
      //Método para fijar el estilo del bloque con base al bloque de declaración
     setBlockStyleDeclaration(itemDeclarationName){
-        switch(itemDeclarationName){
-          case 'VARIABLE':{
-            this.getField('FIELD_LABEL_TYPE')?.setValue('Valor de');
-            this.setStyle('c_variable_blocks');
-            break;
-          }
-          case 'POINTER':{
-            this.getField('FIELD_LABEL_TYPE')?.setValue('dirección apuntado por');
-            this.setStyle('c_pointer_blocks');
-            break;
-          }
-          case 'INSTANCE':{
-            this.getField('FIELD_LABEL_TYPE')?.setValue('instancia de');
-            this.setStyle('c_struct_blocks');
-            break;
-          }
+
+      //Asignar nombre de tipo de elemento al que se está accediendo
+      if(this.itemTypeNameDeclaration!= itemDeclarationName){
+        this.itemTypeNameDeclaration = itemDeclarationName;
+      }
+
+      if(itemDeclarationName != 'ARRAY'){
+        //Eliminar input de índice de arreglo
+        this.haveArrayIndexInput = true;
+        this.updateShape();
+      }
+
+      switch(itemDeclarationName){
+        case 'VARIABLE':{
+          this.getField('FIELD_LABEL_TYPE')?.setValue('Valor de');
+          this.setStyle('c_variable_blocks');
+          break;
         }
+        case 'POINTER':{
+          this.getField('FIELD_LABEL_TYPE')?.setValue('Dirección apuntado por');
+          this.setStyle('c_pointer_blocks');
+          break;
+        }
+        case 'INSTANCE':{
+          this.getField('FIELD_LABEL_TYPE')?.setValue('Instancia de');
+          this.setStyle('c_struct_blocks');
+          break;
+        }
+        case 'ARRAY':{
+          if(this.haveArrayIndexInput){
+            this.getField('FIELD_LABEL_TYPE')?.setValue('Valor de arreglo');
+          }else{
+            this.getField('FIELD_LABEL_TYPE')?.setValue('Arreglo');
+          }
+          this.setStyle('c_variable_blocks');
+          this.updateShape();
+          break;
+        }
+      }
     },
     //Método para asignar bloque de declaración
     setDeclarationBlockId: function(blockDeclarationId){
       
       this.blockIdVariableDeclaration = blockDeclarationId;
       if(this.blockIdVariableDeclaration){
-        //Agergar ID del bloque al diccionario de bloques que usan la declaración del bloque de declaración asignado
+        //Agregar ID del bloque al diccionario de bloques que usan la declaración del bloque de declaración asignado
         const blockDeclaration = this.workspace.getBlockById(this.blockIdVariableDeclaration) as IBlockCVariableDeclaration;
         if(blockDeclaration){
           blockDeclaration.blocksIdUsingDeclaration[this.id] = this.id;
@@ -154,30 +182,87 @@ Blockly.Blocks["c_variable_output"] = {
       }
       this.checkDeclarationBlock();
     },
+    //Método para actualizar la forma del bloque
+    updateShape: function(){
+      if(this.itemTypeNameDeclaration == 'ARRAY'){
+        if(!this.getInput('INPUT_TOGGLE_INDEX')){
+          const fieldImageToggleIndex = new Blockly.FieldImage(buttonBlockMinus, 20, 20, 'Alternar índice de arreglo');
+          //Agregar input de índice de arreglo
+          this.appendDummyInput('INPUT_TOGGLE_INDEX')
+          .appendField(fieldImageToggleIndex, 'FIELD_IMAGE_TOGGLE_INDEX');
+          fieldImageToggleIndex.setOnClickHandler(this.toggleArrayIndexInput.bind(this));
+        }
+        if(this.haveArrayIndexInput){
+          if(!this.getInput('INPUT_VALUE_INDEX')){
+            this.getField('FIELD_LABEL_TYPE')?.setValue('Valor de arreglo');
+            this.getField('FIELD_IMAGE_TOGGLE_INDEX')?.setValue(buttonBlockMinus);
+            const inputIndex = this.appendValueInput('INPUT_VALUE_INDEX');
+            //Agregar input de índice de arreglo
+            inputIndex.appendField('en');
+            if(inputIndex){
+              if(!inputIndex.connection?.targetBlock()){
+                const shadowBlock = this.workspace.newBlock('c_value_number');
+                shadowBlock.setShadow(true);
+                shadowBlock.initSvg();
+                inputIndex.connection?.connect(shadowBlock.outputConnection);
+              }
+            }
+          }
+        }else{
+          //Eliminar input de índice de arreglo para hacer referencia al arreglo (apuntador) y no a uno de sus elementos
+          if(this.getInput('INPUT_VALUE_INDEX')){
+            this.getField('FIELD_LABEL_TYPE')?.setValue('Arreglo');
+            this.getField('FIELD_IMAGE_TOGGLE_INDEX')?.setValue(buttonBlockPlus);
+            //Eliminar input de índice de arreglo
+            this.removeInput('INPUT_VALUE_INDEX');
+          }
+        }
+      }else{
+        if(this.getInput('INPUT_VALUE_INDEX')){
+          //Eliminar input de índice de arreglo
+          this.removeInput('INPUT_VALUE_INDEX');
+        }
+        if(this.getInput('INPUT_TOGGLE_INDEX')){
+          //Eliminar input de botón de activación de índice de arreglo
+          this.removeInput('INPUT_TOGGLE_INDEX');
+        }
+      }
+    },
+    toggleArrayIndexInput: function(){
+      this.haveArrayIndexInput = !this.haveArrayIndexInput;
+      this.updateShape();
+
+    }
 } as IBlockCVariableOutput;
 
 //Registrar mutator de declaración de variable
 Blockly.Extensions.registerMutator('mutator_variable_output',{
-  //Método de gaurdado de estado
+  //Método de guardado de estado
   saveExtraState() {
     //Guardar id de bloque de declaración y nombre de estilo
     const state = {
       'blockIdVariableDeclaration': this.blockIdVariableDeclaration,
-      'styleName': this.getStyleName()
+      'styleName': this.getStyleName(),
+      'haveArrayIndexInput': this.haveArrayIndexInput,
+      'itemTypeNameDeclaration': this.itemTypeNameDeclaration
     }
     return state ;
   },
   //Método de cargado de estado
   loadExtraState(state) {
-    //Reasignar id bloque de declaración y nombre de estilo 
     this.blockIdVariableDeclaration = state.blockIdVariableDeclaration || null;
+    this.haveArrayIndexInput = state.haveArrayIndexInput || false;
+    this.itemTypeNameDeclaration = state.itemTypeNameDeclaration || '';
+    this.updateShape();
+    //Reasignar id bloque de declaración y nombre de estilo
     this.setStyle(state.styleName);
     this.checkDeclarationBlock();
-    console.log(this.blockIdVariableDeclaration)
   },
 } as IBlockCVariableOutput)
 
 //Generador de código del bloque
 cGenerator.forBlock["c_variable_output"] = function(block) {
-  return [block.getFieldValue('FIELD_INPUT_IDENTIFIER').toString(),0];
+  const arrayIndexInput = block.getInput('INPUT_VALUE_INDEX');
+  const arrayIndexCode = arrayIndexInput ? cGenerator.valueToCode(block,'INPUT_VALUE_INDEX',0) : '';
+  return [`${block.getFieldValue('FIELD_INPUT_IDENTIFIER').toString()}${arrayIndexInput ? `[${arrayIndexCode}]` : ''}`,0];
 }

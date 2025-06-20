@@ -15,6 +15,7 @@ import './variable/c-variable-output';
 /* ---------------------------- Bloques de valor ---------------------------- */
 import './value/c-value-number';
 import './value/c-value-null';
+import './value/c-value-elements-initialization';
 
 /* -------------------------- Bloques de condición -------------------------- */
 import './condition/c-condition-if';

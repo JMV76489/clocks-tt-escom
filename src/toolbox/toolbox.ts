@@ -88,6 +88,11 @@ export const toolbox = {
           kind: 'block',
           type: 'c_value_null'
         },
+        //Bloque de inicialización de elementos
+        {
+          kind: 'block',
+          type: 'c_value_elements_initialization',
+        }
       ]
     },
     //Categoría de bloques de condición

@@ -24,12 +24,12 @@ const cLogicOperator = {
         "name": "FIELD_DROPDOWN_OPERATOR",
         "options": [
           [
-            "o",
-            "LOGIC_OR"
-          ],
-          [
             "y",
             "LOGIC_AND"
+          ],
+          [
+            "o",
+            "LOGIC_OR"
           ],
           [
             "no",

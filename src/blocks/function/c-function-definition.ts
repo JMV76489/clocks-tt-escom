@@ -9,8 +9,9 @@ import { BlockCVariableDeclarationMethods } from 'src/utils/interface/c-variable
 import { IBlockCVariableDeclaration } from 'src/utils/interface/c-variable-declaration';
 import { STRINGS_CODE_HTML_FORMAT } from 'src/utils/constants';
 import { arrayOptionsDeclarationItemFunction, arrayOptionsPrimitive, datatypeInfoGetFromName, datatypeOptionsGenerator} from 'src/utils/datatype';
-import { identifierDeclarationFieldValidator } from 'src/utils/validator';
 import { CIdentifierFieldTextInput } from 'src/utils/blockly-custom/field/CIdentifierFieldTextInput';
+import { addFunctionDefinition, functionsDictionary } from 'src/utils/function/function';
+import { IBlockCFunctionDefinition } from 'src/utils/interface/c-function-definition';
 
 //JSON de definición de bloque
 export const cFunctionDefinition = {
@@ -55,9 +56,23 @@ export const cFunctionDefinition = {
 //Registro de bloque
 Blockly.Blocks["c_function_definition"] = {
   init: function(){
+
+
+    this.functionIdentifier = 'identificador'; //Identificador del bloque de declaración
+    //Verificar si la función ya existe y si si, crear un nuevo nombre basado en el anterior
+    if(functionsDictionary[this.functionIdentifier]){
+      let i = 1;
+      let newIdentifier = this.functionIdentifier + i;
+      while(functionsDictionary[newIdentifier]){
+        i++;
+        newIdentifier = this.functionIdentifier + i;
+      }
+      this.functionIdentifier = newIdentifier;
+    }
+
     this.appendDummyInput('INPUT_DUMMY_INFO')
       .appendField('Función llamado')
-      .appendField(new CIdentifierFieldTextInput('identificador'), 'FIELD_INPUT_IDENTIFIER')
+      .appendField(new CIdentifierFieldTextInput(this.functionIdentifier), 'FIELD_INPUT_IDENTIFIER')
       .appendField('que devuelve')
       .appendField(new Blockly.FieldDropdown(arrayOptionsDeclarationItemFunction,this.fieldDeclarationItemValidator), 'FIELD_DROPDOWN_RETURN_ITEM')
       .appendField(new Blockly.FieldLabel('de tipo'),'FIELD_LABEL_NEXUS')
@@ -110,7 +125,26 @@ Blockly.Blocks["c_function_definition"] = {
     }
     (this.getSourceBlock() as IBlockCVariableDeclaration).checkStructsDefined(newValue);
   },
-} as IBlockCVariableDeclaration;
+  //Método de guardado de estado
+  saveExtraState: function() {
+    return {
+      "identifier": this.functionIdentifier, //Guardar el identificador del bloque de definición de función
+    }
+  },
+  //Método de carga de estado
+  loadExtraState: function(state: any) {
+    this.functionIdentifier = state.identifier || 'identificador'; //Cargar el identificador del bloque de definición de función
+    addFunctionDefinition(this.functionIdentifier); //Agregar la función al diccionario de funciones
+  },
+  //Método de destrucción del bloque
+  destroy: function() {
+    if(!this.isInFlyout){
+      //Eliminar la función del diccionario de funciones al eliminar el bloque que no se encuentra en el flyout
+      delete functionsDictionary[this.functionIdentifier];
+    }
+  }
+
+} as IBlockCFunctionDefinition;
 
 //Generador de código del bloque 
 cGenerator.forBlock["c_function_definition"] = function(block,generator) {
@@ -128,7 +162,7 @@ cGenerator.forBlock["c_function_definition"] = function(block,generator) {
       const identifierCode = curBlockParameter.getFieldValue('FIELD_INPUT_IDENTIFIER');
       const datatypeCode = datatypeInfoGetFromName(curBlockParameter.getFieldValue('FIELD_DROPDOWN_DATATYPE'))!.code;
       curConnection = curBlockParameter?.nextConnection;
-      parametersCode +=  `${datatypeCode} ${block.getFieldValue('FIELD_DROPDOWN_DECLARATION_ITEM')=='POINTER' ? '*' : ''}${identifierCode}${curConnection?.targetBlock() ? STRINGS_CODE_HTML_FORMAT.COMMA : ''}`;
+      parametersCode +=  `${datatypeCode} ${curBlockParameter.getFieldValue('FIELD_DROPDOWN_DECLARATION_ITEM')=='POINTER' ? '*' : ''}${identifierCode}${curBlockParameter.getFieldValue('FIELD_DROPDOWN_DECLARATION_ITEM') == 'ARRAY' ? '[]' : ''}${curConnection?.targetBlock() ? STRINGS_CODE_HTML_FORMAT.COMMA : ''}`;
     }else
       break;
   }

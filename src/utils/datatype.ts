@@ -37,7 +37,7 @@ export const datatypesDict: IDatatypeDict = {
             "formatSpecifier": "%f"
         },
         "PRIMITIVE_DOUBLE": {
-            "optionString": "Double",
+            "optionString": "Doble",
             "code": "double",
             "formatSpecifier": "%lf"
         },
@@ -51,16 +51,23 @@ export const datatypesDict: IDatatypeDict = {
     "STRUCT": {
     },
     //Categoría de tipo de dato incompleto
-    "INCOMPLETE": {
+    "MISC": {
+        //Tipo de dato para puntero a void
         "INCOMPLETE_VOID": {
             "optionString": "Nada o Vacio",
             "code": "void",
             "formatSpecifier": null
+        },
+        //Tipo de dato para dirección de memoria
+        //Este tipo de dato no es un tipo de dato en sí, sino un puntero a void
+        //pero que se guada en el diccionario para poder usarlo en el bloque de impresión
+        "MEMORY_ADDRESS": {
+            "optionString": "Dirección de memoria",
+            "code": "void*",
+            "formatSpecifier": "%p"
         }
     }
 }
-
-
 
 //Función para obtener el diccionario de información de tipos de datos mediante el nombre
 export function datatypeInfoGetFromName(name: string): IDatatypeInfo | null {
@@ -76,6 +83,8 @@ export function datatypeInfoGetFromName(name: string): IDatatypeInfo | null {
 
 //Tipos de datos primitivos
 export const arrayOptionsPrimitive: [string,string][] = [];
+
+
 //Tipos de datos de structs
 export const arrayOptionsStruct: [string,string][] = [];
 //Todos los tipos de dato
@@ -91,6 +100,11 @@ for(let category in datatypesDict){
     }
 }
 
+//Tipos de datos primitivos con formato de impresión
+export const arrayOptionsPrintVariable: [string,string][] = [...arrayOptionsPrimitive];
+arrayOptionsPrintVariable.push(['Dirección de memoria','MEMORY_ADDRESS']);
+
+
 /* -------------- Funciones para manipulación de tipos de datos ------------- */
 
 //Función para añadir tipo de dato de estructura
@@ -98,7 +112,6 @@ export function addDatatypeStruct(name: string, keyword: string): boolean{
 
     //Añadir tipo de dato en el diccionario de tipos de datos
     if(!datatypesDict["STRUCT"][name]){
-        
         datatypesDict["STRUCT"][name] = {
             "optionString": keyword,
             "code": keyword,
@@ -107,8 +120,6 @@ export function addDatatypeStruct(name: string, keyword: string): boolean{
         //Añadir tipos de dato en los arreglos de opciones
         arrayOptionsAll.push([keyword,name]);
         arrayOptionsStruct.push([keyword,name]);
-        
-
         return true;
     }
     return false;
@@ -131,6 +142,17 @@ export function removeDatatypeStruct(name: string): void {
     })
 }
 
+//Función para eliminar todos los tipos de datos
+export function clearDatatypeStruct(){
+    //Eliminar todos los tipos de dato en el diccionario de tipos de datos
+    for(let name in datatypesDict["STRUCT"]){
+        delete datatypesDict["STRUCT"][name]; 
+    }
+    //Eliminar todos los tipos de dato en los arreglos de opciones
+    arrayOptionsAll.length = 0;
+    arrayOptionsStruct.length = 0;
+}
+
 //Función para actualizar tipo de dato de estructura
 export function updateDatatypeStruct(oldName: string,newName:string,newKeyword: string){
     removeDatatypeStruct(oldName);
@@ -145,6 +167,7 @@ export const arrayOptionsDeclarationItemVariable: [string,string][] = [
 ]
 
 export const arrayOptionsDeclarationItemFunction: [string,string][] = [...arrayOptionsDeclarationItemVariable]
+arrayOptionsDeclarationItemFunction.pop(); //Eliminar la opción de arreglo ya que las funciones en C no pueden devolver un arreglo estático
 arrayOptionsDeclarationItemFunction.push(["nada",'VOID']);
 
 

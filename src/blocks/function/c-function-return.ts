@@ -28,12 +28,10 @@ Blockly.Blocks["c_function_return"] = {
   init: function(){
     //Inicializar bloque con JSON
     this.jsonInit(cFunctionReturn);
-    //Evitar que se pueda borrar
-    this.setDeletable(false) 
   }
 } as IBlockC
 
 //Generador de código del bloque
 cGenerator.forBlock["c_function_return"] = function(block,generator) {
-  return `return(${generator.valueToCode(block,'INPUT_VALUE_RETURN',0)})`;
+  return `return ${generator.valueToCode(block,'INPUT_VALUE_RETURN',0)}`;
 }
